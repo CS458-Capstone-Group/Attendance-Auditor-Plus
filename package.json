@@ -1,0 +1,27 @@
+{
+  "name": "attendance-auditor-plus",
+  "version": "1.0.0",
+  "description": "CS458 Capstone Project to design software based upon software engineering principles.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "start-dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CS458-Capstone-Group/Attendance-Auditor-Plus.git"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/CS458-Capstone-Group/Attendance-Auditor-Plus/issues"
+  },
+  "homepage": "https://github.com/CS458-Capstone-Group/Attendance-Auditor-Plus#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
