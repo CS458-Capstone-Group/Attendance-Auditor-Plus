@@ -11,6 +11,8 @@ const app = express();
 
 const port = process.env.PORT || 5000;
 
+app.use(express.static("public"));
+
 app.use("/api/events", eventsRouter);
 app.use("/api/guests", guestsRouter);
 app.use("/api/inventory", inventoryRouter);
