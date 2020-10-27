@@ -1,5 +1,7 @@
 /*
-    This module handles routes for /api/events/
+    module name:        /routes/api/events.js
+    synopsis:           Contains route handlers for /api/events/*
+    notable funtions:   all functions handle routes
 */
 
 const express = require("express");
