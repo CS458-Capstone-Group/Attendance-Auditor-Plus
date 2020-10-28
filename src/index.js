@@ -12,7 +12,7 @@ const eventsRouter = require("./routes/api/events.js");
 const guestsRouter = require("./routes/api/guests.js");
 const inventoryRouter = require("./routes/api/inventory.js");
 const organizersRouter = require("./routes/api/organizers.js");
-const usersRouter = require("./routes/api/users.js");
+const membersRouter = require("./routes/api/members.js");
 
 const app = express();
 
@@ -24,7 +24,7 @@ app.use("/api/events", eventsRouter);
 app.use("/api/guests", guestsRouter);
 app.use("/api/inventory", inventoryRouter);
 app.use("/api/organizers", organizersRouter);
-app.use("/api/users", usersRouter);
+app.use("/api/members", membersRouter);
 
 app.listen(port, () =>
 {

@@ -1,6 +1,6 @@
 /*
-    module name:        /routes/api/users.js
-    synopsis:           Contains route handlers for /api/users/*
+    module name:        /routes/api/members.js
+    synopsis:           Contains route handlers for /api/members/*
     notable funtions:   all functions handle routes
 */
 const express = require("express");
@@ -13,17 +13,17 @@ router.get("/", (req, res) => {
 });
 
 // Get a specific user
-router.get("/:userId", (req, res) => {
+router.get("/:memberId", (req, res) => {
 
 });
 
 // Edit a specific user
-router.post("/:userId", (req, res) => {
+router.post("/:memberId", (req, res) => {
 
 });
 
 // Delete a specific user
-router.delete("/:userId", (req, res) => {
+router.delete("/:memberId", (req, res) => {
 
 });
 
