@@ -5,6 +5,8 @@
 */
 
 const express = require("express");
+const Event = require("../../models/event.js");
+
 
 const router = express.Router();
 
@@ -15,7 +17,29 @@ router.get("/", (req, res) => {
 
 // Create an event
 router.post("/", (req, res) => {
-
+    if (!req.body.title || req.body.title == "")
+    {
+         res.json("Enter a title instead of " + req.body);
+    }
+    // else if (!req.datetime || req.date == "")
+    // {
+    //      res.json("Enter a datetime");
+    // }
+    else
+    {
+         var event = new Event({
+            title: req.body.title, 
+            description: req.body.description,
+            datetime: req.body.datetime,
+            capacity: req.body.capacity,
+            location: req.body.location
+        });
+        
+        event.save((err)=>{
+            res.json(err);
+        });
+        res.send("200");
+    }
 });
 
 // Get a specific event
