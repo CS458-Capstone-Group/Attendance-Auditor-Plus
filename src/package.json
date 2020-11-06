@@ -20,7 +20,7 @@
   "homepage": "https://github.com/CS458-Capstone-Group/Attendance-Auditor-Plus#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "mongoose": "^5.10.12",
+    "mongoose": "^5.10.13",
     "path": "^0.12.7"
   },
   "devDependencies": {
