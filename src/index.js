@@ -27,6 +27,8 @@ db.on("error", () => console.error("connection error"));
 db.once("open", () => {
     app.use(express.static(path.join(__dirname, "public")));
 
+    app.use(express.json());
+
     app.use("/api/events", eventsRouter);
     app.use("/api/guests", guestsRouter);
     app.use("/api/inventory", inventoryRouter);

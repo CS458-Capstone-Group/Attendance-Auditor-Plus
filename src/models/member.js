@@ -3,7 +3,6 @@ const Schema = mongoose.Schema;
 
 
 const memberSchema = new Schema({
-    //memberID: Number, //PRIMARY KEY
     fname: String, //NOT NULL
     lname: String, //NOT NULL
     email: String,

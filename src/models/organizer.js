@@ -3,8 +3,7 @@ const Schema = mongoose.Schema;
 
 
 const organizerSchema = new Schema({
-    //organizerID: Number, //PRIMARY KEY
-    memberID: Number, //FOREIGN KEY
+    memberID: String, //FOREIGN KEY
     isAdmin: Boolean //NOT NULL
 });
 

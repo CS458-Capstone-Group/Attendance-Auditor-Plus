@@ -36,9 +36,15 @@ router.post("/", (req, res) => {
         });
         
         event.save((err)=>{
-            res.json(err);
+            if (err != null){
+                res.json(err);
+            }
+            else{
+                res.send("200");
+            }
+            
         });
-        res.send("200");
+      
     }
 });
 

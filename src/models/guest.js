@@ -3,7 +3,6 @@ const Schema = mongoose.Schema;
 
 
 const guestSchema = new Schema({
-    //guestID: Number //PRIMARY KEY
     fname:  String, //NOT NULL
     lname: String, //NOT NULL
     email: String, 

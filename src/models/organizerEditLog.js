@@ -3,9 +3,7 @@ const Schema = mongoose.Schema;
 
 
 const organizerEditLogSchema = new Schema({
-    //logID: Number, //PRIMARY KEY
-    organizerID: Number, //FOREIGN KEY
-    eventID: Number, //FOREIGN KEY
+    organizerID: String, //FOREIGN KEY
     logDescription: String //NOT NULL
 });
 
