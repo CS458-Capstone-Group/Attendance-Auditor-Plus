@@ -12,39 +12,41 @@ const router = express.Router();
 
 // Get a subset of events
 router.get("/", (req, res) => {
-
+    Event.find({}, (err, docs) => {
+        if (err) {
+            res.status(400).send(err);
+        }
+        else {
+            res.json(docs);
+        }
+    });
 });
 
 // Create an event
 router.post("/", (req, res) => {
-    if (!req.body.title || req.body.title == "")
-    {
-         res.json("Enter a title instead of " + req.body);
+    if (!req.body.title || req.body.title == "") {
+        res.status(400).json("Missing a title");
     }
-    // else if (!req.datetime || req.date == "")
-    // {
-    //      res.json("Enter a datetime");
-    // }
-    else
-    {
-         var event = new Event({
-            title: req.body.title, 
+    else if (!req.datetime || req.date == "") {
+        res.status(400).json("Missing a datetime");
+    }
+    else {
+        var event = new Event({
+            title: req.body.title,
             description: req.body.description,
             datetime: req.body.datetime,
             capacity: req.body.capacity,
             location: req.body.location
         });
-        
-        event.save((err)=>{
-            if (err != null){
+
+        event.save((err) => {
+            if (err != null) {
                 res.json(err);
             }
-            else{
-                res.send("200");
+            else {
+                res.status(201);
             }
-            
         });
-      
     }
 });
 
