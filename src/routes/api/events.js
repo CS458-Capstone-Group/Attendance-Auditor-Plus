@@ -36,7 +36,8 @@ router.post("/", (req, res) => {
             description: req.body.description,
             datetime: req.body.datetime,
             capacity: req.body.capacity,
-            location: req.body.location
+            location: req.body.location,
+            facilitators: req.body.facilitators
         });
 
         event.save((err) => {
