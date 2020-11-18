@@ -12,6 +12,11 @@ router.get("/", (req, res) => {
 
 });
 
+// Create a member
+router.post("/", (req, res) => {
+
+});
+
 // Get a specific user
 router.get("/:memberId", (req, res) => {
 

@@ -12,12 +12,12 @@ const router = express.Router();
 
 // Get a subset of events
 router.get("/", (req, res) => {
-    Event.find({}, (err, docs) => {
+    Event.find({}, (err, events) => {
         if (err) {
-            res.status(400).send(err);
+            res.status(500).json({ message: "unsuccessful in retrieving the events from the database" });
         }
         else {
-            res.json(docs);
+            res.status(200).json(events);
         }
     });
 });
@@ -25,10 +25,10 @@ router.get("/", (req, res) => {
 // Create an event
 router.post("/", (req, res) => {
     if (!req.body.title || req.body.title == "") {
-        res.status(400).json("Missing a title");
+        res.status(400).json({ message: "missing a title" });
     }
-    else if (!req.datetime || req.date == "") {
-        res.status(400).json("Missing a datetime");
+    else if (!req.body.datetime || req.body.datetime == "") {
+        res.status(400).json({ message: "missing a datetime" });
     }
     else {
         var event = new Event({
@@ -42,10 +42,11 @@ router.post("/", (req, res) => {
 
         event.save((err) => {
             if (err != null) {
-                res.json(err);
+                console.log(err.message);
+                res.status(500).json({ message: "unsuccessful in creating the event" });
             }
             else {
-                res.status(201);
+                res.status(200).json({ message: "event successfully created" });
             }
         });
     }
@@ -53,37 +54,138 @@ router.post("/", (req, res) => {
 
 // Get a specific event
 router.get("/:eventId", (req, res) => {
-
+    Event.findById(req.params.eventId, (err, event) => {
+        if (err != null) {
+            console.log(err.message);
+            res.status(500).json({ message: "unsuccessful in retrieving the event" });
+        }
+        else {
+            res.status(200).json(event);
+        }
+    })
 });
 
 // Edit a specific event
+//      Takes 6 optional parameters in body:
+//          * title : string
+//          * description : string
+//          * datetime : date (sent as a string "YYYY-MM-DDTHH:MM")
+//          * capacity : integer
+//          * location : string
+//          * facilitators: [{ isMember : string, id : string }]
 router.post("/:eventId", (req, res) => {
+    var eventUpdate = {}
 
+    if (req.body.title && req.body.title != "") {
+        eventUpdate.title = req.body.title;
+    }
+    if (req.body.description && req.body.description != "") {
+        eventUpdate.description = req.body.description;
+    }
+    if (req.body.datetime && req.body.datetime != "") {
+        eventUpdate.datetime = req.body.datetime;
+    }
+    if (req.body.capacity && req.body.capacity != "") {
+        eventUpdate.capacity = req.body.capacity;
+    }
+    if (req.body.location && req.body.location != "") {
+        eventUpdate.location = req.body.location;
+    }
+    if (req.body.facilitators && req.body.facilitators != "") {
+        eventUpdate.facilitators = req.body.facilitators;
+    }
+
+    Event.findByIdAndUpdate(req.params.eventId, eventUpdate, (err, event) => {
+        if (err != null) {
+            console.log(err.message);
+            res.status(500).json({ message: "unable to update event" });
+        }
+        else {
+            res.status(200).json({ message: "successfully updated event" });
+        }
+    });
 });
 
 // Delete a specific event
 router.delete("/:eventId", (req, res) => {
-
+    Event.findByIdAndDelete(req.params.eventId, (err, event) => {
+        if (err != null) {
+            console.log(err.message);
+            res.status(500).json({ message: "unable to delete the event" });
+        }
+        else {
+            res.status(200).json({ message: "successfully deleted the event" });
+        }
+    });
 });
 
-// Create a member's attendance entry
-router.post("/:eventId/attendance/member", (req, res) => {
+// Create an attendance entry
+//      Expects a list of attendee objects
+router.post("/:eventId/attendance", (req, res) => {
+    if (!req.body.attendees || req.body.attendees == "") {
+        res.status(400).json({ message: "missing attendee(s)" });
+    }
 
+    console.log(JSON.stringify(req.body));
+
+    for (let i = 0; i < req.body.attendees.length; i++) {
+        if (req.body.attendees[i].isMember === null || req.body.attendees[i].isMember === "") {
+            res.status(400).json({ message: "missing isMember property" });
+        }
+        else if (!req.body.attendees[i].id || req.body.attendees[i].id == "") {
+            res.status(400).json({ message: "missing id property" });
+        }
+        else if (req.body.attendees[i].didRSVP === null || req.body.attendees[i].didRSVP === "") {
+            res.status(400).json({ message: "missing didRSVP property" });
+        }
+        else if (req.body.attendees[i].didAttend === null || req.body.attendees[i].didAttend === "") {
+            res.status(400).json({ message: "missing didAttend property" });
+        }
+    }
+
+    Event.findByIdAndUpdate(
+        req.params.eventId,
+        { $push: { attendees: req.body.attendees } },
+        (err, event) => {
+            if (err != null) {
+                console.log(err.message);
+                res.status(500).json({ message: "unsuccessful in saving the attendees to the database" });
+            }
+            else {
+                res.status(200).json({ message: "successfully added attendees" });
+            }
+        });
 });
 
-// Create a guest's attendance entry
-router.post("/:eventId/attendance/guests", (req, res) => {
+// Edit an attendance entry
+//      Takes 2 optional parameters in body:
+//          * didRSVP : boolean
+//          * didAttend: boolean
+router.post("/:eventId/attendance/:memberId", (req, res) => {
+    var eventObject = {
+        _id: req.params.eventId,
+        "attendees.id": req.params.memberId
+    }
 
-});
+    var edit = { $set: {} };
 
-// Edit a member's attendance entry
-router.post("/:eventId/attendance/member/:memberId", (req, res) => {
+    if (req.body.didRSVP && req.body.didRSVP != "") {
+        edit.$set["attendees.$.didRSVP"] = req.body.didRSVP;
+    }
+    if (req.body.didAttend && req.body.didAttend != "") {
+        edit.$set["attendees.$.didAttend"] = req.body.didAttend;
+    }
 
-});
-
-// Edit a guest's attendance entry
-router.post("/:eventId/attendance/guest/:guestId", (req, res) => {
-
+    Event.findOneAndUpdate(eventObject, edit,
+        (err, event) => {
+            if (err != null) {
+                console.log(err.message);
+                res.status(500).json({ message: "unsuccessful in updating the attendee(s)" });
+            }
+            else {
+                res.status(200).json({ message: "successfully modified the attendee" });
+            }
+        });
 });
 
 module.exports = router;
