@@ -3,16 +3,14 @@
     synopsis:           Contains route handlers for /api/events/*
     notable funtions:   all functions handle routes
 */
-
 const express = require("express");
 const Event = require("../../models/event.js");
 
-
 const router = express.Router();
 
-// Get a subset of events
+// Get a subset of events in chronological order
 router.get("/", (req, res) => {
-    Event.find({}, (err, events) => {
+    Event.find({}).sort("datetime").exec((err, events) => {
         if (err) {
             res.status(500).json({ message: "unsuccessful in retrieving the events from the database" });
         }
@@ -24,13 +22,15 @@ router.get("/", (req, res) => {
 
 // Create an event
 router.post("/", (req, res) => {
-    if (!req.body.title || req.body.title == "") {
-        res.status(400).json({ message: "missing a title" });
+    if (!req.body.title || req.body.title.trim() === "") {
+        res.status(400).json({ message: "missing a title property" });
     }
-    else if (!req.body.datetime || req.body.datetime == "") {
-        res.status(400).json({ message: "missing a datetime" });
+    else if (!req.body.datetime || req.body.datetime.trim === "") {
+        res.status(400).json({ message: "missing a datetime property" });
     }
     else {
+
+
         var event = new Event({
             title: req.body.title,
             description: req.body.description,
@@ -76,26 +76,26 @@ router.get("/:eventId", (req, res) => {
 router.post("/:eventId", (req, res) => {
     var eventUpdate = {}
 
-    if (req.body.title && req.body.title != "") {
+    if (req.body.title && req.body.title !== "") {
         eventUpdate.title = req.body.title;
     }
-    if (req.body.description && req.body.description != "") {
+    if (req.body.description && req.body.description !== "") {
         eventUpdate.description = req.body.description;
     }
-    if (req.body.datetime && req.body.datetime != "") {
+    if (req.body.datetime && req.body.datetime !== "") {
         eventUpdate.datetime = req.body.datetime;
     }
-    if (req.body.capacity && req.body.capacity != "") {
+    if (req.body.capacity && req.body.capacity !== "") {
         eventUpdate.capacity = req.body.capacity;
     }
-    if (req.body.location && req.body.location != "") {
+    if (req.body.location && req.body.location !== "") {
         eventUpdate.location = req.body.location;
     }
-    if (req.body.facilitators && req.body.facilitators != "") {
+    if (req.body.facilitators && req.body.facilitators !== "") {
         eventUpdate.facilitators = req.body.facilitators;
     }
 
-    Event.findByIdAndUpdate(req.params.eventId, eventUpdate, (err, event) => {
+    Event.findByIdAndUpdate(req.params.eventId, eventUpdate, (err) => {
         if (err != null) {
             console.log(err.message);
             res.status(500).json({ message: "unable to update event" });
@@ -108,7 +108,7 @@ router.post("/:eventId", (req, res) => {
 
 // Delete a specific event
 router.delete("/:eventId", (req, res) => {
-    Event.findByIdAndDelete(req.params.eventId, (err, event) => {
+    Event.findByIdAndDelete(req.params.eventId, (err) => {
         if (err != null) {
             console.log(err.message);
             res.status(500).json({ message: "unable to delete the event" });
@@ -169,10 +169,10 @@ router.post("/:eventId/attendance/:memberId", (req, res) => {
 
     var edit = { $set: {} };
 
-    if (req.body.didRSVP && req.body.didRSVP != "") {
+    if (req.body.didRSVP !== null && req.body.didRSVP !== "") {
         edit.$set["attendees.$.didRSVP"] = req.body.didRSVP;
     }
-    if (req.body.didAttend && req.body.didAttend != "") {
+    if (req.body.didAttend !== null && req.body.didAttend !== "") {
         edit.$set["attendees.$.didAttend"] = req.body.didAttend;
     }
 

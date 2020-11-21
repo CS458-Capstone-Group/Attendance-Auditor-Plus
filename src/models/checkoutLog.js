@@ -6,7 +6,7 @@ const checkoutLogSchema = new Schema({
     itemID: String, //FOREIGN KEY
     memberID: String, //FOREIGN KEY
     checkoutDate: Date, //NOT NULL
-    checkoutReturnDate: Date 
+    returnDate: Date
 });
 
 module.exports = mongoose.model("checkoutLog", checkoutLogSchema);
