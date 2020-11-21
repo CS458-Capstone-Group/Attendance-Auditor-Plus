@@ -30,10 +30,10 @@ router.post("/", (req, res) => {
     }
     else {
 
-
+        // Test strings with unwanted characeters (quotes, script tags, etc)
         var event = new Event({
-            title: req.body.title,
-            description: req.body.description,
+            title: req.bodyString("title"),
+            description: req.bodyString("description"),
             datetime: req.body.datetime,
             capacity: req.body.capacity,
             location: req.body.location,
