@@ -12,9 +12,24 @@ const router = express.Router();
 router.get("/", (req, res) => {
     Event.find({}).sort("datetime").exec((err, events) => {
         if (err) {
-            res.status(500).json({ message: "unsuccessful in retrieving the events from the database" });
+            console.error(err.message);
+            res.status(500).json({ message: "Failure - could not retreive events" });
         }
         else {
+            // Filter events according to query arguments
+            if (req.query.t)
+            {
+                events = events.filter((event) => {
+                    return event.title.toLowerCase() === req.query.t.toLowerCase();
+                });
+            }
+            if (req.query.l)
+            {
+                events = events.filter((event) => {
+                    return event.location.toLowerCase() === req.query.l.toLowerCase();
+                });
+            }
+
             res.status(200).json(events);
         }
     });
@@ -22,18 +37,19 @@ router.get("/", (req, res) => {
 
 // Create an event
 router.post("/", (req, res) => {
+    // Ensure title and datetime are not null
     if (!req.body.title || req.body.title.trim() === "") {
-        res.status(400).json({ message: "missing a title property" });
+        res.status(400).json({ message: "Bad request - missing property title" });
     }
     else if (!req.body.datetime || req.body.datetime.trim === "") {
-        res.status(400).json({ message: "missing a datetime property" });
+        res.status(400).json({ message: "Bad request - missing property datetime" });
     }
     else {
 
         // Test strings with unwanted characeters (quotes, script tags, etc)
         var event = new Event({
-            title: req.bodyString("title"),
-            description: req.bodyString("description"),
+            title: req.body.title,
+            description: req.body.description,
             datetime: req.body.datetime,
             capacity: req.body.capacity,
             location: req.body.location,
@@ -41,12 +57,12 @@ router.post("/", (req, res) => {
         });
 
         event.save((err) => {
-            if (err != null) {
+            if (err) {
                 console.log(err.message);
-                res.status(500).json({ message: "unsuccessful in creating the event" });
+                res.status(500).json({ message: "Failure - could not create event" });
             }
             else {
-                res.status(200).json({ message: "event successfully created" });
+                res.status(200).json({ message: "Success - event created" });
             }
         });
     }

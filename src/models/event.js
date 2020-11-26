@@ -9,15 +9,13 @@ const eventSchema = new Schema({
     capacity: Number,
     location: String,
     attendees: [{
-        isMember: Boolean,  //NOT NULL
         id: String,         //NOT NULL
         didRSVP: Boolean,   // NOT NULL
         didAttend: Boolean  // NOT NULL
     }],
-    facilitators: [{
-        isMember: Boolean,  //NOT NULL
-        id: String          //NOT NULL
-    }]
+    facilitators: [
+        String              // NOT NULL
+    ]
 });
 
 module.exports = mongoose.model("event", eventSchema);
