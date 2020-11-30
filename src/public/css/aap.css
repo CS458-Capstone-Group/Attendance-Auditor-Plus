@@ -97,13 +97,13 @@ body
     display: grid;
     grid-template-columns: 16.6% 16.6% 16.6% 16.6% 16.6% 16.6%;
     grid-auto-rows: minmax(2em, auto);
+
     border-style:groove;  
     margin: auto;
     width: 80%;
     font-size: 2em;
     padding: 20px; 
 }
-
 #listHeader
 {
     display: grid;
@@ -161,6 +161,11 @@ body
 {
     grid-row: 1;
     grid-column: 7;
+
+.eventListItem
+{
+    list-style: none;
+
 }
 
 #login_submit

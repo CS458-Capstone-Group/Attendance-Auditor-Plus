@@ -6,10 +6,25 @@
                             handle client requests to modify data.
     important functions:    app.use() adds functionality to the server
 */
+
+
+/*
+ADrians notes:
+https://www.geeksforgeeks.org/how-to-redirect-to-a-relative-url-in-javascript/
+
+https://www.geeksforgeeks.org/how-to-fetch-data-from-json-file-and-display-in-html-table-using-jquery/
+
+
+*/
+
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
-const sanitize = require("sanitize");
+
+//const sanitize = require("sanitize");
+
+
+
 
 const eventsRouter = require("./routes/api/events.js");
 const guestsRouter = require("./routes/api/guests.js");
@@ -30,7 +45,9 @@ db.once("open", () => {
     app.use(express.static(path.join(__dirname, "public")));
 
     app.use(express.json());
-    app.use(sanitize.middleware);
+
+   // app.use(sanitize.middleware);
+
 
     app.use("/api/events", eventsRouter);
     app.use("/api/guests", guestsRouter);
