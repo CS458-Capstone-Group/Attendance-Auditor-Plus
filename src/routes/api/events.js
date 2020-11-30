@@ -36,6 +36,13 @@ router.get("/", (req, res) => {
 });
 
 // Create an event
+//      Takes 6 optional parameters in body:
+//          * title : string
+//          * description : string
+//          * datetime : date (sent as a string "YYYY-MM-DDTHH:MM")
+//          * capacity : integer
+//          * location : string
+//          * facilitators: [{ isMember : string, id : string }]
 router.post("/", (req, res) => {
     // Ensure title and datetime are not null
     if (!req.body.title || req.body.title.trim() === "") {
@@ -136,7 +143,11 @@ router.delete("/:eventId", (req, res) => {
 });
 
 // Create an attendance entry
-//      Expects a list of attendee objects
+//      Expects a list of attendee objects, each attendee object having the following props:
+//          isMember: Boolean,
+//          id: String //FOREIGN KEY,
+//          didRSVP: Boolean,
+//          didAttend: Boolean
 router.post("/:eventId/attendance", (req, res) => {
     if (!req.body.attendees || req.body.attendees == "") {
         res.status(400).json({ message: "missing attendee(s)" });
