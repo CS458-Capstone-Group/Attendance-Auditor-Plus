@@ -2,11 +2,22 @@
 <html amp>
 <head>
   <meta charset="UTF-8">
-  <link rel="shortcut icon" href="" type="image/x-icon">
+
+  <link rel="icon" href="/images/favicon/aapIcon.ico" type="image/x-icon">
+
   <meta name="description" content="">
   <title>attendanceauditor</title>
   
 <link href="./css/aap.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div id="header">
+        <div id="headerLogo">
+            <img src="./images/AAPLogo.png" alt="Attendance Auditor Plus logo" title="Attendance Auditor Plus logo">
+
 <script src= "https://code.jquery.com/jquery-3.5.1.js"> </script> 
 <script>
     function memberProfile(){
@@ -61,10 +72,48 @@
 
     <div id="header">
         <div id="headerLogo">
-            <img src="./images/AAPLogo.png" alt="Attendance Auditor Plus logo" title="Attendance Auditor Plus logo">
-
+            <img src="./images/AAPLogo.png" alt="Attendance Auditor Plus logo" title="Attendance Auditor Plus logo"
 
         </div>
+        <div id="leftMenu">
+            <div onclick="eventPopFunction()" id="eventMenuItem">Events</div>
+            <div onclick="inventoryPopFunction()" id="inventoryMenuItem">Inventory</div>
+        </div>
+        <div id="rightMenu">
+            <div onclick="profilePopFunction()" id="profileMenuItem">Profile</div>
+
+        </div>
+
+    </div>
+<hr/>
+
+
+    <div id="eventList"></div>
+        
+
+<script>
+    var eventListDiv = document.querySelector("#eventList");
+
+    function eventPopFunction(){
+        fetch("http://localhost:5000/api/events")
+        .then(response => response.json())
+        .then(data => {
+            eventListDiv.innerHTML = '<ul>';
+            console.log(data);
+            for (var i = 0; i < data.length; i++){
+
+                
+                eventListDiv.innerHTML +=  "<li class='eventListItem' > Event Title: " + data[i].title + "<br /> Description: " +
+                data[i].description + " <br />" + data[i].datetime.toString() + "</li> <br /> <br />" ;
+
+            }
+            eventListDiv.innerHTML += "</ul>";
+        });
+    }
+
+      
+    
+</script>
         <div id="leftMenu">
             <div onclick="ePop()" id="eventMenuItem">Events</div>
             <div onclick="invPop()" id="inventoryMenuItem">Inventory</div>
@@ -127,9 +176,11 @@
         }
         </script>
 
+
     </tbody>
 
 </table>
+
 
 </body>
 </html>
