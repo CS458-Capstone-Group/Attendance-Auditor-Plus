@@ -52,8 +52,6 @@ router.post("/", (req, res) => {
         res.status(400).json({ message: "Bad request - missing property datetime" });
     }
     else {
-
-        // Test strings with unwanted characeters (quotes, script tags, etc)
         var event = new Event({
             title: req.body.title,
             description: req.body.description,
@@ -149,7 +147,7 @@ router.delete("/:eventId", (req, res) => {
 //          didRSVP: Boolean,
 //          didAttend: Boolean
 router.post("/:eventId/attendance", (req, res) => {
-    if (!req.body.attendees || req.body.attendees == "") {
+    if (!req.body.attendees || req.body.attendees.trim() == "") {
         res.status(400).json({ message: "missing attendee(s)" });
     }
 
@@ -159,7 +157,7 @@ router.post("/:eventId/attendance", (req, res) => {
         if (req.body.attendees[i].isMember === null || req.body.attendees[i].isMember === "") {
             res.status(400).json({ message: "missing isMember property" });
         }
-        else if (!req.body.attendees[i].id || req.body.attendees[i].id == "") {
+        else if (!req.body.attendees[i].userId || req.body.attendees[i].userId == "") {
             res.status(400).json({ message: "missing id property" });
         }
         else if (req.body.attendees[i].didRSVP === null || req.body.attendees[i].didRSVP === "") {
@@ -174,8 +172,8 @@ router.post("/:eventId/attendance", (req, res) => {
         req.params.eventId,
         { $push: { attendees: req.body.attendees } },
         (err, event) => {
-            if (err != null) {
-                console.log(err.message);
+            if (err) {
+                console.log(err);
                 res.status(500).json({ message: "unsuccessful in saving the attendees to the database" });
             }
             else {
@@ -188,10 +186,10 @@ router.post("/:eventId/attendance", (req, res) => {
 //      Takes 2 optional parameters in body:
 //          * didRSVP : boolean
 //          * didAttend: boolean
-router.post("/:eventId/attendance/:memberId", (req, res) => {
+router.post("/:eventId/attendance/:userId", (req, res) => {
     var eventObject = {
         _id: req.params.eventId,
-        "attendees.id": req.params.memberId
+        "attendees.userId": req.params.userId
     }
 
     var edit = { $set: {} };
@@ -205,8 +203,8 @@ router.post("/:eventId/attendance/:memberId", (req, res) => {
 
     Event.findOneAndUpdate(eventObject, edit,
         (err, event) => {
-            if (err != null) {
-                console.log(err.message);
+            if (err) {
+                console.error(err.message);
                 res.status(500).json({ message: "unsuccessful in updating the attendee(s)" });
             }
             else {
