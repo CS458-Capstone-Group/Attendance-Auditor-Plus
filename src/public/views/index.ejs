@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html amp>
+<h1>Hi ejs name goes here</h1>
+
 <head>
   <meta charset="UTF-8">
   <link rel="shortcut icon" href="" type="image/x-icon">
@@ -10,15 +10,15 @@
 <script src= "https://code.jquery.com/jquery-3.5.1.js"> </script> 
 <script>
     function memberProfile(){
-        document.location.href="memberForm.html";
+        document.location.href="./memberProfile";
     }
 
     function ePop(){
-        document.location.href="index.html";
+        document.location.href="./index";
     }
 
     function invPop(){
-        document.location.href="memberInventory.html";
+        document.location.href="./inventoryItems";
     }
 </script>
 <style> 
@@ -57,12 +57,11 @@
 
 </head>
 
-<body>
+<body onload ="ePop()">
 
     <div id="header">
         <div id="headerLogo">
             <img src="./images/AAPLogo.png" alt="Attendance Auditor Plus logo" title="Attendance Auditor Plus logo">
-
 
         </div>
         <div id="leftMenu">
@@ -132,4 +131,7 @@
 </table>
 
 </body>
-</html>
+
+<form action="/logout?_method=DELETE" method="POST">
+    <button type="submit">Logout </button>
+</form>
