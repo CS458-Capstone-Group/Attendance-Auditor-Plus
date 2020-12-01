@@ -19,6 +19,7 @@ router.get("/", (req, res) => {
         else {
             res.status(200).json(inventoryItems);
         }
+    });
 });
   
 // Create a new inventory item
@@ -29,7 +30,7 @@ router.post("/", (req, res) => {
     if(req.body.name == ""){
         res.status(400).json({message: "missing item name"});
     }
-    else{
+    else {
         var inventoryItem = new InventoryItem({
             name: req.body.name,
             description: req.body.description,

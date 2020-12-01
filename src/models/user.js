@@ -11,4 +11,4 @@ const userSchema = new Schema({
     category: String //NOT NULL (guest, student, faculty, staff, classified, organizer, admin)
 });
 
-module.exports = mongoose.model("user", memberSchema);
+module.exports = mongoose.model("user", userSchema);
