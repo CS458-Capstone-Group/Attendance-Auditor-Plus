@@ -2,13 +2,13 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 
-const memberSchema = new Schema({
+const userSchema = new Schema({
     fname: String, //NOT NULL
     lname: String, //NOT NULL
     email: String,
     phone: String,
     department: String,
-    category: String //NOT NULL
+    category: String //NOT NULL (guest, student, faculty, staff, classified, organizer, admin)
 });
 
-module.exports = mongoose.model("member", memberSchema);
+module.exports = mongoose.model("user", userSchema);
