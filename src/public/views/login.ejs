@@ -1,0 +1,32 @@
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="icon" href="/images/favicon/aapIcon.ico" type="image/x-icon">
+
+  <meta name="description" content="">
+  <title>attendanceauditor</title>
+    <link href="./css/aap.css" rel="stylesheet">
+    <div id="header">
+            <div id="headerLogo">
+                <img src="./images/AAPLogo.png" alt="Attendance Auditor Plus logo" title="Attendance Auditor Plus logo">
+</head>
+<h1>Login to see events!</h1>
+<% if(messages.error)  { %>
+    <%= messages.error %>
+<% } %>
+<form action="/events" method="POST">
+
+<div>
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" required="required">
+</div>
+
+<div>
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" required="required">
+</div>
+
+<button type="submit">Login</button>
+</form>
+
+<a href="/register">Register</a>
