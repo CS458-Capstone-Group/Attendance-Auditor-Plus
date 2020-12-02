@@ -8,7 +8,8 @@ const userSchema = new Schema({
     email: String,
     phone: String,
     department: String,
-    category: String //NOT NULL (guest, student, faculty, staff, classified, organizer, admin)
+    category: String, //NOT NULL (guest, student, faculty, staff, classified, organizer, admin)
+    password: String
 });
 
 module.exports = mongoose.model("user", userSchema);
