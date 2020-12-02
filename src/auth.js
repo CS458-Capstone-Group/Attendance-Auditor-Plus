@@ -1,7 +1,9 @@
 const User = require("./models/user.js");
 
 const auth = {};
-const seshes = {};
+
+
+auth.seshes = {};
 
 auth.authOrganizer = function(req, res) {
     User.findById(seshes[req.cookies.session], (err, user) => {
@@ -13,7 +15,7 @@ auth.authOrganizer = function(req, res) {
         {
             res.status(500).json({message: "Failure - access not allowed"})
         }
-        else if (user.category !== "organizer") {
+        else if (user.category !== "organizer" && user.category !== "admin") {
             res.status(500).json({message: "Failure - access not allowed"});
         }
         else {

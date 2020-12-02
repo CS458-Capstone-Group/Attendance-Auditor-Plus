@@ -4,7 +4,7 @@
     notable funtions:   all functions handle routes
 */
 const express = require("express");
-
+const auth = require("../../auth");
 const InventoryItem = require("../../models/inventoryItem.js");
 
 const router = express.Router();
@@ -26,7 +26,7 @@ router.get("/", (req, res) => {
     // name: String, //NOT NULL
     // description: String, 
     // sn: String
-router.post("/", (req, res) => {
+router.post("/", auth.authOrganizer, (req, res) => {
     if(!req.body.name || req.body.name.trim() === ""){
         res.status(400).json({message: "Bad Request - missing property name"});
     }
@@ -52,7 +52,7 @@ router.post("/", (req, res) => {
 });
 
 // Get a specific inventory item
-router.get("/:itemId", (req, res) => {
+router.get("/:itemId", auth.authOrganizer, (req, res) => {
     InventoryItem.findById(req.params.itemId, (err, inventoryItem) => {
         if (err) {
             console.error(err.message);
@@ -68,7 +68,7 @@ router.get("/:itemId", (req, res) => {
     // name: String, //NOT NULL
     // description: String, 
     // sn: String
-router.post("/:itemId", (req, res) => {
+router.post("/:itemId", auth.authOrganizer, (req, res) => {
     var itemUpdate = {};
   
     if (req.body.name && req.body.name.trim() !== "") {
@@ -93,7 +93,7 @@ router.post("/:itemId", (req, res) => {
 });
 
 // Delete a specific inventory item
-router.delete("/:itemId", (req, res) => {
+router.delete("/:itemId", auth.authOrganizer, (req, res) => {
     InventoryItem.findByIdAndDelete(req.params.itemId, (err) => {
         if (err) {
             console.error(err.message);
@@ -107,7 +107,7 @@ router.delete("/:itemId", (req, res) => {
   
     // Expects 1 property in the body:
     //   itemID: String
-router.post("/:itemId/checkout", (req, res) => {
+router.post("/:itemId/checkout", auth.authOrganizer, (req, res) => {
     if(!req.body.userId || req.body.userId.trim() === ""){
         res.status(400).json({message: "Bad Request - missing property userId"});
     }
@@ -144,7 +144,7 @@ router.post("/:itemId/checkout", (req, res) => {
     // memberID: String, //FOREIGN KEY
     // checkoutDate: Date, //NOT NULL
     // checkoutReturnDate: Date 
-router.post("/:itemId/checkin", (req, res) => {
+router.post("/:itemId/checkin", auth.authOrganizer, (req, res) => {
     InventoryItem.findById(req.params.itemId, (err, inventoryItem) => {
         if (err) {
             console.log(err.message);

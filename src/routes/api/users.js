@@ -43,6 +43,7 @@ router.post("/auth", (req, res) => {
                         }
                         else {
                             auth.seshes[req.cookies.session] = user._id;
+                            console.log(JSON.stringify(auth.seshes));
                             res.status(200).json({message: "Success"});
                         }
                     });
@@ -60,7 +61,7 @@ router.post("/auth", (req, res) => {
 //      department: string
 //      category: string (required)
 //      password: string (required)
-router.post("/", auth.authOrganizer, (req, res) => {
+router.post("/", (req, res) => {
     if (!req.body.fname || req.body.fname.trim() === "") {
         res.status(400).json({ message: "Bad Request - missing property fname" });
     }

@@ -4,6 +4,7 @@
     notable funtions:   all functions handle routes
 */
 const express = require("express");
+const auth = require("../../auth.js");
 const Event = require("../../models/event.js");
 
 const router = express.Router();
@@ -43,7 +44,7 @@ router.get("/", (req, res) => {
 //          * capacity : integer
 //          * location : string
 //          * facilitators: [ string ]
-router.post("/", (req, res) => {
+router.post("/", auth.authOrganizer, (req, res) => {
     // Ensure title and datetime are not null
     if (!req.body.title || req.body.title.trim() === "") {
         res.status(400).json({ message: "Bad request - missing property title" });
@@ -94,7 +95,7 @@ router.get("/:eventId", (req, res) => {
 //          * capacity : integer
 //          * location : string
 //          * facilitators: [ string ]
-router.post("/:eventId", (req, res) => {
+router.post("/:eventId", auth.authOrganizer, (req, res) => {
     var eventUpdate = {}
 
     if (req.body.title && req.body.title.trim() !== "") {
@@ -128,7 +129,7 @@ router.post("/:eventId", (req, res) => {
 });
 
 // Delete a specific event
-router.delete("/:eventId", (req, res) => {
+router.delete("/:eventId", auth.authOrganizer, (req, res) => {
     Event.findByIdAndDelete(req.params.eventId, (err) => {
         if (err) {
             console.error(err.message);
@@ -145,7 +146,7 @@ router.delete("/:eventId", (req, res) => {
 //          userId: String //FOREIGN KEY,
 //          didRSVP: Boolean,
 //          didAttend: Boolean
-router.post("/:eventId/attendance", (req, res) => {
+router.post("/:eventId/attendance", auth.authOrganizer, (req, res) => {
     if (!req.body.attendees || req.body.attendees.trim() == "") {
         res.status(400).json({ message: "missing attendee(s)" });
     }
@@ -182,7 +183,7 @@ router.post("/:eventId/attendance", (req, res) => {
 //      Takes 2 optional parameters in body:
 //          * didRSVP : boolean
 //          * didAttend: boolean
-router.post("/:eventId/attendance/:userId", (req, res) => {
+router.post("/:eventId/attendance/:userId", auth.authOrganizer, (req, res) => {
     var eventObject = {
         _id: req.params.eventId,
         "attendees.userId": req.params.userId
