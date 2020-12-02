@@ -1,4 +1,4 @@
-<h1>Hi ejs name goes here</h1>
+
 
 <head>
   <meta charset="UTF-8">
@@ -20,6 +20,10 @@
     function invPop(){
         document.location.href="./inventoryItems";
     }
+
+    function audPop(){
+            document.location.href="./eventAudits";
+        }
 </script>
 <style> 
     table { 
@@ -67,12 +71,16 @@
         <div id="leftMenu">
             <div onclick="ePop()" id="eventMenuItem">Events</div>
             <div onclick="invPop()" id="inventoryMenuItem">Inventory</div>
+            <div onclick="audPop()" id="AuditMenuItem">Audits</div>
+
         </div>
         <div id="rightMenu">
             <button value="GoToMembership" onclick="memberProfile()" id="profileMenuItem">Profile</button>
 
         </div>
     </div>
+<hr/>
+<h1>List of Events</h1>
 <hr/>
 
 <table id="eventsTable">
@@ -130,8 +138,34 @@
 
 </table>
 
-</body>
 
+<hr/>
+<h2> Quick Event Add </h2>
+<form action="/login" method="POST">
+<legend id="lege"> Add Event to List </legend>
+<fieldset id="addEventForm">
+    <label for="etitle">Event Title</label>
+    <input type="text" id="etitle" name="etitle" required="required">
+
+    <label for="edesc">Item Description</label>
+    <input type="text" id="edesc" name="edesc" required="required">
+
+    <label for="edatetime"> DateTime</label>
+    <input type="text" id="edatetime" name="edatetime" required="required">
+
+    <label for="ecapacity">Capacity</label>
+    <input type="number" id="ecapacity" name="ecapacity" required="required">
+
+    <label for="elocation">Location</label>
+    <input type="text" id="elocation" name="elocation" required="required">
+
+    <button type="submit" id="ebut">Add Event</button>
+</fieldset>
+</form>
+
+
+</body>
+<hr/>
 <form action="/logout?_method=DELETE" method="POST">
     <button type="submit">Logout </button>
 </form>

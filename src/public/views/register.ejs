@@ -11,41 +11,41 @@
                 <img src="./images/AAPLogo.png" alt="Attendance Auditor Plus logo" title="Attendance Auditor Plus logo">
 </head>
 <h1>Register to RSVP events!</h1>
+<hr/>
 <form action="/login" method="POST">
-<div>
-    <label for="fname">First Name</label>
-    <input type="text" id="fname" name="fname" required="required">
-</div>
-<div>
-    <label for="lname">Last Name</label>
-    <input type="text" id="lname" name="lname" required="required">
-</div>
-<div>
-    <label for="password">Password</label>
-    <input type="password" id="password" name="password" required="required">
-</div>
 
-<div>
-    <label for="email">Email</label>
-    <input type="email" id="email" name="email" required="required">
-</div>
+        <legend> Registration Form </legend>
+    <fieldset id="reg_container">
 
-<div>
-    <label for="pnumber">Phone Number</label>
-    <input type="number" id="pnumber" name="pnumber">
-</div>
+        <label for="fname">First Name</label>
+        <input type="text" id="fname" name="fname" required="required">
+    
+        <label for="lname">Last Name</label>
+        <input type="text" id="lname" name="lname" required="required">
+    
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required="required">
+    
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required="required">
+    
+        <label for="pnumber">Phone Number</label>
+        <input type="number" id="pnumber" name="pnumber">
+    
+        <label for="department">Department</label>
+        <input type="text" id="department" name="department" >
+    
+        <label for="category">Category</label>
+        <input type="text" id="category" name="category" >
+        
 
-<div>
-    <label for="department">Department</label>
-    <input type="text" id="department" name="department" >
-</div>
-
-<div>
-    <label for="category">Category</label>
-    <input type="text" id="category" name="category" >
-</div>
-
-<button type="submit">Register</button>
+        <button type="submit">Register</button>
+    </fieldset>
 </form>
+<hr/>
 
-<a href="/login">Login</a>
+<form form action="/login" method="POST">
+    <fieldset id="rlog">
+        <p> Already a member?  <button type="submit">Log In </button></p>
+    </fieldset>
+</form>

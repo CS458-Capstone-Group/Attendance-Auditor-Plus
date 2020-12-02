@@ -1,7 +1,4 @@
 
-<h1>Inventory Items</h1>
-
-
 <head>
   <meta charset="UTF-8">
 
@@ -23,6 +20,9 @@
 
         function invPop(){
             document.location.href="./inventoryItems";
+        }
+        function audPop(){
+            document.location.href="./eventAudits";
         }
     </script>
     <style> 
@@ -73,6 +73,8 @@
             <div onclick="ePop()" id="eventMenuItem">Events</div>
 
             <div onclick="invPop()" id="inventoryMenuItem">Inventory</div>
+            <div onclick="audPop()" id="AuditMenuItem">Audits</div>
+
 
         </div>
         <div id="rightMenu">
@@ -81,7 +83,23 @@
         </div>
     </div>
 <hr/>
-    <h1> Displayto UPDATE Member details here </h1>
+    <h1>Member Settings </h1>
+<hr/>
+<div id="userInfo">
+    <p> Hello, user! </p>
+    <p> First Name: Studious </p>
+    <p> Last Name: Stork </p>
+    <p> Email: hi@you.com </p>
+    <p> Phone: 707-747-2020 </p>
+    <p> Department: debugger</p>
+    <p> Category: Student </p>
+    <p> password: *******</p>
+    <form action="#" method="POST">
+        <button type="submit">Edit </button>
+    </form>
+
+</div>
+
 <hr/>
 <form action="/logout?_method=DELETE" method="POST">
     <button type="submit">Logout </button>

@@ -1,4 +1,4 @@
-<h1>Inventory Items</h1>
+
 
 <head>
   <meta charset="UTF-8">
@@ -21,6 +21,10 @@
 
         function invPop(){
             document.location.href="./inventoryItems";
+        }
+
+        function audPop(){
+            document.location.href="./eventAudits";
         }
     </script>
 <style> 
@@ -71,6 +75,8 @@
             <div onclick="ePop()" id="eventMenuItem">Events</div>
 
             <div onclick="invPop()" id="inventoryMenuItem">Inventory</div>
+            <div onclick="audPop()" id="AuditMenuItem">Audits</div>
+            
 
         </div>
         <div id="rightMenu">
@@ -79,16 +85,21 @@
         </div>
     </div>
 <hr/>
+<h1>Inventory Items</h1>
+<hr/>
 
 <table id="invTable">
     <thead>
         <label for="invSearch"></label>
-        <input type="text" placeholder="Search" name="invSearch" id="invSearch">
-    
-
+        <input type="text" placeholder="Search Events" name="invSearch" id="invSearch">
+        <br/><br/>
+        <form action="/logout?_method=DELETE" method="POST">
+            <button type="submit">Search </button>
+        </form>
+<hr/>
     </thead>
     <tbody id="invTBody" onload="invs()">
-        <p> Available Items </p>
+        <h2> Available Items </h2>
         <script>
             
             $(document).ready(function invs(){
@@ -129,26 +140,25 @@
 
 </body>
 
-
-<h2>Add Item to Inventory</h2>
+<hr/>
+<h2> Quick Item Add </h2>
 <form action="/login" method="POST">
-<div>
+<legend id="legi"> Add Item to Inventory </legend>
+<fieldset id="addItemForm">
     <label for="iname">Item Name</label>
     <input type="text" id="iname" name="iname" required="required">
-</div>
-<div>
+
     <label for="idesc">Item Description</label>
     <input type="text" id="idesc" name="idesc" required="required">
-</div>
 
-<div>
     <label for="sn">Serial Number</label>
     <input type="number" id="sn" name="sn" required="required">
-</div>
 
-<button type="submit">Add Item</button>
+
+    <button type="submit" id="ibut">Add Item</button>
+</fieldset>
 </form>
-
+<hr/>
 <form action="/logout?_method=DELETE" method="POST">
     <button type="submit">Logout </button>
 </form>
