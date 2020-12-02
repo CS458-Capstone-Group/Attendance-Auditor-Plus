@@ -4,9 +4,8 @@
     notable funtions:   all functions handle routes
 */
 const express = require("express");
-
+const auth = require("../../auth");
 const InventoryItem = require("../../models/inventoryItem.js");
-const CheckoutLog = require("../../models/checkoutLog.js");
 
 const router = express.Router();
 
@@ -14,7 +13,8 @@ const router = express.Router();
 router.get("/", (req, res) => {
     InventoryItem.find({}, (err, inventoryItems) => {
         if (err) {
-            res.status(500).json({ message: "unsuccessful in retrieving the inventory items from the database" });
+            console.error(err.message);
+            res.status(500).json({ message: "Failure - could not get inventory items" });
         }
         else {
             res.status(200).json(inventoryItems);
@@ -26,35 +26,37 @@ router.get("/", (req, res) => {
     // name: String, //NOT NULL
     // description: String, 
     // sn: String
-router.post("/", (req, res) => {
-    if(req.body.name == ""){
-        res.status(400).json({message: "missing item name"});
+router.post("/", auth.authOrganizer, (req, res) => {
+    if(!req.body.name || req.body.name.trim() === ""){
+        res.status(400).json({message: "Bad Request - missing property name"});
     }
-    else{
+    else {
         var inventoryItem = new InventoryItem({
             name: req.body.name,
             description: req.body.description,
-            sn: req.body.sn
+            sn: req.body.sn,
+            checkedOut: false,
+            checkedOutBy: null
         });
 
         inventoryItem.save((err) => {
-            if (err != null) {
-                console.log(err.message);
-                res.status(500).json({ message: "unsuccessful in adding a new inventory item"});
+            if (err) {
+                console.error(err.message);
+                res.status(500).json({ message: "Failure - could not create inventory item"});
             }
             else {
-                res.status(200).json({ message: "items successfully added to inventory"});
+                res.status(200).json({ message: "Success - item added to inventory"});
             }
         });
     } 
 });
 
 // Get a specific inventory item
-router.get("/:itemId", (req, res) => {
+router.get("/:itemId", auth.authOrganizer, (req, res) => {
     InventoryItem.findById(req.params.itemId, (err, inventoryItem) => {
-        if (err !== null) {
-            console.log(err.message);
-            res.status(500).json({ message: "unsuccessful in retrieving the specified inventory item" });
+        if (err) {
+            console.error(err.message);
+            res.status(500).json({ message: "Failure - could not get inventory item" });
         }
         else {
             res.status(200).json(inventoryItem);
@@ -66,75 +68,72 @@ router.get("/:itemId", (req, res) => {
     // name: String, //NOT NULL
     // description: String, 
     // sn: String
-router.post("/:itemId", (req, res) => {
+router.post("/:itemId", auth.authOrganizer, (req, res) => {
     var itemUpdate = {};
   
-    if (req.body.name && req.body.name !== "") {
+    if (req.body.name && req.body.name.trim() !== "") {
         itemUpdate.name = req.body.name;
     }
-    if (req.body.description && req.body.description != "") {
+    if (req.body.description && req.body.description.trim() != "") {
         itemUpdate.description = req.body.description;
     }
-    if (req.body.sn && req.body.sn !== "") {
+    if (req.body.sn && req.body.sn.trim() !== "") {
         itemUpdate.sn = req.body.sn;
     }
 
     InventoryItem.findByIdAndUpdate(req.params.itemId, itemUpdate, (err) => {
-        if (err !== null) {
-            console.log(err.message);
-            res.status(500).json({ message: "unable to update inventory item" });
+        if (err) {
+            console.error(err.message);
+            res.status(500).json({ message: "Failure - could not update inventory item" });
         }
         else {
-            res.status(200).json({ message: "successfully updated inventory item" });
+            res.status(200).json({ message: "Success - inventory item updated" });
         }
     });
 });
 
 // Delete a specific inventory item
-router.delete("/:itemId", (req, res) => {
+router.delete("/:itemId", auth.authOrganizer, (req, res) => {
     InventoryItem.findByIdAndDelete(req.params.itemId, (err) => {
-        if (err !== null) {
-            console.log(err.message);
-            res.status(500).json({ message: "unable to delete the iventory item" });
+        if (err) {
+            console.error(err.message);
+            res.status(500).json({ message: "Failure - unable to delete inventory item" });
         }
         else {
-            res.status(200).json({ message: "successfully deleted the inventory item" });
+            res.status(200).json({ message: "Success - inventory item updated" });
         }
     });
 });
   
-    // itemID: String, //FOREIGN KEY
-    // memberID: String, //FOREIGN KEY
-    // checkoutDate: Date, //NOT NULL
-    // checkoutReturnDate: Date 
-router.post("/:itemId/checkout", (req, res) => {
-    if(req.body.itemID == ""){
-        res.status(400).json({message: " missing itemID "});
+    // Expects 1 property in the body:
+    //   itemID: String
+router.post("/:itemId/checkout", auth.authOrganizer, (req, res) => {
+    if(!req.body.userId || req.body.userId.trim() === ""){
+        res.status(400).json({message: "Bad Request - missing property userId"});
     }
-    if(req.body.memberID == ""){
-        res.status(400).json({message: " missing memberID "});
-    }
-    if(req.body.checkoutDate == ""){
-        res.status(400).json({message: " missing checkout date "});
-    }
-    if(req.body.checkoutReturnDate != ""){
-        res.status(400).json({message: " return date should be blank "});
-    }
-    else {
-        var checkoutLog = new checkoutLog({
-            itemID: req.body.itemId,
-            memberID: req.body.memberID,
-            checkoutDate: req.body.checkoutDate,
-            checkoutReturnDate: null
-        });
-
-        checkoutLog.save((err) => {
-            if (err != null) {
-                console.log(err.message);
-                res.status(500).json({ message: "unsuccessful in checking out item"});
+    else{
+        InventoryItem.findById(req.params.itemId,
+        (err, inventoryItem) =>
+        {
+            if (err) {
+                console.error(err.message);
+                res.status(500).json({message: "Failure - unable to retrieve inventory item"});
+            }
+            else if (inventoryItem.checkedOut) {
+                res.status(400).json({message: "Bad Request - item already checked out"});
             }
             else {
-                res.status(200).json({ message: "items successfully checked out"});
+                InventoryItem.findByIdAndUpdate(req.body.itemId, {checkedOut: true, checkedOutBy: req.body.userId},
+                    (err) => {
+                        if (err) {
+                            console.error(err.message);
+                            res.status(500).json({message: "Failure - could not check out item"});
+                        }
+                        else
+                        {
+                            res.status(200).json({message: "Success - item checked out"});
+                        }
+                    });
             }
         });
     }
@@ -145,14 +144,27 @@ router.post("/:itemId/checkout", (req, res) => {
     // memberID: String, //FOREIGN KEY
     // checkoutDate: Date, //NOT NULL
     // checkoutReturnDate: Date 
-router.post("/:itemId/checkin", (req, res) => {
-    CheckoutLog.find({ _id: req.params.itemId }, (err, checkoutLogs) => {
-        if (err !== null) {
+router.post("/:itemId/checkin", auth.authOrganizer, (req, res) => {
+    InventoryItem.findById(req.params.itemId, (err, inventoryItem) => {
+        if (err) {
             console.log(err.message);
-            res.status(500).json({ message: "could not load the checkout log" });
+            res.status(500).json({ message: "Failure - could not retrieve item" });
+        }
+        else if (!inventoryItem.checkedOut)
+        {
+            res.status(400).json({message: "Bad Request - inventory item is not checked out"});
         }
         else {
-
+            InventoryItem.findByIdAndUpdate(req.params.itemId, {checkedOut: false, checkedOutBy: null},
+                (err) => {
+                    if (err) {
+                        console.error(err.message);
+                        res.status(500).json({message: "Failure - could not check in inventory item"});
+                    }
+                    else {
+                        res.status(200).json({message: "Success - inventory item checked in"});
+                    }
+                });
         }
     });
 });

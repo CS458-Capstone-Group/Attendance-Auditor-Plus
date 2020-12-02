@@ -9,7 +9,7 @@ const eventSchema = new Schema({
     capacity: Number,
     location: String,
     attendees: [{
-        id: String,         //NOT NULL
+        userId: String,         //NOT NULL
         didRSVP: Boolean,   // NOT NULL
         didAttend: Boolean  // NOT NULL
     }],

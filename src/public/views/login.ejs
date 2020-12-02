@@ -11,22 +11,25 @@
                 <img src="./images/AAPLogo.png" alt="Attendance Auditor Plus logo" title="Attendance Auditor Plus logo">
 </head>
 <h1>Login to see events!</h1>
-<% if(messages.error)  { %>
-    <%= messages.error %>
-<% } %>
-<form action="/events" method="POST">
+<hr/>
 
-<div>
-    <label for="email">Email</label>
-    <input type="email" id="email" name="email" required="required">
-</div>
+<form action="/api/users/auth" method="POST">
 
-<div>
-    <label for="password">Password</label>
-    <input type="password" id="password" name="password" required="required">
-</div>
+    <legend id="leg2"> Enter Email/Password </legend>
+    <fieldset id="log_container">
+        <label for="email2">Email</label>
+        <input type="text" id="email2" name="email" required="required">
 
-<button type="submit">Login</button>
+        <label for="password2">Password</label>
+        <input type="password" id="password2" name="password" required="required">
+        <button type="submit" id="but2">Login</button>
+    </fieldset>
+
 </form>
+<hr/>
 
-<a href="/register">Register</a>
+<form form action="/register" method="POST">
+    <fieldset id="rlog">
+        <p> Not a member?  <button type="submit">Register </button></p>
+    </fieldset>
+</form>

@@ -1,14 +1,436 @@
 /*
- by: Robert Airth
- date modified: 11/24/2020
+Adrian css 
 */
 
-body
-{
+body{
+   width:50%;
+   margin-left: auto;
+   margin-right:auto;
    background-color: #c2cdea;
    color: #2c3e2d;
    padding: 4em;
 }
+
+#rlog
+{
+   background-color: #c2cdea;
+   color: #2c3e2d;
+   width: 20em;
+   padding:1em;
+   background-color: #eeeeff;
+   border: thin solid black;
+   margin-left:auto;
+   margin-right:auto;
+}
+
+#userInfo
+{
+    width: 20em;
+    padding:1.2em;
+    background-color: #eeeeff;
+    border: thin solid black;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+#aleg
+{
+   width:70%;
+}
+
+#auditForm
+{
+   
+    
+    margin-left: auto;
+    margin-right: auto;
+    width: 20em;
+    padding:1.2em;
+    background-color: #eeeeff;
+    border: thin solid black;
+
+}
+
+#addItemForm
+{
+   display:grid;
+    grid-auto-columns:minmax(10px, auto);
+    gap: 10px;
+    grid-auto-rows: minmax(10px, auto);
+    margin-left: auto;
+    margin-right: auto;
+    width: 20em;
+    padding:1.2em;
+    background-color: #eeeeff;
+    border: thin solid black;
+
+}
+
+
+#legi
+{
+    border: thin solid rgb(90, 87, 87);
+    border-width:medium;
+    background-color: white;
+    padding: 0.25em;
+    width:30%;
+    margin-left:auto;
+    margin-right:auto;
+
+   
+}
+
+#label[for="iname"]
+{
+   grid-row: 1;
+   grid-column: 1;
+}
+
+#iname
+{
+   grid-row: 1;
+   grid-column: 2;
+   width:75%;
+
+}
+
+#label[for="idesc"]
+{
+   grid-row: 2;
+   grid-column: 1;
+}
+
+#idesc
+{
+   grid-row: 2;
+   grid-column: 2;
+   width:75%;
+
+}
+
+#label[for="sn"]
+{
+   grid-row: 3;
+   grid-column: 1;
+}
+
+#sn
+{
+   grid-row: 3;
+   grid-column: 2;
+   width:75%;
+
+}
+
+#label[for="ibut"]
+{
+   grid-row: 4;
+   grid-column: 1;
+}
+
+
+#addEventForm
+{
+   display:grid;
+    grid-auto-columns:minmax(10px, auto);
+    gap: 10px;
+    grid-auto-rows: minmax(10px, auto);
+    margin-left: auto;
+    margin-right: auto;
+    width: 20em;
+    padding:1.2em;
+    background-color: #eeeeff;
+    border: thin solid black;
+
+}
+
+
+#lege
+{
+    border: thin solid rgb(90, 87, 87);
+    border-width:medium;
+    background-color: white;
+    padding: 0.25em;
+    width:30%;
+    margin-left:auto;
+    margin-right:auto;
+
+   
+}
+
+#label[for="etitle"]
+{
+   grid-row: 1;
+   grid-column: 1;
+}
+
+#etitle
+{
+   grid-row: 1;
+   grid-column: 2;
+   width:75%;
+
+}
+
+#label[for="edesc"]
+{
+   grid-row: 2;
+   grid-column: 1;
+}
+
+#edesc
+{
+   grid-row: 2;
+   grid-column: 2;
+   width:75%;
+
+}
+
+#label[for="edatetime"]
+{
+   grid-row: 3;
+   grid-column: 1;
+}
+
+#edatetime
+{
+   grid-row: 3;
+   grid-column: 2;
+   width:75%;
+
+}
+
+
+#label[for="ecapacity"]
+{
+   grid-row: 4;
+   grid-column: 1;
+}
+
+#ecapacity
+{
+   grid-row: 4;
+   grid-column: 2;
+   width:75%;
+
+}
+
+#label[for="elocation"]
+{
+   grid-row: 5;
+   grid-column: 1;
+}
+
+#elocation
+{
+   grid-row: 5;
+   grid-column: 2;
+   width:75%;
+
+}
+
+
+
+#label[for="ebut"]
+{
+   grid-row: 6;
+   grid-column: 1;
+}
+
+
+
+
+#log_container
+{
+    display:grid;
+    grid-auto-columns:minmax(10px, auto);
+    gap: 10px;
+    grid-auto-rows: minmax(10px, auto);
+    margin-left: auto;
+    margin-right: auto;
+    width: 20em;
+    padding:1.2em;
+    background-color: #eeeeff;
+    border: thin solid black;
+
+}
+
+
+#label[for="email2"]
+{
+   grid-row: 1;
+   grid-column: 1;
+}
+
+#email2
+{
+   grid-row: 1;
+   grid-column: 2;
+   width:75%;
+
+}
+
+#label[for="password2"]
+{
+   grid-row: 2;
+   grid-column: 1;
+}
+
+#password2
+{
+   grid-row: 2;
+   grid-column: 2;
+   width:75%;
+
+}
+
+#but2
+{
+   grid-row: 3;
+   grid-column: 1;
+   width:75%;
+}
+
+#leg2
+{
+    border: thin solid rgb(90, 87, 87);
+    border-width:medium;
+    background-color: white;
+    padding: 0.25em;
+    width:60%;
+   
+}
+
+#reg_container
+{
+    display:grid;
+    grid-auto-columns:minmax(10px, auto);
+    gap: 10px;
+    grid-auto-rows: minmax(10px, auto);
+    margin-left: auto;
+    margin-right: auto;
+    width: 25em;
+    padding:1.2em;
+    background-color: #eeeeff;
+    border: thin solid black;
+
+}
+
+legend
+{
+    border: thin solid rgb(90, 87, 87);
+    border-width:medium;
+    background-color: white;
+    padding: 0.25em;
+    width:40%;
+   
+}
+
+#label[for="fname"]
+{
+   grid-row: 1;
+   grid-column: 1;
+}
+
+#fname
+{
+   grid-row: 1;
+   grid-column: 2;
+   width:75%;
+}
+
+#label[for="lname"]
+{
+   grid-row: 2;
+   grid-column: 1;
+}
+
+#lname
+{
+   grid-row: 2;
+   grid-column: 2;
+   width:75%;
+
+}
+
+#label[for="password"]
+{
+   grid-row: 3;
+   grid-column: 1;
+}
+
+#password
+{
+   grid-row: 3;
+   grid-column: 2;
+   width:75%;
+
+}
+
+#label[for="email"]
+{
+   grid-row: 4;
+   grid-column: 1;
+}
+
+#email
+{
+   grid-row: 4;
+   grid-column: 2;
+   width:75%;
+
+}
+
+#label[for="pnumber"]
+{
+   grid-row: 5;
+   grid-column: 1;
+}
+
+#pnumber
+{
+   grid-row: 5;
+   grid-column: 2;
+   width:75%;
+
+}
+
+#label[for="department"]
+{
+   grid-row: 6;
+   grid-column: 1;
+}
+
+#department
+{
+   grid-row: 6;
+   grid-column: 2;
+   width:75%;
+
+}
+
+#label[for="category"]
+{
+   grid-row: 7;
+   grid-column: 1;
+}
+
+#category
+{
+   grid-row: 7;
+   grid-column: 2;
+   width:75%;
+
+}
+
+
+
+/*
+ by: Robert Airth
+ date modified: 11/24/2020
+*/
+
 
 .ttl
 {
@@ -80,13 +502,25 @@ body
     font-family: Arial, Helvetica, sans-serif;
 }
 
+#AuditMenuItem
+{
+    text-align: center;
+    margin-right: auto;
+    margin-left: auto;
+    grid-row: 1;
+    grid-column: 3;
+    width: 300px;
+    font-size: 2em;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 #profileMenuItem
 {
     text-align: center;
     margin-right: auto;
     margin-left: auto;
     grid-row: 1;
-    grid-column: 2;
+    grid-column: 3;
     width: 300px;
     font-size: 2em;
     font-family: Arial, Helvetica, sans-serif;
@@ -114,10 +548,11 @@ body
 
 .eventListItem
 {    
-    display: grid;
+    /*display: grid; */
     grid-template-columns: 16.6% 16.6% 16.6% 16.6% 16.6% 16.6%;
     grid-auto-rows: minmax(2em, auto);
     border-style: groove;
+    padding-bottom: 2em;
 }
 
 .row-1-1
@@ -161,13 +596,15 @@ body
 {
     grid-row: 1;
     grid-column: 7;
+}
+
 
 .eventListItem
 {
     list-style: none;
 
 }
-
+/*
 #login_submit
 {
    grid-row: 3;
@@ -209,3 +646,4 @@ body
    grid-row: 2;
    grid-column: 2;
 }
+*/
