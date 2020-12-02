@@ -19,6 +19,7 @@ router.get("/", (req, res) => {
         else {
             res.status(200).json(inventoryItems);
         }
+    });
 });
   
 // Create a new inventory item
@@ -119,7 +120,7 @@ router.post("/:itemId/checkout", (req, res) => {
     if(req.body.checkoutReturnDate != ""){
         res.status(400).json({message: " return date should be blank "});
     }
-    else{
+    else {
         var checkoutLog = new checkoutLog({
             itemID: req.body.itemId,
             memberID: req.body.memberID,
