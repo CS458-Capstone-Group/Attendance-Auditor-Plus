@@ -105,7 +105,7 @@ router.post("/", (req, res) => {
                         category: req.body.category3d4f
                     });
         
-                    bcrypt.hash(req.body.password, 10, (err, hash) => {
+                    crypt.hash(req.body.password, 10, (err, hash) => {
                         if (err) {
                             console.error(err.message);
                             res.status(500).json({message: "Failure - could not create user"});
