@@ -497,6 +497,7 @@ legend
     padding:2vw;
     font-size: 2vw;
     font-family: Arial, Helvetica, sans-serif;
+    width: 15vw;
 }
 
 #inventoryMenuItem
@@ -512,6 +513,7 @@ legend
     border-style: solid;
     border-width: medium;
     font-family: Arial, Helvetica, sans-serif;
+    width: 15vw;
 }
 
 #AuditMenuItem
@@ -527,6 +529,7 @@ legend
     border-style: solid;
     border-width: medium;
     font-family: Arial, Helvetica, sans-serif;
+    width: 15vw;
 }
 
 #profileMenuItem
@@ -542,6 +545,7 @@ legend
     border-style: solid;
     border-width: medium;
     font-family: Arial, Helvetica, sans-serif;
+    width: 15vw;
 }
 
 .horizontalRule
