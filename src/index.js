@@ -39,7 +39,7 @@ db.once("open", () => {
 
     //app.get('/', checkAuthenticated, (req, res) => {
     app.get('/', (req, res) => {
-        res.render('index.ejs', {name: req.user.name})
+        res.render('index.ejs')
     });
 
     //app.get('/events', checkAuthenticated, (req, res) => {

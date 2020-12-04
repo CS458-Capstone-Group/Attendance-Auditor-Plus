@@ -1,0 +1,125 @@
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="shortcut icon" href="" type="image/x-icon">
+  <meta name="description" content="">
+  <title>attendanceauditor</title>
+  
+    <link href="./css/aap.css" rel="stylesheet">
+    <script src= "https://code.jquery.com/jquery-3.5.1.js"> </script> 
+    <script>
+        function memberProfile(){
+            document.location.href="./memberProfile";
+        }
+
+        function ePop(){
+            document.location.href="./index";
+        }
+
+        function invPop(){
+            document.location.href="./inventoryItems";
+        }
+
+        function audPop(){
+                document.location.href="./eventAudits";
+            }
+    </script>
+
+
+</head>
+
+<body onload ="ePop()">
+
+<%- include('header.ejs'); %>
+
+<hr/>
+<h1>List of Events</h1>
+<hr/>
+
+<table id="eventsTable">
+    <thead>
+        <th>Title</th>
+        <th>Description</th>
+        <th>DateTime</th>
+        <th>Capacity</th>
+        <th>Location</th>
+
+    </thead>
+    <tbody id="eventsTBody">
+
+        <script>
+            function ePop(){
+            $(document).ready(function (){
+                // Fetch Data
+                $.getJSON("http://localhost:5000/api/events",
+                        function (data){
+                            var dynEvents = '';
+
+                            // Iterating through objects
+                            $.each(data, function(key,value){
+                                
+                                //construction of rows having
+                                // data from JSON object
+                                dynEvents += '<tr>';
+                                dynEvents += '<td>' +
+                                    value.title + '</td>';
+                                
+                                dynEvents += '<td>' +
+                                    value.description + '</td>';
+ 
+                                dynEvents += '<td>' +
+                                    value.datetime + '</td>';
+
+                                dynEvents += '<td>' +
+                                    value.capacity + '</td>';
+
+                                dynEvents += '<td>' +
+                                    value.location + '</td>';                                   
+                                
+                                dynEvents += '</tr>';
+
+                        
+                            });
+                            //Insert row into table
+                            $('#eventsTBody').append(dynEvents);
+                        });
+            });
+        }
+        </script>
+
+    </tbody>
+
+</table>
+
+
+<hr/>
+<h2> Quick Event Add </h2>
+<form action="/login" method="POST">
+<legend id="lege"> Add Event to List </legend>
+<fieldset id="addEventForm">
+    <label for="etitle">Event Title</label>
+    <input type="text" id="etitle" name="etitle" required="required">
+
+    <label for="edesc">Item Description</label>
+    <input type="text" id="edesc" name="edesc" required="required">
+
+    <label for="edatetime"> DateTime</label>
+    <input type="text" id="edatetime" name="edatetime" required="required">
+
+    <label for="ecapacity">Capacity</label>
+    <input type="number" id="ecapacity" name="ecapacity" required="required">
+
+    <label for="elocation">Location</label>
+    <input type="text" id="elocation" name="elocation" required="required">
+
+    <button type="submit" id="ebut">Add Event</button>
+</fieldset>
+</form>
+
+
+</body>
+<hr/>
+<form action="/logout?_method=DELETE" method="POST">
+    <button type="submit">Logout </button>
+</form>

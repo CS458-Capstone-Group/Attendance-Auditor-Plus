@@ -3,7 +3,7 @@ Adrian css
 */
 
 body{
-   width:50%;
+   width:90%;
    margin-left: auto;
    margin-right:auto;
    background-color: #c2cdea;
@@ -402,6 +402,8 @@ legend
    grid-column: 1;
 }
 
+
+
 #department
 {
    grid-row: 6;
@@ -456,6 +458,8 @@ legend
 {
     grid-row: 1;
     grid-column: 1;
+    width:50vw;
+    margin:3vw;
 }
 
 
@@ -465,8 +469,10 @@ legend
     grid-row: 2;
     grid-column: 1;
     display: grid;
-    grid-template-columns: 50% 50%;
-    grid-auto-rows: minmax(2em, auto);
+    grid-template-columns: 20% 20% 20% 20% 20%;
+   /* grid-auto-rows: minmax(0.5em, auto);*/
+   grid-auto-rows:auto;
+   
 }
 
 #rightMenu
@@ -483,10 +489,13 @@ legend
     text-align: center;
     margin-right: auto;
     margin-left: auto;
+    background-color:white;
     grid-row: 1;
     grid-column: 1;
-    width: 300px;
-    font-size: 2em;
+    border-style: solid;
+    border-width: medium;
+    padding:2vw;
+    font-size: 2vw;
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -497,8 +506,10 @@ legend
     margin-left: auto;
     grid-row: 1;
     grid-column: 2;
-    width: 300px;
-    font-size: 2em;
+    font-size: 2vw;
+    padding:2vw;
+    border-style: solid;
+    border-width: medium;
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -509,8 +520,10 @@ legend
     margin-left: auto;
     grid-row: 1;
     grid-column: 3;
-    width: 300px;
-    font-size: 2em;
+    padding:2vw;
+    font-size: 2vw;
+    border-style: solid;
+    border-width: medium;
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -520,9 +533,11 @@ legend
     margin-right: auto;
     margin-left: auto;
     grid-row: 1;
-    grid-column: 3;
-    width: 300px;
-    font-size: 2em;
+    grid-column: 5;
+    width: 90%;
+    font-size: 2vw;
+    border-style: solid;
+    border-width: thick;
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -647,3 +662,36 @@ legend
    grid-column: 2;
 }
 */
+
+
+    table { 
+        margin: 0 auto; 
+        font-size: large; 
+        border: 1px solid black; 
+    } 
+
+    h1 { 
+        text-align: center; 
+        color: #006600; 
+        font-size: xx-large; 
+        font-family: 'Gill Sans',  
+            'Gill Sans MT', ' Calibri',  
+            'Trebuchet MS', 'sans-serif'; 
+    } 
+
+    td { 
+        background-color: #E4F5D4; 
+        border: 1px solid black; 
+    } 
+
+    th, 
+    td { 
+        font-weight: bold; 
+        border: 1px solid black; 
+        padding: 10px; 
+        text-align: center; 
+    } 
+
+    td { 
+        font-weight: lighter; 
+    } 
