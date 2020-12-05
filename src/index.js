@@ -18,6 +18,9 @@ const mongoose = require("mongoose");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 
+const Event = require("./models/event.js");
+const InventoryItem = require("./models/inventoryItem.js");
+
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -29,7 +32,7 @@ mongoose.connect(
 const db = mongoose.connection;
 db.on("error", () => console.error("connection error"));
 db.once("open", () => {
-  app.set("views", __dirname + "/views");
+  app.set("views", __dirname + "\\views");
   app.set("view-engine", "ejs");
   app.use(express.urlencoded({ extended: false })); // we wanna be able to access varaibles inside our posts reqs
   app.use(express.static(path.join(__dirname, "public")));
@@ -44,41 +47,45 @@ db.once("open", () => {
     next();
   });
 
-  //app.get('/', checkAuthenticated, (req, res) => {
   app.get("/", (req, res) => {
-    res.render("index.ejs");
-  });
+    Event.find({}, (err, events) => {
+      if (err) {
+        console.log(err.message);
+      }
 
-  //app.get('/events', checkAuthenticated, (req, res) => {
-  app.get("/index", (req, res) => {
-    res.render("index.ejs");
+      res.render("events.ejs", { events: events });
+    });
   });
 
   //app.post('/events', checkAuthenticated, (req, res) => {
-  app.post("/events", (req, res) => {
-    //res.render('index.ejs', {name: req.user.name})
-    res.render("index.ejs");
+  app.get("/events", (req, res) => {
+    Event.find({}, (err, events) => {
+      if (err) {
+        console.log(err.message);
+      }
+
+      res.render("events.ejs", { events: events });
+    });
   });
 
-  app.get("/inventoryItems", (req, res) => {
-    res.render("inventoryItems.ejs");
+  app.get("/events/:eventId", (req, res) => {
+    Event.findById(req.params.eventId, (err, event) => {
+      if (err) {
+        console.log(err.message);
+      }
+
+      res.render("eventDetails.ejs", { event: event });
+    });
   });
 
-  app.get("/memberProfile", (req, res) => {
-    res.render("memberProfile.ejs");
-  });
+  app.get("/inventory", (req, res) => {
+    InventoryItem.find({}, (err, items) => {
+      if (err) {
+        console.log(err.message);
+      }
 
-  app.post("/memberProfile", (req, res) => {
-    res.render("memberProfile.ejs");
-  });
-
-  //app.get('/login', checkNotAuthenticated, (req, res) => {
-  app.get("/login", (req, res) => {
-    res.render("login.ejs");
-  });
-
-  app.get("/register", (req, res) => {
-    res.render("register.ejs");
+      res.render("inventory.ejs", { items: items });
+    });
   });
 
   app.listen(port, () => {

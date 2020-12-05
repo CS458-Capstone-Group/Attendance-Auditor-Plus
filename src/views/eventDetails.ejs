@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="" type="image/x-icon">
+    <meta name="description" content="">
+    <title>attendanceauditor</title>
+
+    <link href="./css/aap.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <%- include('header.ejs'); %>
+
+    <h1><%= event.title %></h1>
+    <p><%= event.description %></p>
+    <p><%= event.datetime %></p>
+    <p><%= event.location %></p>
+    <p><%= event.capacity %></p>
+    <p><%= event.facilitators %></p>
+</body>
+
+</html>
