@@ -1,0 +1,58 @@
+<hr/>
+<h1>List of Events</h1>
+<hr/>
+
+<table id="eventsTable">
+    <thead>
+        <th>Title</th>
+        <th>Description</th>
+        <th>DateTime</th>
+        <th>Capacity</th>
+        <th>Location</th>
+
+    </thead>
+    <tbody id="eventsTBody">
+
+        <script>
+            function ePop(){
+            $(document).ready(function (){
+                // Fetch Data
+                $.getJSON("http://localhost:5000/api/events",
+                        function (data){
+                            var dynEvents = '';
+
+                            // Iterating through objects
+                            $.each(data, function(key,value){
+                                
+                                //construction of rows having
+                                // data from JSON object
+                                dynEvents += '<tr>';
+                                dynEvents += '<td>' +
+                                    value.title + '</td>';
+                                
+                                dynEvents += '<td>' +
+                                    value.description + '</td>';
+ 
+                                dynEvents += '<td>' +
+                                    value.datetime + '</td>';
+
+                                dynEvents += '<td>' +
+                                    value.capacity + '</td>';
+
+                                dynEvents += '<td>' +
+                                    value.location + '</td>';                                   
+                                
+                                dynEvents += '</tr>';
+
+                        
+                            });
+                            //Insert row into table
+                            $('#eventsTBody').append(dynEvents);
+                        });
+            });
+        }
+        </script>
+
+    </tbody>
+
+</table>

@@ -1,0 +1,35 @@
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="icon" href="/images/favicon/aapIcon.ico" type="image/x-icon">
+
+  <meta name="description" content="">
+  <title>attendanceauditor</title>
+    <link href="./css/aap.css" rel="stylesheet">
+    <div id="header">
+            <div id="headerLogo">
+                <img src="./images/AAPLogo.png" alt="Attendance Auditor Plus logo" title="Attendance Auditor Plus logo">
+</head>
+<h1>Login to see events!</h1>
+<hr/>
+
+<form action="/api/users/auth" method="POST">
+
+    <legend id="leg2"> Enter Email/Password </legend>
+    <fieldset id="log_container">
+        <label for="email2">Email</label>
+        <input type="text" id="email2" name="email" required="required">
+
+        <label for="password2">Password</label>
+        <input type="password" id="password2" name="password" required="required">
+        <button type="submit" id="but2">Login</button>
+    </fieldset>
+
+</form>
+<hr/>
+
+<form form action="/register" method="POST">
+    <fieldset id="rlog">
+        <p> Not a member?  <button type="submit">Register </button></p>
+    </fieldset>
+</form>
