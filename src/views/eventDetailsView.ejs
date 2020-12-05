@@ -12,7 +12,13 @@
 
 <body>
     <%- include('header.ejs'); %>
-    <%- include('upcomingEvents.ejs', {events: events}); %>
+    <%- include('eventDetailsHeader.ejs'); %>
+    <h1><%= event.title %></h1>
+    <p><%= event.description %></p>
+    <p><%= event.datetime %></p>
+    <p><%= event.location %></p>
+    <p><%= event.capacity %></p>
+    <p><%= event.facilitators %></p>
 </body>
 
 </html>

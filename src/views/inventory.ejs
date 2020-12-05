@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 
-<head>
+  <head>
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="" type="image/x-icon">
     <meta name="description" content="">
     <title>attendanceauditor</title>
-
+  
     <link href="./css/aap.css" rel="stylesheet">
-
-</head>
-
-<body>
+  
+  </head>
+  
+  <body>
+    
     <%- include('header.ejs'); %>
-    <%- include('upcomingEvents.ejs', {events: events}); %>
-</body>
-
-</html>
+    <%- include('inventoryheader.ejs'); %>
+    <%- include('inventoryItemList.ejs'); %>    
+  
+    </body>
+    
+  </html>

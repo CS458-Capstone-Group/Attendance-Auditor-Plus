@@ -64,6 +64,7 @@ db.once("open", () => {
         console.log(err.message);
       }
 
+      //res.render("eventsOrg.ejs", { events: events });
       res.render("events.ejs", { events: events });
     });
   });
@@ -74,7 +75,7 @@ db.once("open", () => {
         console.log(err.message);
       }
 
-      res.render("eventDetails.ejs", { event: event });
+      res.render("eventDetailsView.ejs", { event: event });
     });
   });
 
@@ -84,7 +85,8 @@ db.once("open", () => {
         console.log(err.message);
       }
 
-      res.render("inventoryList.ejs", { inventory: inventory });
+      res.render("inventory.ejs", { inventory: inventory });
+      //res.render("inventoryOrg.ejs", { inventory: inventory });
     });
   });
 

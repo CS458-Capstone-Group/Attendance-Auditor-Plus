@@ -585,7 +585,18 @@ legend
    width: 100%;
    padding: 1vw;
    margin: 1vw;
+   text-align: center;
 }
+
+.createEventButton
+{
+   margin-left: auto;
+   margin-right: auto;
+   font-size: 2.5vw;
+   height: 3vw;
+   width: 50%;
+}
+
 
 .eventListHeader
 {
@@ -620,7 +631,7 @@ legend
 {
    grid-row: 2;
    grid-column: 1;
-   font-size: 1.5vw;
+   font-size: 2vw;
    padding: 2vw;
 }
 
@@ -628,7 +639,7 @@ legend
 {
    grid-row: 2;
    grid-column: 2;
-   font-size: 1.5vw;
+   font-size: 2vw;
    text-align: center;
 }
 
@@ -637,16 +648,78 @@ legend
    grid-row: 1;
    grid-column: 2;
    text-align: center;
-   font-size: 1.5vw;
+   font-size: 2vw;
 }
 
+.eventControlsHeaderContainer
+{
+   display: grid;
+   width: 80%;
+   margin: auto;
+   grid-template-columns: 20% 20% 20% 20% 20%;
+   grid-auto-rows: minmax(auto, auto);
+}
+
+.eventSignInButton
+{
+   grid-row: 1;
+   grid-column: 1;
+   font-size: 1.75vw;
+}
+
+.eventEditButton
+{
+   grid-row: 1;
+   grid-column: 5;
+   font-size: 1.75vw;
+}
+
+.inventorySearchAddContainer
+{
+   display: grid;
+   width: 80%;
+   margin: auto;
+   grid-template-columns: 20% 20% 20% 20% 20%;
+   grid-auto-rows: minmax(auto, auto);
+}
+
+.searchForm
+{
+   grid-row: 1;
+   grid-column: 1/3; 
+   display: grid;
+   grid-template-columns: 60% 40%;
+   grid-auto-rows: minmax(auto, auto);
+}
+
+.inventorySearchField
+{
+   grid-row: 1;
+   grid-column: 1;
+   height: 2vw;
+   font-size: 1.75vw;
+}
+
+.inventorySearchButton
+{
+   grid-row: 1;
+   grid-column: 2;
+   font-size: 1.75vw;
+}
+
+.inventoryAddItemButton
+{
+   grid-row: 1;
+   grid-column: 5;
+   font-size: 1.75vw;
+}
 
 .inventoryItemContainer
 {
    background-color:white;
    width: 90%;  
    display: grid; 
-   grid-template-columns: 30% 70%;
+   grid-template-columns: 20% 80%;
    grid-template-rows: minmax(4vw, auto);
    border-style: groove;
    padding: 1vw;
@@ -658,12 +731,144 @@ legend
    grid-row: 1;
    grid-column: 1;
    font-weight: bold;
+   text-align: center;
 }
 
 .inventoryItemDesc
 {
    grid-row: 1;
    grid-column: 2;
+   text-align: left;
+}
+
+.inventoryItemViewContainer
+{
+   background-color:white;
+   width: 90%;  
+   display: grid; 
+   grid-template-columns: 20% 60% 20%;
+   grid-template-rows: minmax(1vw, auto);
+   border-style: groove;
+   padding: 1vw;
+   margin: 1vw;
+}
+
+.inventoryItemViewEditButton
+{
+   grid-row: 1;
+   grid-column: 3;
+   font-size: 1.75vw;
+   height: 3vw;
+}
+
+.inventoryItemViewName
+{
+   grid-row: 2;
+   grid-column: 1;
+   font-weight: bold;
+   text-align: center;
+   font-size: 1.75vw;
+}
+
+.inventoryItemViewDesc
+{
+   grid-row: 2;
+   grid-column: 2/3;
+   text-align: left;
+   font-size: 1.75vw;
+}
+
+.inventoryItemViewDetailsContainer
+{
+   grid-row: 3;
+   grid-column: 2;
+   display: grid;
+   grid-template-columns: 20% 80%;
+   grid-template-rows: minmax(auto, auto);
+}
+
+.inventoryItemViewSNLabel
+{
+   grid-row: 1;
+   grid-column: 1;
+   font-weight: bold;
+   font-size: 1.75vw;
+}
+
+.inventoryItemViewSNData
+{
+   grid-row: 1;
+   grid-column: 2;
+   font-size: 1.75vw;
+}
+
+.inventoryItemViewStockStatusLabel
+{
+   grid-row: 2;
+   grid-column: 1;
+   font-weight: bold;
+   font-size: 1.75vw;
+}
+
+.inventoryItemViewStockStatusData
+{
+   grid-row: 2;
+   grid-column: 2;
+   font-size: 1.75vw;
+}
+
+.inventoryItemViewCheckedOutByLabel
+{
+   grid-row: 2;
+   grid-column: 1;
+   font-weight: bold;
+   font-size: 1.75vw;
+}
+
+.inventoryItemViewCheckedOutByData
+{
+   grid-row: 2;
+   grid-column: 2;
+   font-size: 1.75vw;
+}
+
+.inventoryItemViewCheckedOutDateLabel
+{
+   grid-row: 3;
+   grid-column: 1;
+   font-weight: bold;
+   font-size: 1.75vw;
+}
+
+.inventoryItemViewCheckedOutDateData
+{
+   grid-row: 3;
+   grid-column: 2;
+   font-size: 1.75vw;
+}
+
+.inventoryItemViewIntendedReturnDateLabel
+{
+   grid-row: 4;
+   grid-column: 1;
+   font-weight: bold;
+   font-size: 1.75vw;
+}
+
+.inventoryItemViewIntendedReturnDateData
+{
+   grid-row: 4;
+   grid-column: 2;
+   font-weight: bold;
+   font-size: 1.75vw;
+}
+
+.inventoryItemViewCheckOutReturnButton
+{
+   grid-row: 3;
+   grid-column: 3;
+   font-size: 1.75vw;
+   height: 5vw;
 }
 
 .row-1-1

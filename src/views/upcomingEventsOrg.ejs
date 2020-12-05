@@ -1,0 +1,11 @@
+<div class="centerContainer">
+    <button class="createEventButton">Create Event</button>
+    <h1 class="eventListHeader">Upcoming Events</h1>
+
+    <% if (events) { %>
+    <% events.forEach(function(event) { %>
+    <%- include ("eventDetailsView", {event: event}); %>
+    <% }); %>
+    <% } %>
+
+</div>

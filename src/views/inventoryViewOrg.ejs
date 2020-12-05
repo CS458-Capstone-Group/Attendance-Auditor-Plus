@@ -1,0 +1,15 @@
+<div class="inventorySearchAddContainer">
+    <form class="searchForm">
+        <input class="inventorySearchField" type="text">
+        <input class="inventorySearchButton" type="submit">
+    </form>
+    <button class="inventoryAddItemButton">Add Item</button>
+</div>
+<% if (inventory) { %>
+    <a class="nostyle" href="/inventory/<%= inventory._id %>">
+        <div class="inventoryItemContainer">    
+            <p class="inventoryItemName"><%= inventory.name  %></p>
+            <p class="inventoryItemDesc"><%= inventory.sn %></p>
+        </div>
+    </a>
+    <% } %>
