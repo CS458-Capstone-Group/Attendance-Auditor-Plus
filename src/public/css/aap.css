@@ -629,6 +629,31 @@ legend
    text-align: center;
    font-size: 1.5vw;
 }
+
+
+.inventoryItemContainer
+{
+   background-color:white;
+   width: 90%;  
+   display: grid; 
+   grid-template-columns: 30% 70%;
+   grid-template-rows: minmax(4vw, auto);
+   border-style: groove;
+   padding: 1vw;
+   margin: 1vw;
+}
+
+.inventoryItemName
+{
+   grid-row: 1;
+   grid-column: 1;
+   font-weight: bold;
+}
+
+.inventoryItemDesc
+{
+   grid-row: 1;
+   grid-column: 2;
 }
 
 .row-1-1

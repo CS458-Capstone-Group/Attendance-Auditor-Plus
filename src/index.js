@@ -79,12 +79,12 @@ db.once("open", () => {
   });
 
   app.get("/inventory", (req, res) => {
-    InventoryItem.find({}, (err, items) => {
+    InventoryItem.find({}, (err, inventory) => {
       if (err) {
         console.log(err.message);
       }
 
-      res.render("inventory.ejs", { items: items });
+      res.render("inventoryList.ejs", { inventory: inventory });
     });
   });
 
