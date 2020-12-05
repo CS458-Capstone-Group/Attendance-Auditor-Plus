@@ -75,7 +75,8 @@ db.once("open", () => {
         console.log(err.message);
       }
 
-      res.render("eventDetailsView.ejs", { event: event });
+      res.render("eventDetails.ejs", { event: event });
+      //res.render("eventDetailsOrg.ejs", { event: event });
     });
   });
 
