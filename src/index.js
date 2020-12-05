@@ -29,7 +29,7 @@ mongoose.connect(
 const db = mongoose.connection;
 db.on("error", () => console.error("connection error"));
 db.once("open", () => {
-  app.set("views", __dirname + "/public/views");
+  app.set("views", __dirname + "/views");
   app.set("view-engine", "ejs");
   app.use(express.urlencoded({ extended: false })); // we wanna be able to access varaibles inside our posts reqs
   app.use(express.static(path.join(__dirname, "public")));
