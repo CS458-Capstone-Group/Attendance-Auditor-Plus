@@ -11,6 +11,16 @@ body{
    padding: 4em;
 }
 
+a.nostyle:link {
+   text-decoration: inherit;
+   color: inherit;
+}
+
+a.nostyle:visited {
+   text-decoration: inherit;
+   color: inherit;
+}
+
 #rlog
 {
    background-color: #c2cdea;
@@ -444,8 +454,8 @@ legend
 
 #header
 {
-    /* grid-row: 2;
-    grid-column: 3; */
+    grid-row: 2;
+    grid-column: 3; 
     width: 90%;
     margin-right: auto;
     margin-left: auto;
@@ -465,13 +475,13 @@ legend
 
 #leftMenu
 {
-
+   
     grid-row: 2;
     grid-column: 1;
     display: grid;
     grid-template-columns: 20% 20% 20% 20% 20%;
-   /* grid-auto-rows: minmax(0.5em, auto);*/
-   grid-auto-rows:auto;
+    grid-auto-rows: minmax(0.5em, auto);
+    grid-auto-rows:auto;
    
 }
 
@@ -495,20 +505,20 @@ legend
     border-style: solid;
     border-width: medium;
     padding:2vw;
-    font-size: 2vw;
+    font-size: 2.5vw;
     font-family: Arial, Helvetica, sans-serif;
     width: 15vw;
 }
 
 #inventoryMenuItem
 {
-   background-color:white;
+    background-color:white;
     text-align: center;
     margin-right: auto;
     margin-left: auto;
     grid-row: 1;
     grid-column: 2;
-    font-size: 2vw;
+    font-size: 2.5vw;
     padding:2vw;
     border-style: solid;
     border-width: medium;
@@ -516,16 +526,16 @@ legend
     width: 15vw;
 }
 
-#AuditMenuItem
+#auditMenuItem
 {
-   background-color:white;
+    background-color:white;
     text-align: center;
     margin-right: auto;
     margin-left: auto;
     grid-row: 1;
     grid-column: 3;
     padding:2vw;
-    font-size: 2vw;
+    font-size: 2.5vw;
     border-style: solid;
     border-width: medium;
     font-family: Arial, Helvetica, sans-serif;
@@ -535,17 +545,17 @@ legend
 #profileMenuItem
 {
    background-color:white;
-    text-align: center;
-    margin-right: auto;
-    margin-left: auto;
-    grid-row: 1;
-    grid-column: 5;
-    width: 90%;
-    font-size: 2vw;
-    border-style: solid;
-    border-width: medium;
-    font-family: Arial, Helvetica, sans-serif;
-    width: 15vw;
+   text-align: center;
+   margin-right: auto;
+   margin-left: auto;
+   grid-row: 1;
+   grid-column: 5;
+   font-size: 2.5vw;
+   padding:2vw;
+   border-style: solid;
+   border-width: medium;
+   font-family: Arial, Helvetica, sans-serif;
+   width: 15vw;
 }
 
 .horizontalRule
