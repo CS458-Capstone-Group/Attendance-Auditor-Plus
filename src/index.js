@@ -97,7 +97,7 @@ db.once("open", () => {
       if (err) {
         console.error(err.message);
       }
-      else if (user) {
+      else if (user !== []) {
         res.json({ message: "email already in use" });
       }
       else {
@@ -126,24 +126,29 @@ db.once("open", () => {
             email: req.body.email,
             phone: req.body.phone,
             department: req.body.department,
-            category: req.body.category,
-            password: req.body.password
+            category: req.body.category
           });
 
-          user.save((err, user) => {
+          bcrypt.hash(req.body.password, 10, (err) => {
             if (err) {
               console.error(err.message);
-              res.json({ message: "unable to save user" });
+              res.send({ message: "unable to hash password" });
             }
             else {
-              res.json({ message: "user saved successfully" });
+              user.save((err) => {
+                if (err) {
+                  console.error(err.message);
+                  res.json({ message: "unable to save user" });
+                }
+                else {
+                  res.json({ message: "user saved successfully" });
+                }
+              });
             }
           });
         }
       }
     });
-
-
   });
 
   app.listen(port, () => {
