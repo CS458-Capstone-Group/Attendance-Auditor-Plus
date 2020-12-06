@@ -129,12 +129,14 @@ db.once("open", () => {
             category: req.body.category
           });
 
-          bcrypt.hash(req.body.password, 10, (err) => {
+          bcrypt.hash(req.body.password, 10, (err, hashedPassowrd) => {
             if (err) {
               console.error(err.message);
               res.send({ message: "unable to hash password" });
             }
             else {
+              user.password = hashedPassword;
+
               user.save((err) => {
                 if (err) {
                   console.error(err.message);
