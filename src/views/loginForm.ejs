@@ -1,0 +1,11 @@
+<%- include('header.ejs'); %>
+<form action="/login" method="POST">
+    <label for="email">Email Address: </label> 
+    <input type="text" name="email" id="email" required="required">
+
+    <label for="password">Password: </label>
+    <input type="password" name="password" id="password" required="required">
+
+    <input type="submit" name="submitButton" id="submitButton" value="Submit">
+</form>
+<%- include('footer.ejs'); %>
