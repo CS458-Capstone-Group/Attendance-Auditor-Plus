@@ -1,0 +1,23 @@
+
+  <%- include('../headerOrg.ejs'); %>
+  <div class="centerContainer">
+    <button class="createEventButton">Create Event</button>
+    <h1 class="eventListHeader">Upcoming Events</h1>
+
+    <% if (events) { %>
+    <% events.forEach(function(event) { %>
+      <% if (event) { %>
+        <a class="nostyle" href="/events/<%= event._id %>">
+            <div class="eventListItem">
+                <h3 class="eventListItemName"><%= event.title; %></h3>
+                <p class="eventListItemDesc"><%= event.description %></p>
+                <p class="eventListItemDatetime"><%= event.datetime %></p>
+                <p class="eventListItemLocation"><%= event.location %></p>
+            </div>
+        </a>
+        <% } %>
+    <% }); %>
+    <% } %>
+
+</div>
+  <%- include('../headerOrg.ejs'); %>

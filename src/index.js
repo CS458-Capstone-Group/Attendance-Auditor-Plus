@@ -52,6 +52,8 @@ db.once("open", () => {
   });
 
   app.get("/", (req, res) => {
+    //res.render("inventoryItemDetailsView.ejs");
+    //res.render("eventDetailsOrg.ejs");
     //res.render("eventEditFormOrg.ejs");
     //res.render("eventCreateFormOrg.ejs");
     //res.render("inventoryItemCreateFormOrg.ejs");
@@ -71,10 +73,10 @@ db.once("open", () => {
           console.log(err.message);
         }
         else if(!user || (user.category !== "organizer" && user.category !== "admin")){          
-          res.render("events.ejs", { events: events });
+          res.render("./events/events.ejs", { events: events });
         }
         else{
-          res.render("eventsOrg.ejs", { events: events });
+          res.render("./events/eventsOrg.ejs", { events: events });
         }
         
       });     
@@ -91,10 +93,10 @@ db.once("open", () => {
           console.log(err.message);
         }
         else if(!user || (user.category !== "organizer" && user.category !== "admin")){          
-          res.render("eventDetails.ejs", { event: event });
+          res.render("./events/eventDetails.ejs", { event: event });
         }
         else{
-          res.render("eventDetailsOrg.ejs", { event: event });
+          res.render("./events/eventDetailsOrg.ejs", { event: event });
         }
         
       });
@@ -111,10 +113,10 @@ db.once("open", () => {
           console.log(err.message);
         }
         else if(!user || (user.category !== "organizer" && user.category !== "admin")){          
-          res.render("inventory.ejs",{ inventory: inventory });
+          res.render("./inventory/inventory.ejs",{ inventory: inventory });
         }
         else{
-          res.render("inventoryOrg.ejs", { inventory: inventory });
+          res.render("./inventory/inventoryOrg.ejs", { inventory: inventory });
         }
         
       });
@@ -124,12 +126,32 @@ db.once("open", () => {
     });
   });
 
+  app.get("/inventory/:inventoryId", (req, res) => {
+    InventoryItem.findById(req.params.inventoryId, (err, item) => {
+      if (err) {
+        console.log(err.message);
+      }
+      User.findById( auth.sessions[req.cookies.session], (err, user) => {        
+        if (err) {
+          console.log(err.message);
+        }
+        else if(!user || (user.category !== "organizer" && user.category !== "admin")){          
+          res.render("./inventory/inventoryItemDetails.ejs", { item: item });
+        }
+        else{
+          res.render("./inventory/inventoryItemDetailsOrg.ejs", { item: item });
+        }
+        
+      });
+    });
+  });
+
   app.get("/profile",  (req, res) => {
     if(auth.sessions[req.cookies.session]){
-      res.render("profile.ejs");
+      res.render("./profile/profile.ejs");
     }
     else{
-      res.redirect("/login");
+      res.redirect("login");
     }        
   });
 
@@ -139,7 +161,7 @@ db.once("open", () => {
       res.redirect("/events");
     }
     else{
-      res.render("loginForm.ejs");
+      res.render("./profile/loginForm.ejs");
     }        
   });
 
@@ -183,7 +205,7 @@ db.once("open", () => {
   });
 
   app.get("/register", (req, res) => {
-        res.render("registerUserForm.ejs");
+        res.render("./profile/registerUserForm.ejs");
   });
   app.post("/register", (req, res) => {
     User.findOne({ email: req.body.email }, (err, user) => {

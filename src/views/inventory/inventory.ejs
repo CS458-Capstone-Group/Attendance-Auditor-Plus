@@ -1,0 +1,25 @@
+<%- include('../header.ejs'); %>
+
+<div class="inventorySearchAddContainer">
+    <form class="searchForm">
+        <input class="inventorySearchField" type="text">
+        <input class="inventorySearchButton" type="submit">
+    </form>
+
+</div>
+
+<% if (inventory) { %>
+<% inventory.forEach(function(inventory) { %>
+<% if (inventory) { %>
+<a class="nostyle" href="/inventory/<%= inventory._id %>">
+    <div class="inventoryItemContainer">
+        <p class="inventoryItemName"><%= inventory.name  %></p>
+        <p class="inventoryItemDesc"><%= inventory.sn %></p>
+    </div>
+</a>
+<% } 
+        %>
+<% }); %>
+<% } %>
+
+<%- include('../footer.ejs'); %>
