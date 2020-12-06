@@ -1,0 +1,21 @@
+<div class="centerContainer">
+
+    <h1 class="eventListHeader">Upcoming Events</h1>
+
+    <% if (events) { %>
+    <% events.forEach(function(event) { %>
+    <%- <div class="centerContainer">
+
+        <h1 class="eventListHeader">Upcoming Events</h1>
+    
+        <% if (events) { %>
+        <% events.forEach(function(event) { %>
+        <%- include ("eventView", {event: event}); %>
+        <% }); %>
+        <% } %>
+    
+    </div> %>
+    <% }); %>
+    <% } %>
+
+</div>

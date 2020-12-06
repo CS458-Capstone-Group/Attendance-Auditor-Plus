@@ -1,18 +1,24 @@
-<!DOCTYPE html>
 
-<head>
-    <meta charset="UTF-8">
-    <link rel="shortcut icon" href="" type="image/x-icon">
-    <meta name="description" content="">
-    <title>attendanceauditor</title>
+<%- include('header.ejs'); %>
+    <div class="centerContainer">
 
-    <link href="./css/aap.css" rel="stylesheet">
-
-</head>
-
-<body>
-    <%- include('header.ejs'); %>
-    <%- include('upcomingEvents.ejs', {events: events}); %>
-</body>
-
-</html>
+        <h1 class="eventListHeader">Upcoming Events</h1>
+    
+        <% if (events) { %>
+        <% events.forEach(function(event) { %>
+        <%- <div class="centerContainer">
+    
+            <h1 class="eventListHeader">Upcoming Events</h1>
+        
+            <% if (events) { %>
+            <% events.forEach(function(event) { %>
+            <%- include ("eventView", {event: event}); %>
+            <% }); %>
+            <% } %>
+        
+        </div> %>
+        <% }); %>
+        <% } %>
+    
+    </div>
+<%- include('footer.ejs'); %>
