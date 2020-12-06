@@ -1,11 +1,13 @@
 <%- include('headerBare.ejs'); %>
-<form action="/login" method="POST">
-    <label for="email">Email Address: </label> 
-    <input type="text" name="email" id="email" required="required">
+<h1 class="formHeader">Log In</h1>
+<form class="formContainer" action="/login" method="POST">
+    <label class="formElement1-1" for="email">Email Address: </label> 
+    <input class="formElement1-2" type="text" name="email" id="email" required="required">
+    <label class="formElement2-1" for="password">Password: </label>
+    <input class="formElement2-2" type="password" name="password" id="password" required="required">
 
-    <label for="password">Password: </label>
-    <input type="password" name="password" id="password" required="required">
-
-    <input type="submit" name="submitButton" id="submitButton" value="Submit">
+    <input class="formElement3-2 formSubmitButton" type="submit" name="submitButton" id="submitButton" value="Submit">
 </form>
+
+<a class="pageText" href="/register">Not a registered user? Click here to create an account.</a>
 <%- include('footer.ejs'); %>

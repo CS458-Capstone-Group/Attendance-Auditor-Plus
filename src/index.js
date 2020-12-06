@@ -52,7 +52,9 @@ db.once("open", () => {
   });
 
   app.get("/", (req, res) => {
-    res.redirect("/events");
+    res.render("inventoryItemCreateForm.ejs");
+    //res.render("inventoryItemDetailsEditForm.ejs");
+    //res.redirect("/events");
   });
 
   //app.post('/events', checkAuthenticated, (req, res) => {
@@ -82,9 +84,18 @@ db.once("open", () => {
       if (err) {
         console.log(err.message);
       }
-
-      //res.render("eventDetails.ejs", { event: event });
-      res.render("eventDetailsOrg.ejs", { event: event });
+      User.findById( auth.sessions[req.cookies.session], (err, user) => {        
+        if (err) {
+          console.log(err.message);
+        }
+        else if(!user || (user.category !== "organizer" && user.category !== "admin")){          
+          res.render("eventDetails.ejs", { event: event });
+        }
+        else{
+          res.render("eventDetailsOrg.ejs", { event: event });
+        }
+        
+      });
     });
   });
 
@@ -111,7 +122,15 @@ db.once("open", () => {
     });
   });
 
-  //app.get("/profile")
+  app.get("/profile",  (req, res) => {
+    if(auth.sessions[req.cookies.session]){
+      res.render("profile.ejs");
+    }
+    else{
+      res.redirect("/login");
+    }        
+  });
+
 
   app.get("/login", (req, res) => {
     if(auth.sessions[req.cookies.session]){
@@ -119,8 +138,7 @@ db.once("open", () => {
     }
     else{
       res.render("loginForm.ejs");
-    }
-        
+    }        
   });
 
   app.post("/login", (req, res) => {
