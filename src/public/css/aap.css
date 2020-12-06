@@ -597,6 +597,12 @@ legend
    width: 50%;
 }
 
+.loginHeader
+{
+  text-align: center;
+  font-size: 3vw;   
+}
+
 
 .eventListHeader
 {

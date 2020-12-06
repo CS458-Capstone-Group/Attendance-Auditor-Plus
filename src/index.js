@@ -52,13 +52,7 @@ db.once("open", () => {
   });
 
   app.get("/", (req, res) => {
-    Event.find({}, (err, events) => {
-      if (err) {
-        console.log(err.message);
-      }
-
-      res.render("events.ejs", { events: events });
-    });
+    res.redirect("/events");
   });
 
   //app.post('/events', checkAuthenticated, (req, res) => {
@@ -68,8 +62,18 @@ db.once("open", () => {
         console.log(err.message);
       }
 
-      res.render("eventsOrg.ejs", { events: events });
-      //res.render("events.ejs", { events: events });
+      User.findById( auth.sessions[req.cookies.session], (err, user) => {        
+        if (err) {
+          console.log(err.message);
+        }
+        else if(!user || (user.category !== "organizer" && user.category !== "admin")){          
+          res.render("events.ejs", { events: events });
+        }
+        else{
+          res.render("eventsOrg.ejs", { events: events });
+        }
+        
+      });     
     });
   });
 
@@ -89,14 +93,73 @@ db.once("open", () => {
       if (err) {
         console.log(err.message);
       }
+      User.findById( auth.sessions[req.cookies.session], (err, user) => {        
+        if (err) {
+          console.log(err.message);
+        }
+        else if(!user || (user.category !== "organizer" && user.category !== "admin")){          
+          res.render("inventory.ejs",{ inventory: inventory });
+        }
+        else{
+          res.render("inventoryOrg.ejs", { inventory: inventory });
+        }
+        
+      });
 
-      res.render("inventory.ejs", { inventory: inventory });
+      //res.render("inventory.ejs", { inventory: inventory });
       //res.render("inventoryOrg.ejs", { inventory: inventory });
     });
   });
 
+  //app.get("/profile")
+
   app.get("/login", (req, res) => {
-    res.render("loginForm.ejs");
+    if(auth.sessions[req.cookies.session]){
+      res.redirect("/events");
+    }
+    else{
+      res.render("loginForm.ejs");
+    }
+        
+  });
+
+  app.post("/login", (req, res) => {
+    if(auth.sessions[req.cookies.session]){
+      res.redirect("/events");
+    }
+    else{
+      if (!req.body.email || req.body.email.trim() === "") {
+        res.json({ message: "missing email" });
+      }
+      else if (!req.body.password || req.body.password.trim() == "") {
+        res.json({ message: "missing password" });
+      }
+
+      User.findOne({ email: req.body.email }, (err, user) => {
+        if (err) {
+          console.error(err);
+          res.json({ message: "something messed up" });
+        }
+        else if (!user) {
+          res.json({ message: "no account with email/password combination" });
+        }
+        else {
+          bcrypt.compare(req.body.password, user.password, function (err, result) {
+            if (err) {
+              console.log(err);
+            }
+            else if (!result) {
+              res.json({ message: "try agin" });
+            }
+            else {
+              auth.sessions[req.cookies.session] = user._id;
+              //res.json({ message: "Successful Login!"});
+              res.redirect("/events");
+            }
+          });
+        }
+      });
+    }
   });
 
   app.get("/register", (req, res) => {
@@ -163,37 +226,7 @@ db.once("open", () => {
     });
   });
 
-  app.post("/login", (req, res) => {
-    if (!req.body.email || req.body.email.trim() === "") {
-      res.json({ message: "missing email" });
-    }
-    else if (!req.body.password || req.body.password.trim() == "") {
-      res.json({ message: "missing password" });
-    }
-
-    User.findOne({ email: req.body.email }, (err, user) => {
-      if (err) {
-        console.error(err);
-        res.json({ message: "something messed up" });
-      }
-      else if (!user) {
-        res.json({ message: "no account with email/password combination" });
-      }
-      else {
-        bcrypt.compare(req.body.password, user.password, function (err, result) {
-          if (err) {
-            console.log(err);
-          }
-          else if (!result) {
-            res.json({ message: "try agin" });
-          }
-          else {
-            auth.sessions[req.cookies.session] = user._id;
-          }
-        });
-      }
-    });
-  });
+  
 
   app.listen(port, () => {
     console.log("Listening on port " + port + "...");
