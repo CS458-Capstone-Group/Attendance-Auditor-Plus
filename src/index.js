@@ -17,6 +17,7 @@ const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
 const path = require("path");
 const cookieParser = require("cookie-parser");
+const auth = require("./auth.js");
 
 const Event = require("./models/event.js");
 const InventoryItem = require("./models/inventoryItem.js");
@@ -44,6 +45,8 @@ db.once("open", () => {
       var r = Math.random().toString();
       res.cookie("session", r.substring(2));
     }
+
+    console.log(JSON.stringify(auth.sessions));
 
     next();
   });
@@ -156,6 +159,38 @@ db.once("open", () => {
             }
           });
         }
+      }
+    });
+  });
+
+  app.post("/login", (req, res) => {
+    if (!req.body.email || req.body.email.trim() === "") {
+      res.json({ message: "missing email" });
+    }
+    else if (!req.body.password || req.body.password.trim() == "") {
+      res.json({ message: "missing password" });
+    }
+
+    User.findOne({ email: req.body.email }, (err, user) => {
+      if (err) {
+        console.error(err);
+        res.json({ message: "something messed up" });
+      }
+      else if (!user) {
+        res.json({ message: "no account with email/password combination" });
+      }
+      else {
+        bcrypt.compare(req.body.password, user.password, function (err, result) {
+          if (err) {
+            console.log(err);
+          }
+          else if (!result) {
+            res.json({ message: "try agin" });
+          }
+          else {
+            auth.sessions[req.cookies.session] = user._id;
+          }
+        });
       }
     });
   });
