@@ -64,8 +64,8 @@ db.once("open", () => {
         console.log(err.message);
       }
 
-      //res.render("eventsOrg.ejs", { events: events });
-      res.render("events.ejs", { events: events });
+      res.render("eventsOrg.ejs", { events: events });
+      //res.render("events.ejs", { events: events });
     });
   });
 
@@ -75,8 +75,8 @@ db.once("open", () => {
         console.log(err.message);
       }
 
-      res.render("eventDetails.ejs", { event: event });
-      //res.render("eventDetailsOrg.ejs", { event: event });
+      //res.render("eventDetails.ejs", { event: event });
+      res.render("eventDetailsOrg.ejs", { event: event });
     });
   });
 
