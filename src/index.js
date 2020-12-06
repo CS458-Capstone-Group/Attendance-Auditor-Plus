@@ -95,6 +95,9 @@ db.once("open", () => {
     });
   });
 
+  app.get("/register", (req, res) => {
+        res.render("registerUserForm.ejs");
+  });
   app.post("/register", (req, res) => {
     User.findOne({ email: req.body.email }, (err, user) => {
       if (err) {
