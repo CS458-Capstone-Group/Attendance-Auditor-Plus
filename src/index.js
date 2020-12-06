@@ -93,30 +93,30 @@ db.once("open", () => {
   });
 
   app.post("/register", (req, res) => {
-    User.find({ email: req.body.email }, (err, user) => {
+    User.findOne({ email: req.body.email }, (err, user) => {
       if (err) {
         console.error(err.message);
       }
-      else if (user !== []) {
+      else if (user) {
         res.json({ message: "email already in use" });
       }
       else {
         if (!req.body.fname || req.body.fname.trim() === "") {
           res.json({ message: "missing fname" });
         }
-        else if (!req.body.lname || req.body.lname === "") {
+        else if (!req.body.lname || req.body.lname.trim() === "") {
           res.json({ message: "missing lname" });
         }
-        else if (!req.body.password || req.body.password === "") {
+        else if (!req.body.password || req.body.password.trim() === "") {
           res.json({ message: "missing password" });
         }
-        else if (!req.body.category || req.body.category === "") {
+        else if (!req.body.category || req.body.category.trim() === "") {
           res.json({ message: "missing category" })
         }
-        else if (!req.body.email || req.body.email === "") {
+        else if (!req.body.email || req.body.email.trim() === "") {
           res.json({ message: "missing email" });
         }
-        else if (req.body.category === "organizer" || req.body.category === "admin") {
+        else if (req.body.category.trim() === "organizer" || req.body.category.trim() === "admin") {
           res.json({ message: "only admins can create these types of accounts" });
         }
         else {
