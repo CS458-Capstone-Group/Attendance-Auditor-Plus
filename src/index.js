@@ -92,6 +92,10 @@ db.once("open", () => {
     });
   });
 
+  app.get("/login", (req, res) => {
+    res.render("loginForm.ejs");
+  });
+
   app.get("/register", (req, res) => {
         res.render("registerUserForm.ejs");
   });
@@ -132,7 +136,7 @@ db.once("open", () => {
             category: req.body.category
           });
 
-          bcrypt.hash(req.body.password, 10, (err, hashedPassowrd) => {
+          bcrypt.hash(req.body.password, 10, (err, hashedPassword) => {
             if (err) {
               console.error(err.message);
               res.send({ message: "unable to hash password" });
