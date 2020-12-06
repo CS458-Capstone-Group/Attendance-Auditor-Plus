@@ -52,8 +52,10 @@ db.once("open", () => {
   });
 
   app.get("/", (req, res) => {
-    res.render("inventoryItemCreateForm.ejs");
-    //res.render("inventoryItemDetailsEditForm.ejs");
+    res.render("eventEditFormOrg.ejs");
+    //res.render("eventCreateFormOrg.ejs");
+    //res.render("inventoryItemCreateFormOrg.ejs");
+    //res.render("inventoryItemDetailsEditFormOrg.ejs");
     //res.redirect("/events");
   });
 

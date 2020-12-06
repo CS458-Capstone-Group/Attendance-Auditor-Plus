@@ -1,0 +1,22 @@
+<%- include("headerOrg.ejs"); %>
+<h1 class="formHeader">Edit Event</h1>
+<form class="formContainer">
+    <label for="title" class="formElement1-1"> Event Title: </label>
+    <input type="text" name="title" class="formElement1-2" required="required" placeholder="Test Event 1">
+
+    <label for="description" class="formElement2-1">Event Description: </label>
+    <input type="textarea" name="description" class="formElement2-2" placeholder="How to HTML">
+
+    <label for="datetime" class="formElement3-1">Event Datetime: </label>
+    <input type="text" name="datetime" class="formElement3-2" required="required" placeholder="2021-01-04T00:00:00.000+00:00">
+
+    <label for="capacity" class="formElement4-1">Event Capacity: </label>
+    <input type="text" name="capacity" class="formElement4-2" placeholder="20">
+
+    <label for="location" class="formElement5-1">Event Location: </label>
+    <input type="text" name="location" class="formElement5-2" placeholder="BSS-313">
+
+    <input class="formElement6-2 formSubmitButton" type="submit" name="submitButton" id="submitButton" value="Save">
+    </div>
+</form
+<%- include("footer.ejs"); %>
