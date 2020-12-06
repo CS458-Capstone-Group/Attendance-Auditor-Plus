@@ -52,11 +52,11 @@ db.once("open", () => {
   });
 
   app.get("/", (req, res) => {
-    res.render("eventEditFormOrg.ejs");
+    //res.render("eventEditFormOrg.ejs");
     //res.render("eventCreateFormOrg.ejs");
     //res.render("inventoryItemCreateFormOrg.ejs");
     //res.render("inventoryItemDetailsEditFormOrg.ejs");
-    //res.redirect("/events");
+    res.redirect("/events");
   });
 
   //app.post('/events', checkAuthenticated, (req, res) => {
