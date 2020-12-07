@@ -1,23 +1,31 @@
+<%- include('../headerOrg.ejs'); %>
+<div class="centerContainer">
+  <a class="createEventButton" href="/events/create">Create Event</a>
 
-  <%- include('../headerOrg.ejs'); %>
-  <div class="centerContainer">
-    <button class="createEventButton">Create Event</button>
-    <h1 class="eventListHeader">Upcoming Events</h1>
+  <h1 class="eventListHeader">Upcoming Events</h1>
 
-    <% if (events) { %>
-    <% events.forEach(function(event) { %>
-      <% if (event) { %>
-        <a class="nostyle" href="/events/<%= event._id %>">
-            <div class="eventListItem">
-                <h3 class="eventListItemName"><%= event.title; %></h3>
-                <p class="eventListItemDesc"><%= event.description %></p>
-                <p class="eventListItemDatetime"><%= event.datetime %></p>
-                <p class="eventListItemLocation"><%= event.location %></p>
-            </div>
-        </a>
-        <% } %>
-    <% }); %>
-    <% } %>
+  <% if (events) { %>
+  <% events.forEach(function(event) { %>
+  <% if (event) { %>
+  <a class="nostyle" href="/events/<%= event._id %>">
+    <div class="eventListItem">
+      <h3 class="eventListItemName"><%= event.title; %></h3>
+      <p class="eventListItemDesc"><%= event.description %></p>
+      <p class="eventListItemDatetime"><%= event.datetime %></p>
+      <p class="eventListItemLocation"><%= event.location %></p>
+    </div>
+  </a>
+  <% } %>
+  <% }); %>
+  <% } %>
 
 </div>
-  <%- include('../headerOrg.ejs'); %>
+<script>
+  var createEventButton = querySelector(".createEventButton");
+  var createEventDiv = querySelector("#createEventDiv");
+
+  createEventButton.addEventListener("click", (event) => {
+    createEventDiv.style.height = "200px";
+  });
+</script>
+<%- include('../footer.ejs'); %>

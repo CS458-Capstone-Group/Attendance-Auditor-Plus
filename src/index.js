@@ -46,40 +46,84 @@ db.once("open", () => {
       res.cookie("session", r.substring(2));
     }
 
-    console.log(JSON.stringify(auth.sessions));
-
     next();
   });
 
   app.get("/", (req, res) => {
-    //res.render("inventoryItemDetailsView.ejs");
-    //res.render("eventDetailsOrg.ejs");
-    //res.render("eventEditFormOrg.ejs");
-    //res.render("eventCreateFormOrg.ejs");
-    //res.render("inventoryItemCreateFormOrg.ejs");
-    //res.render("inventoryItemDetailsEditFormOrg.ejs");
     res.redirect("/events");
   });
 
+  app.get("/events/create", (req, res) => {
+    User.findById(auth.sessions[req.cookies.session], (err, user) => {
+      if (err) {
+        console.log(err.message);
+      }
+      else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
+        res.redirect("/events");
+      }
+      else {
+        res.render("./events/eventCreateFormOrg.ejs");
+      }
+    });
+  });
+
+  app.post("/events", (req, res) => {
+    User.findById(auth.sessions[req.cookies.session], (err, user) => {
+      if (err) {
+        console.log(err.message);
+      }
+      else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
+        res.redirect("/events");
+      }
+      else {
+        if (!req.body.title || req.body.title.trim() === "") {
+          res.json({ message: "missing title" });
+        }
+        else if (!req.body.datetime || req.body.datetime.trim() === "") {
+          res.json({ message: "missing datetime" });
+        }
+
+        var event = new Event({
+          title: req.body.title,
+          description: req.body.description,
+          datetime: req.body.datetime,
+          capacity: req.body.capacity,
+          location: req.body.location
+        });
+
+        event.save((err) => {
+          if (err) {
+            console.error(err);
+            res.json({ message: "could not save event" });
+          }
+          else {
+            res.redirect("/events");
+          }
+        });
+      }
+    });
+  });
+
+
+
   //app.post('/events', checkAuthenticated, (req, res) => {
   app.get("/events", (req, res) => {
-    Event.find({}, (err, events) => {
+    Event.find({ datetime: { $gt: new Date() } }).sort("datetime").exec((err, events) => {
       if (err) {
         console.log(err.message);
       }
 
-      User.findById( auth.sessions[req.cookies.session], (err, user) => {        
+      User.findById(auth.sessions[req.cookies.session], (err, user) => {
         if (err) {
           console.log(err.message);
         }
-        else if(!user || (user.category !== "organizer" && user.category !== "admin")){          
+        else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
           res.render("./events/events.ejs", { events: events });
         }
-        else{
+        else {
           res.render("./events/eventsOrg.ejs", { events: events });
         }
-        
-      });     
+      });
     });
   });
 
@@ -88,18 +132,76 @@ db.once("open", () => {
       if (err) {
         console.log(err.message);
       }
-      User.findById( auth.sessions[req.cookies.session], (err, user) => {        
+      User.findById(auth.sessions[req.cookies.session], (err, user) => {
         if (err) {
           console.log(err.message);
         }
-        else if(!user || (user.category !== "organizer" && user.category !== "admin")){          
+        else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
           res.render("./events/eventDetails.ejs", { event: event });
         }
-        else{
+        else {
           res.render("./events/eventDetailsOrg.ejs", { event: event });
         }
-        
+
       });
+    });
+  });
+
+  app.post("/events/:eventId", (req, res) => {
+    User.findById(auth.sessions[req.cookies.session], (err, user) => {
+      if (err) {
+        console.log(err.message);
+      }
+      else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
+        res.redirect("/events");
+      }
+      else {
+        Event.findByIdAndUpdate(req.params.eventId,
+          {
+            title: req.body.title,
+            description: req.body.description,
+            datetime: req.body.datetime,
+            capacity: req.body.capacity,
+            location: req.body.location
+          },
+          (err) => {
+            if (err) {
+              console.error(err);
+            }
+
+            res.redirect("/events");
+          });
+      }
+    });
+  });
+
+  app.post("/events/:eventId/delete", (req, res) => {
+    User.findById(auth.sessions[req.cookies.session], (err, user) => {
+      if (err) {
+        console.log(err.message);
+      }
+      else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
+        res.redirect("/events");
+      }
+      else {
+        Event.findByIdAndDelete(req.params.eventId, (err) => {
+          if (err) {
+            console.error(err.message);
+          }
+
+          res.redirect("/events");
+        });
+      }
+    });
+  });
+
+  app.get("/events/:eventId/edit", (req, res) => {
+    Event.findById(req.params.eventId, (err, event) => {
+      if (err) {
+        console.error(err);
+      }
+
+      res.render("./events/eventEditFormOrg.ejs", { event: event });
     });
   });
 
@@ -108,17 +210,17 @@ db.once("open", () => {
       if (err) {
         console.log(err.message);
       }
-      User.findById( auth.sessions[req.cookies.session], (err, user) => {        
+      User.findById(auth.sessions[req.cookies.session], (err, user) => {
         if (err) {
           console.log(err.message);
         }
-        else if(!user || (user.category !== "organizer" && user.category !== "admin")){          
-          res.render("./inventory/inventory.ejs",{ inventory: inventory });
+        else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
+          res.render("./inventory/inventory.ejs", { inventory: inventory });
         }
-        else{
+        else {
           res.render("./inventory/inventoryOrg.ejs", { inventory: inventory });
         }
-        
+
       });
 
       //res.render("inventory.ejs", { inventory: inventory });
@@ -131,45 +233,45 @@ db.once("open", () => {
       if (err) {
         console.log(err.message);
       }
-      User.findById( auth.sessions[req.cookies.session], (err, user) => {        
+      User.findById(auth.sessions[req.cookies.session], (err, user) => {
         if (err) {
           console.log(err.message);
         }
-        else if(!user || (user.category !== "organizer" && user.category !== "admin")){          
+        else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
           res.render("./inventory/inventoryItemDetails.ejs", { item: item });
         }
-        else{
+        else {
           res.render("./inventory/inventoryItemDetailsOrg.ejs", { item: item });
         }
-        
+
       });
     });
   });
 
-  app.get("/profile",  (req, res) => {
-    if(auth.sessions[req.cookies.session]){
+  app.get("/profile", (req, res) => {
+    if (auth.sessions[req.cookies.session]) {
       res.render("./profile/profile.ejs");
     }
-    else{
-      res.redirect("login");
-    }        
+    else {
+      res.redirect("/login");
+    }
   });
 
 
   app.get("/login", (req, res) => {
-    if(auth.sessions[req.cookies.session]){
+    if (auth.sessions[req.cookies.session]) {
       res.redirect("/events");
     }
-    else{
+    else {
       res.render("./profile/loginForm.ejs");
-    }        
+    }
   });
 
   app.post("/login", (req, res) => {
-    if(auth.sessions[req.cookies.session]){
+    if (auth.sessions[req.cookies.session]) {
       res.redirect("/events");
     }
-    else{
+    else {
       if (!req.body.email || req.body.email.trim() === "") {
         res.json({ message: "missing email" });
       }
@@ -205,7 +307,7 @@ db.once("open", () => {
   });
 
   app.get("/register", (req, res) => {
-        res.render("./profile/registerUserForm.ejs");
+    res.render("./profile/registerUserForm.ejs");
   });
   app.post("/register", (req, res) => {
     User.findOne({ email: req.body.email }, (err, user) => {
@@ -268,7 +370,7 @@ db.once("open", () => {
     });
   });
 
-  
+
 
   app.listen(port, () => {
     console.log("Listening on port " + port + "...");
