@@ -22,7 +22,6 @@
 
       <%  var prefill_date_format=''; prefill_date_format = year+'-'+pad(month+1)+'-'+pad(day);  /* YYYY-MM-DD */ %>
       <%  var da_time= "21:30"  %>
-      <p> Time:  <%= event.time %> </p>
     
    
 
@@ -37,8 +36,8 @@
  
 
 
-    <label for="time">Choose an hour: </label>
-    <select name="time" id="time">
+    <label class="formElement4-1" for="time">Choose an hour: </label>
+    <select class="formElement4-2" name="time" id="time">
         <option value="1" <% if(hh[0] === "1") { %> <%= selected="selected" %> <% } %> >1</option>
         <option value="2" <% if(hh[0] === "2") { %> <%= selected="selected" %> <% } %>>2</option>
         <option value="3" <% if(hh[0] === "3") { %> <%= selected="selected" %> <% } %>>3</option>
@@ -52,27 +51,27 @@
         <option value="11" <% if(hh[0] === "11") { %> <%= selected="selected" %> <% } %>>11</option>
         <option value="12" <% if(hh[0] === "12") { %> <%= selected="selected" %> <% } %>>12</option>
     </select>
-    <p> <%= mmNampm[0] %> </p>
-     <label for="timemins">Choose a minute: </label>
-    <select name="timemins" id="timemins">
+
+    <label class="formElement5-1" for="timemins">Choose a minute: </label>
+    <select class="formElement5-2" name="timemins" id="timemins">
         <option value="00" <% if(mmNampm[0] ==="00") { %> <%= selected="selected" %> <% } %>>:00</option>
         <option value="15" <% if(mmNampm[0] ==="15") { %> <%= selected="selected" %> <% } %>>:15</option>
         <option value="30" <% if(mmNampm[0] ==="30") { %> <%= selected="selected" %> <% } %>>:30</option>
         <option value="45" <% if(mmNampm[0] ==="45") { %> <%= selected="selected" %> <% } %>>:45</option>
     </select>
 
-    <label for="timeampm">Choose AM / PM</label>
-    <select name="timeampm" id="timeampm">
+    <label class="formElement6-1" for="timeampm">Choose AM / PM</label>
+    <select class="formElement6-2" name="timeampm" id="timeampm">
         <option value="AM" <% if(mmNampm[1] ==="AM") { %> <%= selected="selected" %> <% } %> > AM</option>
         <option value="PM" <% if(mmNampm[1] ==="PM") { %> <%= selected="selected" %> <% } %> > PM</option>
     </select>
 
-    <label for="capacity" class="formElement4-1">Event Capacity: </label>
-    <input type="number" min="1" max="10000" name="capacity" class="formElement4-2" value="<%= event.capacity %>">
+    <label for="capacity" class="formElement7-1">Event Capacity: </label>
+    <input type="number" min="1" max="10000" name="capacity" class="formElement7-2" value="<%= event.capacity %>">
 
-    <label for="location" class="formElement5-1">Event Location: </label>
-    <input type="text" name="location" class="formElement5-2" value="<%= event.location %>">
+    <label for="location" class="formElement8-1">Event Location: </label>
+    <input type="text" name="location" class="formElement8-2" value="<%= event.location %>">
 
-    <input class="formElement6-2 formSubmitButton" type="submit" name="submitButton" id="submitButton" value="Save">
+    <input class="formElement9-2 formSubmitButton" type="submit" name="submitButton" id="submitButton" value="Save">
     </div>
 </form <%- include("../footer.ejs"); %>
