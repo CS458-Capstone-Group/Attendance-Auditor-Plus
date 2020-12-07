@@ -3,14 +3,18 @@
 <div class="centerContainer">
     <div class="profileInfoContainer">
         <h1 class="profileName"> <%= user.fname %>  <%= user.lname %> </h1>
-        <form action="/profile/<%= user._id %>/edit" method="GET">
-            <input type='submit' class="profileEditButton" value="Edit Profile" />
+        <form class="profileEditButton" action="/profile/<%= user._id %>/edit" method="GET">
+            <input class="profileEditButton" type='submit'  value="Edit Profile" />
         </form>
+        <form class="profileLogoutButton" action="/logout" method="GET">
+            <input class="profileEditButton" type='submit'  value="Logout" />
+        </form>
+        <div class="spacer"></div>
         <p class="profileEmailLabel">Email: </p>
         <p class="profileEmailData"> <%= user.email %></p>
         <p class="profilePhoneLabel">Phone: </p>
          <p class="profilePhoneData"> <%= user.phone %></p>
-        <p class="profileDeptLabel">Department: </p>
+         <p class="profileDeptLabel">Organization / Department: </p>
         <p class="profileDeptData">  <%= user.department %></p>
         <p class="profileCatLabel">Category: </p>
         <p class="profileCatData"> <%= user.category %></p>

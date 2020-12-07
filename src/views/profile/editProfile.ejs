@@ -14,8 +14,8 @@
     <label class="formElement4-1" for="phone">Phone Number: </label> 
     <input class="formElement4-2" type="text" name="phone" id="phone" value="<%= user.phone %>" >
 
-    <label class="formElement5-1" for="department">Organization /Department: </label> 
-    <input class="formElement5-2" type="text" name="department" id="department" value=" <%= user.department %>">
+    <label class="formElement5-1" for="department">Organization / Department: </label> 
+    <input class="formElement5-2" type="text" name="department" id="department" value="<%= user.department %>">
 
     <label class="formElement6-1" for="category">User Category: </label> 
     <select class="formElement6-2" id="category" name="category" required="required" value=" <%= user.category %>">
@@ -27,8 +27,8 @@
         <option value="Classified" <% if(user.category === "classified"){ %> <%= selected="selected" %> <% } %>>Classified</option>
      </select>
 
-    <label class="formElement7-1" for="password">Password: </label>
-    <input class="formElement7-2" type="password" name="password" id="password" required="required">
+    <!-- <label class="formElement7-1" for="password">Password: </label>
+    <input class="formElement7-2" type="password" name="password" id="password" required="required"> -->
 <!-- 
     <label class="formElement8-1" for="password">Confirm Password: </label>
     <input class="formElement8-2" type="password" name="password" id="password" required="required"> -->

@@ -301,8 +301,7 @@ db.once("open", () => {
             email: req.body.email,
             phone: req.body.phone,
             department: req.body.department,
-            category: req.body.category,
-            password: req.body.password
+            category: req.body.category            
           },
           (err) => {
             if (err) {
@@ -351,7 +350,7 @@ db.once("open", () => {
               console.log(err);
             }
             else if (!result) {
-              res.json({ message: "try agin" });
+              res.json({ message: "try again" });
             }
             else {
               auth.sessions[req.cookies.session] = user._id;

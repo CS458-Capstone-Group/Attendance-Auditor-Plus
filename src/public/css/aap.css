@@ -594,21 +594,36 @@ legend
    margin: auto;
 }
 
+.spacer
+{
+   grid-row: 2;
+   height: 3vw;
+   width: auto;
+   background: white;
+}
+.profileLogoutButton
+{
+   grid-row: 4;
+   grid-column: 5;
+   font-size: 1.75vw;
+   margin: auto;
+}
+
 .profileEmailLabel
 {
    grid-row: 3;
    grid-column: 2;
    text-align: right;
    font-weight: bold;
-   font-size: 2vw;
+   font-size: 1.75vw;
 }
 
 .profileEmailData
 {
    grid-row: 3;
-   grid-column: 3/6;
+   grid-column: 3/5;
    text-align: center;
-   font-size: 2vw;
+   font-size: 1.75vw;
 }
 
 .profilePhoneLabel
@@ -617,15 +632,15 @@ legend
    grid-column: 2;
    text-align: right;
    font-weight: bold;
-   font-size: 2vw;
+   font-size: 1.75vw;
 }
 
 .profilePhoneData
 {
    grid-row: 4;
-   grid-column: 3/6;
+   grid-column: 3/5;
    text-align: center;
-   font-size: 2vw;
+   font-size: 1.75vw;
 }
 
 
@@ -635,15 +650,15 @@ legend
    grid-column: 2;
    text-align: right;
    font-weight: bold;
-   font-size: 2vw;
+   font-size: 1.75vw;
 }
 
 .profileDeptData
 {
    grid-row: 5;
-   grid-column: 3/6;
+   grid-column: 3/5;
    text-align: center;
-   font-size: 2vw;
+   font-size: 1.75vw;
 }
 
 
@@ -653,15 +668,15 @@ legend
    grid-column: 2;
    text-align: right;
    font-weight: bold;
-   font-size: 2vw;
+   font-size: 1.75vw;
 }
 
 .profileCatData
 {
    grid-row: 6;
-   grid-column: 3/6;
+   grid-column: 3/5;
    text-align: center;
-   font-size: 2vw;
+   font-size: 1.75vw;
 }
 
 #dynamicAreaHeader
@@ -723,6 +738,7 @@ legend
 {
    font-size: 1.5vw;
 }
+
 
 .formElement1-1
 {

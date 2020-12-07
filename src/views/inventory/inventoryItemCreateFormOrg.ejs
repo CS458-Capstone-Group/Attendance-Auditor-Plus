@@ -1,6 +1,6 @@
 <%- include("../headerOrg.ejs"); %>
 <h1 class="formHeader">Create Inventory Item</h1>
-<form class="formContainer">
+<form id="inventoryItemForm" class="formContainer" action="/inventory" method="POST" >
     <label for="name" class="formElement1-1"> Item Name: </label>
     <input type="text" name="name" class="formElement1-2">
 
