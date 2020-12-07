@@ -7,10 +7,6 @@
     important functions:    app.use() adds functionality to the server
 */
 
-//we are in development
-if (process.env.NODE_ENV !== "production") {
-  //require('dotenv').config();
-}
 
 const express = require("express");
 const bcrypt = require("bcrypt");
@@ -79,17 +75,27 @@ db.once("open", () => {
         if (!req.body.title || req.body.title.trim() === "") {
           res.json({ message: "missing title" });
         }
-        else if (!req.body.datetime || req.body.datetime.trim() === "") {
-          res.json({ message: "missing datetime" });
+        else if (!req.body.date || req.body.date.trim() === "") {
+          res.json({ message: "missing date" });
+        }
+        else if (!req.body.time || req.body.time.trim() === "") {
+          res.json({ message: "missing time" });
         }
 
+         // am time
+         console.log('am or pm')
+        
+        
         var event = new Event({
           title: req.body.title,
           description: req.body.description,
-          datetime: req.body.datetime,
+          date: req.body.date,
+          time: req.body.time+req.body.timemins+' '+req.body.timeampm,
           capacity: req.body.capacity,
           location: req.body.location
         });
+
+        
 
         event.save((err) => {
           if (err) {
@@ -104,26 +110,24 @@ db.once("open", () => {
     });
   });
 
-
-
-  //app.post('/events', checkAuthenticated, (req, res) => {
   app.get("/events", (req, res) => {
-    Event.find({ datetime: { $gt: new Date() } }).sort("datetime").exec((err, events) => {
-      if (err) {
-        console.log(err.message);
-      }
-
-      User.findById(auth.sessions[req.cookies.session], (err, user) => {
+   /* Event.find({ date: { $gt: new Date() } }).sort("time").exec((err, events) => { */
+      Event.find({}, (err, events) =>{
         if (err) {
           console.log(err.message);
         }
-        else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
-          res.render("./events/events.ejs", { events: events });
-        }
-        else {
-          res.render("./events/eventsOrg.ejs", { events: events });
-        }
-      });
+
+        User.findById(auth.sessions[req.cookies.session], (err, user) => {
+          if (err) {
+            console.log(err.message);
+          }
+          else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
+            res.render("./events/events.ejs", { events: events });
+          }
+          else {
+            res.render("./events/eventsOrg.ejs", { events: events });
+          }
+        });
     });
   });
 
@@ -156,22 +160,24 @@ db.once("open", () => {
         res.redirect("/events");
       }
       else {
-        Event.findByIdAndUpdate(req.params.eventId,
-          {
-            title: req.body.title,
-            description: req.body.description,
-            datetime: req.body.datetime,
-            capacity: req.body.capacity,
-            location: req.body.location
-          },
-          (err) => {
-            if (err) {
-              console.error(err);
-            }
+            Event.findByIdAndUpdate(req.params.eventId,
+              {
+                title: req.body.title,
+                description: req.body.description,
+                date: req.body.date,
+                time: req.body.time + ":" + req.body.timemins + " " + req.body.timeampm,
+                capacity: req.body.capacity,
+                location: req.body.location
+              },
+              (err) => {
+                if (err) {
+                  console.error(err);
+                }
 
-            res.redirect("/events");
-          });
-      }
+                res.redirect("/events");
+              });
+            
+        } 
     });
   });
 
@@ -223,8 +229,7 @@ db.once("open", () => {
 
       });
 
-      //res.render("inventory.ejs", { inventory: inventory });
-      //res.render("inventoryOrg.ejs", { inventory: inventory });
+     
     });
   });
 

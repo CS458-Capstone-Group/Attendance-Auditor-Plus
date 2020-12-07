@@ -6,8 +6,43 @@
     <label for=" description" class="formElement2-1">Event Description: </label>
     <input type="textarea" name="description" class="formElement2-2">
 
-    <label for="datetime" class="formElement3-1">Event Datetime: </label>
-    <input type="datetime-local" name="datetime" class="formElement3-2" required="required">
+    <label for="date" class="formElement3-1">Event Date: </label>
+    <input type="date" name="date" class="formElement3-2" required="required" value="2020-01-02"> 
+    <!--   is not universal browser friendly  <input type="datetime-local" name="datetime" class="formElement3-2" required="required">-->
+    <!--
+    <label for="time" class="formElement3-2">Event time: </label>
+    <input type="time" name="time" class="formElement3-3" required="required" value="11:11">
+    -->
+
+    <label for="time">Choose a time</label>
+    <select name="time" id="time">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+    </select>
+
+    <label for="timemins">Choose a time</label>
+    <select name="timemins" id="timemins">
+        <option value=":00">:00</option>
+        <option value=":15">:15</option>
+        <option value=":30">:30</option>
+        <option value=":45">:45</option>
+    </select>
+
+    <label for="timeampm">Choose 12-type</label>
+    <select name="timeampm" id="timeampm">
+        <option value="AM">AM</option>
+        <option value="PM">PM</option>
+    </select>
 
     <label for="capacity" class="formElement4-1">Event Capacity: </label>
     <input type="text" name="capacity" class="formElement4-2">

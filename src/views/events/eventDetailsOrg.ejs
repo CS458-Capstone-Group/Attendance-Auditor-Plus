@@ -16,11 +16,28 @@
     <p class="eventDetailsFacLabel">Facilitator(s): </p>
     <p class="eventDetailsFacData"><%= event.facilitators%></p>
 
+    <% var months = ["Jan", "Feb", "Mar", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"]; %>
+    <% var cDate = new Date(event.date);  %>
+    <% var month = cDate.getMonth(); %>
+    <% var day = cDate.getDate(); %>
+    <% var year = cDate.getFullYear(); %>
+    <% var zoneOffset = cDate.getTimezoneOffset(); /* maybe doesn't matter if it's LOCAL for now */%>
+    <% var hr = cDate.getHours(); %>
+    <% var mins = cDate.getHours(); %>
+      
+      <% function pad(n) { return n<10 ? '0'+n : n;} %>
+      <% function pmam(o) { return o <13 ? 'AM' : 'PM';} %>
+
+
+      <%  var dispDate=''; dispDate = months[month]+'-'+pad(day)+'-'+year;  /* MM-DD-YYYY */ %>
+      
+      
+
     <p class="eventDetailsDateLabel">Date: </p>
-    <p class="eventDetailsDateData"><%= event.datetime %></p>
+    <p class="eventDetailsDateData"><%= dispDate %></p>
 
     <p class="eventDetailsTimeLabel">Time: </p>
-    <p class="eventDetailsTimeData"><%= event.datetime %></p>
+    <p class="eventDetailsTimeData"><%= event.time %></p>
 
     <p class="eventDetailsLocLabel">Location: </p>
     <p class="eventDetailsLocData"><%= event.location %></p>
