@@ -26,15 +26,10 @@
 
       <%  var dispDate=''; dispDate = months[month]+'-'+pad(day)+'-'+year;  /* MM-DD-YYYY */ %>
       
-      
-      <p class="eventListItemDate"><%= dispDate %></p>
-
-
-      <% if((event.time).includes("AM")) { %>
-      <p class="eventListItemTime"><%= event.time %></p>
-      <% } else { %>
-      <p class="eventListItemTime"><%= event.time %></p>
-      <% } %>
+      <div class="eventListItemDatetime">
+        <p><%= dispDate %></p>
+        <p><%= event.time %></p>
+      </div>
       <p class="eventListItemLocation"><%= event.location %></p>
     </div>
   </a>

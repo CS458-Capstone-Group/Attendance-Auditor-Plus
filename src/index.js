@@ -82,8 +82,6 @@ db.once("open", () => {
           res.json({ message: "missing time" });
         }
 
-         // am time
-         console.log('am or pm')
         
         
         var event = new Event({

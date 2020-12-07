@@ -2,9 +2,6 @@
 <%- include('../header.ejs'); %>
     <div class="centerContainer">
             <h1 class="eventListHeader">Upcoming Events</h1>
-              <!-- dev below -->
-              <% console.log(events) %>
-             <!-- dev above -->
       
              <% if (events) { %>
              <% events.forEach(function(event) { %>
@@ -28,15 +25,13 @@
 
                              <%  var dispDate=''; dispDate = months[month]+'-'+pad(day)+'-'+year;  /* MM-DD-YYYY */ %>
                             
-                            <p class="eventListItemDate"><%= dispDate %></p>
                             
-                           
-                            <% if((event.time).includes("AM")) { %>
-                            <p class="eventListItemTime"><%= event.time %></p>
-                            <% } else { %>
-                            <p class="eventListItemTime"><%= event.time %></p>
-                            <% } %>
-                            <p class="eventListItemLocation"><%= event.location %></p>
+                             <div class="eventListItemDatetime">
+                                <p><%= dispDate %></p>
+                                <p><%= event.time %></p>
+                              </div>
+                              <p class="eventListItemLocation"><%= event.location %></p>
+                            </div>
                         </div>
                     </a>
                     <% } %>

@@ -37,7 +37,7 @@
  
 
 
-    <label for="time">Choose a time</label>
+    <label for="time">Choose an hour: </label>
     <select name="time" id="time">
         <option value="1" <% if(hh[0] === "1") { %> <%= selected="selected" %> <% } %> >1</option>
         <option value="2" <% if(hh[0] === "2") { %> <%= selected="selected" %> <% } %>>2</option>
@@ -53,7 +53,7 @@
         <option value="12" <% if(hh[0] === "12") { %> <%= selected="selected" %> <% } %>>12</option>
     </select>
     <p> <%= mmNampm[0] %> </p>
-     <label for="timemins">Choose a time</label>
+     <label for="timemins">Choose a minute: </label>
     <select name="timemins" id="timemins">
         <option value="00" <% if(mmNampm[0] ==="00") { %> <%= selected="selected" %> <% } %>>:00</option>
         <option value="15" <% if(mmNampm[0] ==="15") { %> <%= selected="selected" %> <% } %>>:15</option>
@@ -61,14 +61,14 @@
         <option value="45" <% if(mmNampm[0] ==="45") { %> <%= selected="selected" %> <% } %>>:45</option>
     </select>
 
-    <label for="timeampm">Choose 12-type</label>
+    <label for="timeampm">Choose AM / PM</label>
     <select name="timeampm" id="timeampm">
         <option value="AM" <% if(mmNampm[1] ==="AM") { %> <%= selected="selected" %> <% } %> > AM</option>
         <option value="PM" <% if(mmNampm[1] ==="PM") { %> <%= selected="selected" %> <% } %> > PM</option>
     </select>
 
     <label for="capacity" class="formElement4-1">Event Capacity: </label>
-    <input type="text" name="capacity" class="formElement4-2" value="<%= event.capacity %>">
+    <input type="number" min="1" max="10000" name="capacity" class="formElement4-2" value="<%= event.capacity %>">
 
     <label for="location" class="formElement5-1">Event Location: </label>
     <input type="text" name="location" class="formElement5-2" value="<%= event.location %>">

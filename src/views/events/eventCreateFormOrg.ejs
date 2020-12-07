@@ -14,8 +14,8 @@
     <input type="time" name="time" class="formElement3-3" required="required" value="11:11">
     -->
 
-    <label for="time">Choose a time</label>
-    <select name="time" id="time">
+    <label class="formElement4-1" for="time">Choose an hour: </label>
+    <select class="formElement4-2" name="time" id="time">
         <option value="1">1</option>
         <option value="2">2</option>
         <option value="3">3</option>
@@ -30,26 +30,26 @@
         <option value="12">12</option>
     </select>
 
-    <label for="timemins">Choose a time</label>
-    <select name="timemins" id="timemins">
+    <label class="formElement5-1" for="timemins">Choose a minute: </label>
+    <select class="formElement5-2" name="timemins" id="timemins">
         <option value=":00">:00</option>
         <option value=":15">:15</option>
         <option value=":30">:30</option>
         <option value=":45">:45</option>
     </select>
 
-    <label for="timeampm">Choose 12-type</label>
-    <select name="timeampm" id="timeampm">
+    <label class="formElement6-1" for="timeampm">Choose AM / PM</label>
+    <select class="formElement6-2" name="timeampm" id="timeampm">
         <option value="AM">AM</option>
         <option value="PM">PM</option>
     </select>
 
-    <label for="capacity" class="formElement4-1">Event Capacity: </label>
-    <input type="text" name="capacity" class="formElement4-2">
+    <label for="capacity" class="formElement7-1">Event Capacity: </label>
+    <input type="number" min="1" max="10000" name="capacity" class="formElement7-2">
 
-    <label for="location" class="formElement5-1">Event Location: </label>
-    <input type="text" name="location" class="formElement5-2">
+    <label for="location" class="formElement8-1">Event Location: </label>
+    <input type="text" name="location" class="formElement8-2">
 
-    <input class="formElement6-2 formSubmitButton" type="submit" name="submitButton" id="submitButton" value="Save">
+    <input class="formElement9-2 formSubmitButton" type="submit" name="submitButton" id="submitButton" value="Save">
     </div>
     <%- include('../footer.ejs'); %>
