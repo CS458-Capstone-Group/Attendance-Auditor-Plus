@@ -250,11 +250,64 @@ db.once("open", () => {
 
   app.get("/profile", (req, res) => {
     if (auth.sessions[req.cookies.session]) {
-      res.render("./profile/profile.ejs");
+      User.findById(auth.sessions[req.cookies.session], (err, user) => {
+        if (err) {
+          console.log(err.message);
+        }
+        else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
+          res.render("./profile/profile.ejs", { user: user});
+        }
+        else {
+          res.render("./profile/profileOrg.ejs", { user: user});
+        }
+      });
     }
     else {
       res.redirect("/login");
     }
+  });
+
+  app.get("/profile/:userId/edit", (req, res) => {
+    if (auth.sessions[req.cookies.session]) {
+      User.findById(auth.sessions[req.cookies.session], (err, user) => {
+        if (err) {
+          console.log(err.message);
+        }
+        else {
+          res.render("./profile/editProfile.ejs", { user: user});
+        }
+      });
+    }
+    else {
+      res.redirect("/login");
+    }
+  });
+
+  app.post("/profile/:userId", (req, res) => {
+    User.findById(auth.sessions[req.cookies.session], (err, user) => {
+      if (err) {
+        console.log(err.message);
+      }
+      else {
+        User.findByIdAndUpdate(req.params.userId,
+          {
+            fname: req.body.fname,
+            lname: req.body.lname,
+            email: req.body.email,
+            phone: req.body.phone,
+            department: req.body.department,
+            category: req.body.category,
+            password: req.body.password
+          },
+          (err) => {
+            if (err) {
+              console.error(err);
+            }
+
+            res.redirect("/profile");
+          });
+      }
+    });
   });
 
 
@@ -309,6 +362,7 @@ db.once("open", () => {
   app.get("/register", (req, res) => {
     res.render("./profile/registerUserForm.ejs");
   });
+
   app.post("/register", (req, res) => {
     User.findOne({ email: req.body.email }, (err, user) => {
       if (err) {
@@ -360,7 +414,8 @@ db.once("open", () => {
                   res.json({ message: "unable to save user" });
                 }
                 else {
-                  res.json({ message: "user saved successfully" });
+                  // res.json({ message: "user saved successfully" });
+                  res.redirect("/login");
                 }
               });
             }
