@@ -564,11 +564,111 @@ legend
    margin: 1vw;
 }
 
+.profileInfoContainer
+{
+   background-color:white;
+   width: 70%;
+   margin-left: auto;
+   margin-right: auto;  
+   display: grid; 
+   grid-Template-columns: 20% 20% 20% 20% 20%;
+   grid-template-rows: minmax(2vw, 2vw);
+   border-style: groove;
+   padding: 1vw;
+}
+
+.profileName
+{
+   grid-row: 1;
+   grid-column: 1/5;
+   text-align: center;
+   font-size: 3vw; 
+   margin: auto;  
+}
+
+.profileEditButton
+{
+   grid-row: 1;
+   grid-column: 5;
+   font-size: 1.75vw;
+   margin: auto;
+}
+
+.profileEmailLabel
+{
+   grid-row: 3;
+   grid-column: 2;
+   text-align: right;
+   font-weight: bold;
+   font-size: 2vw;
+}
+
+.profileEmailData
+{
+   grid-row: 3;
+   grid-column: 3/6;
+   text-align: center;
+   font-size: 2vw;
+}
+
+.profilePhoneLabel
+{
+   grid-row: 4;
+   grid-column: 2;
+   text-align: right;
+   font-weight: bold;
+   font-size: 2vw;
+}
+
+.profilePhoneData
+{
+   grid-row: 4;
+   grid-column: 3/6;
+   text-align: center;
+   font-size: 2vw;
+}
+
+
+.profileDeptLabel
+{
+   grid-row: 5;
+   grid-column: 2;
+   text-align: right;
+   font-weight: bold;
+   font-size: 2vw;
+}
+
+.profileDeptData
+{
+   grid-row: 5;
+   grid-column: 3/6;
+   text-align: center;
+   font-size: 2vw;
+}
+
+
+.profileCatLabel
+{
+   grid-row: 6;
+   grid-column: 2;
+   text-align: right;
+   font-weight: bold;
+   font-size: 2vw;
+}
+
+.profileCatData
+{
+   grid-row: 6;
+   grid-column: 3/6;
+   text-align: center;
+   font-size: 2vw;
+}
+
 #dynamicAreaHeader
 {
     display: grid;
     grid-template-columns: 16.6% 16.6% 16.6% 16.6% 16.6% 16.6%;
-    grid-auto-rows: minmax(2em, auto);
+    grid-auto-rows: minmax(2vw, auto);
     border-style:groove;  
     margin: auto;
     width: 80%;
