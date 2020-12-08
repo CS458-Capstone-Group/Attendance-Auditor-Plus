@@ -1,6 +1,6 @@
 <%- include("../headerOrg.ejs"); %>
 <h1 class="formHeader">Create Inventory Item</h1>
-<form id="inventoryItemForm" class="formContainer" action="/inventory" method="POST" >
+<form id="inventoryItemForm" class="formContainer" action="/inventory" methond="POST" >
     <label for="name" class="formElement1-1"> Item Name: </label>
     <input type="text" name="name" class="formElement1-2">
 
@@ -10,8 +10,11 @@
     <label for="sn" class="formElement3-1">Item Serial Number: </label>
     <input type="text" name="sn" class="formElement3-2">
 
-    <label for="checkedOut" class="formElement4-1">Item is checked out? (true/false): </label>
-    <input type="text" name="checkedOut" class="formElement4-2">
+    <label for="checkedOut" class="formElement4-1">Status: </label>
+    <select name="checkedOut" id="checkedOut" class="formElement4-2" >
+        <option value="false" >Available</option>
+        <option value="true" >Checked out</option>
+    </select>
 
     <label for="checkedOutBy" class="formElement5-1">Checked out by: </label>
     <input type="text" name="checkedOutBy" class="formElement5-2">

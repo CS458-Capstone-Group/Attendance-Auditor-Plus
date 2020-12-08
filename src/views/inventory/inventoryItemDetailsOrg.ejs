@@ -6,7 +6,7 @@
       <input class="inventorySearchButton" type="submit">
     </form>
     <button class="inventoryAddItemButton">Add Item</button>
-  </div>
+</div>
 
 <div class="inventoryItemViewContainer">
     <form class="inventoryItemViewEditButton" action="/inventory/<%= item._id %>/edit" method="GET">
@@ -28,5 +28,9 @@
     </div>
     <button class="inventoryItemViewCheckOutReturnButton">Check In/Out</button>
 </div>
+
+<form action="/inventory/<%= item._id %>/delete" method="POST">
+  <input type='submit' class="deleteButton" value="Delete Item">
+</form>
 
 <%- include('../footer.ejs'); %>

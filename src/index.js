@@ -369,6 +369,26 @@ db.once("open", () => {
       });
     });
 
+  app.post("/inventory/:inventoryId/delete", (req, res) => {
+    User.findById(auth.sessions[req.cookies.session], (err, user) => {
+      if (err) {
+        console.log(err.message);
+      }
+      else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
+        res.redirect("/inventory");
+      }
+      else {
+        InventoryItem.findByIdAndDelete(req.params.inventoryId, (err) => {
+          if (err) {
+            console.error(err.message);
+          }
+
+          res.redirect("/inventory");
+        });
+      }
+    });
+  });
+
 
   app.get("/profile", (req, res) => {
     if (auth.sessions[req.cookies.session]) {
