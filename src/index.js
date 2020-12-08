@@ -319,6 +319,25 @@ db.once("open", () => {
     });
   });
 
+  app.get("/inventory/:inventoryId/edit", (req, res) => {
+      User.findById(auth.sessions[req.cookies.session], (err, user) => {
+        if (err) {
+          console.log(err.message);
+        }
+        else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
+          res.redirect("/inventory");
+        }
+        else {
+          InventoryItem.findById(req.params.inventoryId, (err, item) => {
+            if(err) {
+              console.error(err);
+            }
+            res.render("./inventory/inventoryItemEditFormOrg.ejs", { item: item });
+          });
+        }
+      })
+    });
+
   app.get("/profile", (req, res) => {
     if (auth.sessions[req.cookies.session]) {
       User.findById(auth.sessions[req.cookies.session], (err, user) => {

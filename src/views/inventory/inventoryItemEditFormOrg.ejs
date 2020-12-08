@@ -1,20 +1,20 @@
 <%- include("../headerOrg.ejs"); %>
 <h1 class="formHeader">Edit Inventory Item</h1>
-<form class="formContainer">
+<form id="inventoryItemForm" class="formContainer" action="/inventory/<%= item._id %>" method="POST">
     <label for="name" class="formElement1-1"> Item Name: </label>
-    <input type="text" name="name" class="formElement1-2" placeholder="Test Item 1 Name" required="required">
+    <input type="text" name="name" class="formElement1-2" value=" <%= item.name %>">
 
     <label for="description" class="formElement2-1">Item Description: </label>
-    <input type="textarea" name="description" class="formElement2-2" placeholder="Test Item 1 Desc">
+    <input type="textarea" name="description" class="formElement2-2" value="<%= item.description %>">
 
     <label for="sn" class="formElement3-1">Item Serial Number: </label>
-    <input type="text" name="sn" class="formElement3-2" placeholder="123456">
+    <input type="text" name="sn" class="formElement3-2" value="<%= item.sn %>">
 
     <label for="checkedOut" class="formElement4-1">Item is checked out? (true/false): </label>
-    <input type="text" name="checkedOut" class="formElement4-2" placeholder="false">
+    <input type="text" name="checkedOut" class="formElement4-2" value="<%= item.checkedOut %>">
 
-    <label for="checkedOutBy" class="formElement5-1">Checked out by:</label>
-    <input type="text" name="checkedOutBy" class="formElement5-2" placeholder="Skye Gibney">
+    <label for="checkedOutBy" class="formElement5-1">Checked out by: </label>
+    <input type="text" name="checkedOutBy" class="formElement5-2" value="<%= item.checkedOutBy %>">
 
     <input class="formElement6-2 formSubmitButton" type="submit" name="submitButton" id="submitButton" value="Save">
     </div>

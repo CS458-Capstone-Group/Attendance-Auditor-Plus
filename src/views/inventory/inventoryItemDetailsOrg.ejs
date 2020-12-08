@@ -9,7 +9,9 @@
   </div>
 
 <div class="inventoryItemViewContainer">
-    <button class="inventoryItemViewEditButton">Edit Details</button>
+    <form class="inventoryItemViewEditButton" action="/inventory/<% item._id %>" method="POST">
+    <input type="submit" class="inventoryItemViewEditButton" value="Edit Details">
+    </form>
     <p class="inventoryItemViewName"> Test Item 1 Name </p>
     <p class="inventoryItemViewDesc"> Test Item 1 Desc </p>
     <div class="inventoryItemViewDetailsContainer">
