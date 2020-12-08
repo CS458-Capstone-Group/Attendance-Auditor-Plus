@@ -500,6 +500,27 @@ db.once("open", () => {
     }
   });
 
+  app.get("/login", (req, res) => {
+    if (auth.sessions[req.cookies.session]) {
+      res.redirect("/events");
+    }
+    else {
+      res.render("./profile/loginForm.ejs");
+    }
+  });
+
+  app.post("/logout", (req, res) => {
+    if (auth.sessions[req.cookies.session]) {
+      auth.sessions[req.cookies.session] = null;
+      res.redirect('/events');
+    }
+    else {
+      res.redirect("/events");
+    }
+  });
+
+
+
   app.get("/register", (req, res) => {
     res.render("./profile/registerUserForm.ejs");
   });
