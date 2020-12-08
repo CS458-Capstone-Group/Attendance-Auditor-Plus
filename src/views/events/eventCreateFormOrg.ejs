@@ -10,11 +10,13 @@
     <% var dd = String(today.getDate()).padStart(2, '0'); %>
     <% var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0! %>
     <% var yyyy = today.getFullYear(); %>
-
-    <% today = mm + '/' + dd + '/' + yyyy; %>
+   
+    <% var dateT=''; dateT = mm + '-' + dd + '-' + yyyy; %>
+    <% dateT = yyyy + '-' + mm + '-' + dd; %>
+    <% console.log(dateT) %>
 
     <label for="date" class="formElement3-1">Event Date: </label>
-    <input type="date" name="date" class="formElement3-2" required="required" value="<%= today %>"> 
+    <input type="date" name="date" class="formElement3-2" required="required" value="<%= dateT %>"> 
     
 
     <label class="formElement4-1" for="time">Choose an hour: </label>
