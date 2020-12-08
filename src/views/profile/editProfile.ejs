@@ -20,11 +20,14 @@
     <label class="formElement6-1" for="category">User Category: </label> 
     <select class="formElement6-2" id="category" name="category" required="required" value=" <%= user.category %>">
         <% if(user.category === "guest"){ %> <%= selected="selected" %> <% } %>
-        <option value="Guest" <% if(user.category === "guest"){ %> <%= selected="selected" %> <% } %>>Guest</option>
-        <option value="Student" <% if(user.category === "student"){ %> <%= selected="selected" %> <% } %>>Student</option>
-        <option value="Faculty" <% if(user.category === "faculty"){ %> <%= selected="selected" %> <% } %>>Faculty</option>
-        <option value="Staff" <% if(user.category === "staff"){ %> <%= selected="selected" %> <% } %>>Staff</option>
-        <option value="Classified" <% if(user.category === "classified"){ %> <%= selected="selected" %> <% } %>>Classified</option>
+        <option value="guest" <% if(user.category === "guest"){ %> <%= selected="selected" %> <% } %>>Guest</option>
+        <option value="student" <% if(user.category === "student"){ %> <%= selected="selected" %> <% } %>>Student</option>
+        <option value="faulty" <% if(user.category === "faculty"){ %> <%= selected="selected" %> <% } %>>Faculty</option>
+        <option value="staff" <% if(user.category === "staff"){ %> <%= selected="selected" %> <% } %>>Staff</option>
+        <option value="classified" <% if(user.category === "classified"){ %> <%= selected="selected" %> <% } %>>Classified</option>
+        <option value="organizer" <% if(user.category === "organizer"){ %> <%= selected="selected" %> <% } %>>Organizer</option>
+        <option value="admin" <% if(user.category === "admin"){ %> <%= selected="selected" %> <% } %>>Admin</option>
+
      </select>
 
     <!-- <label class="formElement7-1" for="password">Password: </label>
