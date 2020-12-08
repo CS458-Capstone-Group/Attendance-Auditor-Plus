@@ -1,0 +1,32 @@
+<%- include('../header.ejs'); %>
+
+<!--
+<div class="inventorySearchAddContainer">
+    <form class="searchFormA">
+       <input class="inventorySearchField" type="text" placeholder="search inv name">
+       <input class="inventorySearchButton" type="submit" value="Search">
+    </form>
+</div>
+  -->
+<h1 class="listHeader"> Selected Inventory Item </h1>
+<hr/>
+<div class="inventoryItemViewContainer">
+    <% console.log(inventory) %>
+    <% if (inventory) { %> 
+    <% inventory.forEach(function(inventory) { %> 
+    <% if (inventory) { %> 
+            <p class="inventoryItemViewName"> <%= inventory.name %> </p>
+            <p class="inventoryItemViewDesc"> <%= inventory.description %> </p>
+            <div class="inventoryItemViewDetailsContainer">
+                <p class="inventoryItemViewSNLabel"> Serial Number:</p>
+                <p class="inventoryItemViewSNData"><%= inventory.sn %></p>
+                <p class="inventoryItemViewStockStatusLabel">Stock Status: </p>
+                <p class="inventoryItemViewStockStatusData"><%= inventory.checkedOutBy %></p>
+            </div>
+            <% } %>
+    
+            <% }); %>
+            <% } %>
+</div>
+
+<%- include('../footer.ejs'); %>
