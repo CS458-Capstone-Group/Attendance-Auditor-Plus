@@ -1126,38 +1126,50 @@ legend
    width: 80%;
    margin: auto;
    grid-template-columns: 20% 20% 20% 20% 20%;
-   grid-auto-rows: minmax(auto, auto);
+   grid-auto-rows: minmax(4vw, auto);
 }
 
-.searchForm
+.searchFormA
 {
    grid-row: 1;
-   grid-column: 1/3; 
+   grid-column: 1/4; 
    display: grid;
+   
    grid-template-columns: 60% 40%;
-   grid-auto-rows: minmax(auto, auto);
+   grid-auto-rows: minmax(4vw, auto);
 }
+
+.AddFormA
+{
+   grid-row: 1;
+   grid-column: 4/6; 
+   display: grid;
+   
+   grid-template-columns: 60% 40%;
+   grid-auto-rows: minmax(4vw, auto);
+}
+
 
 .inventorySearchField
 {
    grid-row: 1;
    grid-column: 1;
-   height: 2vw;
-   font-size: 1.75vw;
+   font-size: 3vw;
 }
 
 .inventorySearchButton
 {
    grid-row: 1;
    grid-column: 2;
-   font-size: 1.75vw;
+   font-size: 3vw;
 }
 
 .inventoryAddItemButton
 {
    grid-row: 1;
    grid-column: 5;
-   font-size: 1.75vw;
+   font-size: 3vw;
+   margin-right:-250%;
 }
 
 .inventoryItemContainer
@@ -1178,6 +1190,7 @@ legend
    grid-column: 1;
    font-weight: bold;
    text-align: center;
+   font-size:2vw;
 }
 
 .inventoryItemDesc
@@ -1185,6 +1198,8 @@ legend
    grid-row: 1;
    grid-column: 2;
    text-align: left;
+   font-size:2vw;
+
 }
 
 .inventoryItemViewContainer

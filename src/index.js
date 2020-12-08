@@ -242,8 +242,7 @@ db.once("open", () => {
  
   app.post("/inventory", (req, res) => {
     User.findById(auth.sessions[req.cookies.session], (err, user) => {
-      console.log("251 index")
-      console.log(user)
+     
 
       if (err) {
         console.log(err.message);
@@ -280,8 +279,7 @@ db.once("open", () => {
         });
 
         
-        console.log("line 287 index.js")
-        console.log(inventoryItem)
+     
 
         inventoryItem.save((err) => {
           if (err) {
