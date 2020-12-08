@@ -230,6 +230,75 @@ db.once("open", () => {
     });
   });
 
+
+
+  app.get("/inventory/create", (req, res) => {
+    User.findById(auth.sessions[req.cookies.session], (err, user) => {
+      if (err) {
+        console.log(err.message);
+      }
+      else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
+        res.redirect("/events");
+      }
+      else {
+        res.render("./inventory/inventoryItemCreateFormOrg.ejs");
+      }
+    });
+  })
+
+  app.post("/inventory", (req, res) => {
+    User.findById(auth.sessions[req.cookies.session], (err, user) => {
+      console.log(req)
+      if (err) {
+        console.log(err.message);
+      }
+      else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
+        res.redirect("/inventory");
+      }
+      else {
+        /*
+        if (!req.body.name || req.body.name.trim() === "") {
+          res.json({ message: "missing name" });
+        }
+        else if (!req.body.description || req.body.description.trim() === "") {
+          res.json({ message: "missing description" });
+        }
+        else if (!req.body.sn || req.body.sn.trim() === "") {
+          res.json({ message: "missing sn" });
+        }
+        else if (!req.body.checkedOut || req.body.checkedOut.trim() === "") {
+          res.json({ message: "missing checkedOut" });
+        }
+        else if (!req.body.checkedOutBy || req.body.CheckedOutBy.trim() === "") {
+          res.json({ message: "missing checkedOutBy" });
+        }
+          */
+        
+       
+        var inventoryItem = new InventoryItem({
+          name: req.body.name, 
+          description: req.body.description, 
+          sn: req.body.sn,
+          checkedOut: req.body.checkedOut,
+          checkedOutBy: req.body.checkedOutBy
+        });
+
+        
+
+        inventoryItem.save((err) => {
+          if (err) {
+            console.error(err);
+            res.json({ message: "could not save item" });
+          }
+          else {
+            res.redirect("/inventory");
+          }
+        });
+      }
+    });
+  });
+
+
   app.get("/inventory/:inventoryId", (req, res) => {
     InventoryItem.findById(req.params.inventoryId, (err, item) => {
       if (err) {

@@ -1,10 +1,12 @@
 <%- include('../header.ejs'); %>
 
 <div class="inventorySearchAddContainer">
-    <form class="searchForm">
-        <input class="inventorySearchField" type="text">
-        <input class="inventorySearchButton" type="submit">
-    </form>
+    <!-- fix the action -->
+    <form class="searchForm" action="/inventory" method="GET">
+       <input class="inventorySearchButtonx" type="text" placeholder="search by inv name">
+    <button class="inventoryAddItemButtonx" type="submit">Search</button>
+
+ </form>
 
 </div>
 

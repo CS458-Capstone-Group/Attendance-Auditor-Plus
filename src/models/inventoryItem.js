@@ -6,7 +6,7 @@ const inventoryItemSchema = new Schema({
     name: String, //NOT NULL
     description: String, 
     sn: String,
-    checkedOut: Boolean,
+    checkedOut: String,
     checkedOutBy: String
 });
 
