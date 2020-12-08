@@ -65,6 +65,7 @@ db.once("open", () => {
 
   app.post("/events", (req, res) => {
     User.findById(auth.sessions[req.cookies.session], (err, user) => {
+      
       if (err) {
         console.log(err.message);
       }
@@ -208,29 +209,22 @@ db.once("open", () => {
     });
   });
 
-  app.get("/inventory", (req, res) => {
-    InventoryItem.find({}, (err, inventory) => {
-      if (err) {
-        console.log(err.message);
-      }
-      User.findById(auth.sessions[req.cookies.session], (err, user) => {
-        if (err) {
-          console.log(err.message);
-        }
-        else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
-          res.render("./inventory/inventory.ejs", { inventory: inventory });
-        }
-        else {
-          res.render("./inventory/inventoryOrg.ejs", { inventory: inventory });
-        }
-
-      });
-
-     
-    });
-  });
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+//app default
 
   app.get("/inventory/create", (req, res) => {
     User.findById(auth.sessions[req.cookies.session], (err, user) => {
@@ -238,25 +232,27 @@ db.once("open", () => {
         console.log(err.message);
       }
       else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
-        res.redirect("/events");
+        res.redirect("/inventory");
       }
       else {
         res.render("./inventory/inventoryItemCreateFormOrg.ejs");
       }
     });
   })
-
+ 
   app.post("/inventory", (req, res) => {
     User.findById(auth.sessions[req.cookies.session], (err, user) => {
+      console.log("251 index")
+      console.log(user)
 
       if (err) {
         console.log(err.message);
-      }
-      else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
-        res.redirect("/inventory");
-      }
+      } 
       else {
         /*
+        if (!user || (user.category !== "organizer" && user.category !== "admin")) {
+          res.redirect("/inventory");
+        }
         if (!req.body.name || req.body.name.trim() === "") {
           res.json({ message: "missing name" });
         }
@@ -284,6 +280,8 @@ db.once("open", () => {
         });
 
         
+        console.log("line 287 index.js")
+        console.log(inventoryItem)
 
         inventoryItem.save((err) => {
           if (err) {
@@ -291,6 +289,7 @@ db.once("open", () => {
             res.json({ message: "could not save item" });
           }
           else {
+            
             res.redirect("/inventory");
           }
         });
@@ -298,7 +297,28 @@ db.once("open", () => {
     });
   });
 
+  app.get("/inventory", (req, res) => {
+    InventoryItem.find({}, (err, inventory) => {
+      if (err) {
+        console.log(err.message);
+      }
+      User.findById(auth.sessions[req.cookies.session], (err, user) => {
+        if (err) {
+          console.log(err.message);
+        }
+        else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
+          res.render("./inventory/inventory.ejs", { inventory: inventory });
+        }
+        else {
+          res.render("./inventory/inventoryOrg.ejs", { inventory: inventory });
+        }
 
+      });
+
+      
+    });
+  });
+  
   app.get("/inventory/:inventoryId", (req, res) => {
     InventoryItem.findById(req.params.inventoryId, (err, item) => {
       if (err) {
@@ -347,6 +367,26 @@ db.once("open", () => {
         } 
     });
   });
+ 
+  app.post("/inventory/:inventoryId/delete", (req, res) => {
+    User.findById(auth.sessions[req.cookies.session], (err, user) => {
+      if (err) {
+        console.log(err.message);
+      }
+      else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
+        res.redirect("/inventory");
+      }
+      else {
+        InventoryItem.findByIdAndDelete(req.params.inventoryId, (err) => {
+          if (err) {
+            console.error(err.message);
+          }
+
+          res.redirect("/inventory");
+        });
+      }
+    });
+  });
 
   app.get("/inventory/:inventoryId/edit", (req, res) => {
       User.findById(auth.sessions[req.cookies.session], (err, user) => {
@@ -368,26 +408,6 @@ db.once("open", () => {
         }
       });
     });
-
-  app.post("/inventory/:inventoryId/delete", (req, res) => {
-    User.findById(auth.sessions[req.cookies.session], (err, user) => {
-      if (err) {
-        console.log(err.message);
-      }
-      else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
-        res.redirect("/inventory");
-      }
-      else {
-        InventoryItem.findByIdAndDelete(req.params.inventoryId, (err) => {
-          if (err) {
-            console.error(err.message);
-          }
-
-          res.redirect("/inventory");
-        });
-      }
-    });
-  });
 
 
   app.get("/profile", (req, res) => {
