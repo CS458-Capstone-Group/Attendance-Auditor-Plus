@@ -1,12 +1,17 @@
 <%- include('../headerOrg.ejs'); %>
-
+<!--
 <div class="inventorySearchAddContainer">
-    <form class="searchForm">
-      <input class="inventorySearchField" type="text">
-      <input class="inventorySearchButton" type="submit">
+    <form class="searchFormA">
+       <input class="inventorySearchField" type="text" placeholder="search inv name">
+       <input class="inventorySearchButton" type="submit" value="Search">
+
     </form>
-    <button class="inventoryAddItemButton">Add Item</button>
-</div>
+-->
+
+  <form  class="addFormA" action="/inventory/create" method="GET">
+      <input class="inventoryAddItemButton" type="submit" value="Add Item"> 
+    </form>
+  </div>
 
 <div class="inventoryItemViewContainer">
     <form class="inventoryItemViewEditButton" action="/inventory/<%= item._id %>/edit" method="GET">

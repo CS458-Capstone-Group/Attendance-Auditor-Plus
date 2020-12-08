@@ -1,21 +1,23 @@
 <%- include('../header.ejs'); %>
 
+<!--
 <div class="inventorySearchAddContainer">
-    <form class="searchForm">
-      <input class="inventorySearchField" type="text">
-      <input class="inventorySearchButton" type="submit">
+    <form class="searchFormA">
+       <input class="inventorySearchField" type="text" placeholder="search inv name">
+       <input class="inventorySearchButton" type="submit" value="Search">
     </form>
-
-  </div>
-
+</div>
+  -->
+<h1 class="listHeader"> Selected Inventory Item </h1>
+<hr/>
 <div class="inventoryItemViewContainer">
-    <p class="inventoryItemViewName"> Test Item 1 Name </p>
-    <p class="inventoryItemViewDesc"> Test Item 1 Desc </p>
+    <p class="inventoryItemViewName"> <%= item.name %> </p>
+    <p class="inventoryItemViewDesc"> <%= item.description %> </p>
     <div class="inventoryItemViewDetailsContainer">
-        <p class="inventoryItemViewSNLabel">Serial Number: </p>
-        <p class="inventoryItemViewSNData">01234567</p>
+        <p class="inventoryItemViewSNLabel"> Serial Number:</p>
+        <p class="inventoryItemViewSNData"><%= item.sn %></p>
         <p class="inventoryItemViewStockStatusLabel">Stock Status: </p>
-        <p class="inventoryItemViewStockStatusData">Checked Out</p>
+        <p class="inventoryItemViewStockStatusData"><%= item.checkedOutBy %></p>
 
     </div>
 </div>

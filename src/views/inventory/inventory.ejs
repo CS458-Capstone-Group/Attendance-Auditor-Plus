@@ -2,15 +2,15 @@
 
 <h1 class="listHeader">All Inventory Items</h1>
 <div class="inventorySearchAddContainer">
-    <!-- fix the action -->
-    <form class="searchForm" action="/inventory" method="GET">
-       <input class="inventorySearchButtonx" type="text" placeholder="search by inv name">
-    <button class="inventoryAddItemButtonx" type="submit">Search</button>
+  
+    <form class="searchFormA" action="/inventory" method="GET">
+       <input class="inventorySearchField" type="text" placeholder="search inv name">
+       <input class="inventorySearchButton" type="submit" value="Search Item">
 
- </form>
+    </form>
 
 </div>
-
+<hr/>
 <% if (inventory) { %>
 <% inventory.forEach(function(inventory) { %>
 <% if (inventory) { %>
