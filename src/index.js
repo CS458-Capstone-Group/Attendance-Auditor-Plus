@@ -248,7 +248,7 @@ db.once("open", () => {
 
   app.post("/inventory", (req, res) => {
     User.findById(auth.sessions[req.cookies.session], (err, user) => {
-      console.log(req)
+
       if (err) {
         console.log(err.message);
       }
@@ -319,6 +319,35 @@ db.once("open", () => {
     });
   });
 
+  app.post("/inventory/:inventoryId", (req, res) => {
+    User.findById(auth.sessions[req.cookies.session], (err, user) => {
+      if (err) {
+        console.log(err.message);
+      }
+      else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
+        res.redirect("/inventory");
+      }
+      else {
+            InventoryItem.findByIdAndUpdate(req.params.inventoryId,
+              {
+                name: req.body.name,
+                description: req.body.description,
+                sn: req.body.sn,
+                checkedOut: req.body.checkedOut,
+                checkedOutBy: req.body.checkedOutBy
+              },
+              (err) => {
+                if (err) {
+                  console.error(err);
+                }
+
+                res.redirect("/inventory");
+              });
+            
+        } 
+    });
+  });
+
   app.get("/inventory/:inventoryId/edit", (req, res) => {
       User.findById(auth.sessions[req.cookies.session], (err, user) => {
         if (err) {
@@ -332,11 +361,14 @@ db.once("open", () => {
             if(err) {
               console.error(err);
             }
+
             res.render("./inventory/inventoryItemEditFormOrg.ejs", { item: item });
+
           });
         }
-      })
+      });
     });
+
 
   app.get("/profile", (req, res) => {
     if (auth.sessions[req.cookies.session]) {
