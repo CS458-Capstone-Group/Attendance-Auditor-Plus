@@ -6,7 +6,6 @@
     
         <% if (events) { %>
             <% events.forEach(function(event) { %>
-<<<<<<< Updated upstream
             <% if (event) { %>
                 <a class="nostyle" href="/events/<%= event._id %>">
                     <div class="eventListItem">
@@ -41,42 +40,6 @@
         </div>    
             
     </div>
-=======
-                <% if (event) { %>
-                    <a class="nostyle" href="/events/<%= event._id %>">
-                        <div class="eventListItem">
-                            <h3 class="eventListItemName"><%= event.title; %></h3>
-                            <p class="eventListItemDesc"><%= event.description %></p>
-                                <% var months = ["Jan", "Feb", "Mar", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"]; %>
-                                <% var cDate = new Date(event.date);  %>
-                                <% var month = cDate.getMonth(); %>
-                                <% var day = cDate.getDate(); %>
-                                <% var year = cDate.getFullYear(); %>
-                                <% var zoneOffset = cDate.getTimezoneOffset(); /* maybe doesn't matter if it's LOCAL for now */%>
-                                <% var hr = cDate.getHours(); %>
-                                <% var mins = cDate.getHours(); %>
-                            
-                                <% function pad(n) { return n<10 ? '0'+n : n;} %>
-                                <% function pmam(o) { return o <13 ? 'AM' : 'PM';} %>
-
-
-                                <%  var dispDate=''; dispDate = months[month] + '-' + pad(day) + '-' + year;  /* MM-DD-YYYY */ %>
-                            
-                            
-                            <div class="eventListItemDatetime">
-                                <p><%= dispDate %></p>
-                                <p><%= event.time %></p>
-                            </div>
-                            <p class="eventListItemLocation"><%= event.location %></p>
-                        </div>                    
-                    </a>
-                <% } %>
-            <% }); %>
-       <% } %>
-
-    </div>    
-
->>>>>>> Stashed changes
 <%- include('../footer.ejs'); %>
 
 
