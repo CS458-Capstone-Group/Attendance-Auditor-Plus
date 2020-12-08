@@ -337,6 +337,29 @@ db.once("open", () => {
     });
   });
 
+  app.get("/inventory/:inventoryId/search/", (req, res) => {
+    console.log(req.params)
+    console.log('index.js 342 req.params')
+    InventoryItem.find({name: req.params.inventoryId}, (err, item) => {
+      if (err) {
+        console.log(err.message);
+      }
+      User.findById(auth.sessions[req.cookies.session], (err, user) => {
+        if (err) {
+          console.log(err.message);
+        }
+        else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
+          res.render("./inventory/inventory.ejs", { item: item });
+        }
+        else {
+          res.render("./inventory/inventoryOrg.ejs", { item: item });
+        }
+
+      });
+    });
+  });
+
+
   app.post("/inventory/:inventoryId", (req, res) => {
     User.findById(auth.sessions[req.cookies.session], (err, user) => {
       if (err) {
