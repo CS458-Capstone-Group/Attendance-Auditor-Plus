@@ -321,18 +321,20 @@ db.once("open", () => {
     });
   });
 
-  app.get("/search/", (req, res) => {
+  app.get("/inventory/search/", (req, res) => {
     console.log("app.get(/search/) call")
     console.log(req._parsedOriginalUrl.query)
     console.log("..")
     
     var queryStr = req._parsedOriginalUrl.query.toString();
-    var q = {}, q = queryStr.split('&').toString()
-    var q2 = {};
-     q = q.split('=').toString()
-        console.log("q2[0]")
-        console.log(q2[2])
-    InventoryItem.find({name: q2[1]}, (err, item) => {
+    var preQ = queryStr.split('&')
+    var postQ = preQ[0].toString().split('=')
+
+  
+        console.log("postQ")
+        console.log(postQ[1])
+
+    InventoryItem.find({name: postQ[1]}, (err, inventory) => {
       if (err) {
         console.log(err.message);
       }
@@ -341,10 +343,10 @@ db.once("open", () => {
           console.log(err.message);
         }
         else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
-          res.render("./inventory/inventoryItemSearchDetails.ejs", { item: item });
+          res.render("./inventory/inventoryItemSearchDetails.ejs", { inventory: inventory });
         }
         else {
-          res.render("./inventory/inventoryItemSearchDetails.ejs", { item: item });
+          res.render("./inventory/inventoryItemSearchDetails.ejs", { inventory: inventory });
         }
 
       });
