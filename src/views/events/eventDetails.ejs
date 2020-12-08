@@ -34,8 +34,15 @@
     
         <p class="eventDetailsLocLabel">Location: </p>
         <p class="eventDetailsLocData"><%= event.location %></p>
+
+        <% function searchSub() { $("#selectSearch").change(function() {
+            var action = $(this).val();
+            $("#searchForm").attr("action", "/inventory/" + action);
+            }); }
+        %>
     
-        <button class="eventRSVPButton">RSVP</button>
-    
+    <form class="searchForm"  id="searchForm" method="POST" action="/inventory" >
+        <input id="selectSearch" name="selectSearch"  class="eventRSVPButton" value="RSVP">
+    <form>
     </div>
     <%- include('../footer.ejs'); %>

@@ -226,6 +226,9 @@ db.once("open", () => {
 
 //app default
 
+
+
+
   app.get("/inventory/create", (req, res) => {
     User.findById(auth.sessions[req.cookies.session], (err, user) => {
       if (err) {
@@ -296,6 +299,7 @@ db.once("open", () => {
   });
 
   app.get("/inventory", (req, res) => {
+    console.log("app.get(/inventory)")
     InventoryItem.find({}, (err, inventory) => {
       if (err) {
         console.log(err.message);
@@ -316,8 +320,39 @@ db.once("open", () => {
       
     });
   });
-  
+
+  app.get("/search/", (req, res) => {
+    console.log("app.get(/search/) call")
+    console.log(req._parsedOriginalUrl.query)
+    console.log("..")
+    
+    var queryStr = req._parsedOriginalUrl.query.toString();
+    var q = {}, q = queryStr.split('&').toString()
+    var q2 = {};
+     q = q.split('=').toString()
+        console.log("q2[0]")
+        console.log(q2[2])
+    InventoryItem.find({name: q2[1]}, (err, item) => {
+      if (err) {
+        console.log(err.message);
+      }
+      User.findById(auth.sessions[req.cookies.session], (err, user) => {
+        if (err) {
+          console.log(err.message);
+        }
+        else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
+          res.render("./inventory/inventoryItemSearchDetails.ejs", { item: item });
+        }
+        else {
+          res.render("./inventory/inventoryItemSearchDetails.ejs", { item: item });
+        }
+
+      });
+    });
+  });
+
   app.get("/inventory/:inventoryId", (req, res) => {
+    console.log("app.get(/inventory/:inventoryId)")
     InventoryItem.findById(req.params.inventoryId, (err, item) => {
       if (err) {
         console.log(err.message);
@@ -337,30 +372,8 @@ db.once("open", () => {
     });
   });
 
-  app.get("/inventory/:inventoryId/search/", (req, res) => {
-    console.log(req.params)
-    console.log('index.js 342 req.params')
-    InventoryItem.find({name: req.params.inventoryId}, (err, item) => {
-      if (err) {
-        console.log(err.message);
-      }
-      User.findById(auth.sessions[req.cookies.session], (err, user) => {
-        if (err) {
-          console.log(err.message);
-        }
-        else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
-          res.render("./inventory/inventory.ejs", { item: item });
-        }
-        else {
-          res.render("./inventory/inventoryOrg.ejs", { item: item });
-        }
-
-      });
-    });
-  });
-
-
   app.post("/inventory/:inventoryId", (req, res) => {
+    console.log("app.post(/inventory/:inventoryId")
     User.findById(auth.sessions[req.cookies.session], (err, user) => {
       if (err) {
         console.log(err.message);
@@ -390,6 +403,7 @@ db.once("open", () => {
   });
  
   app.post("/inventory/:inventoryId/delete", (req, res) => {
+    console.log("app.post(/inventory/:inventoryId/delete)")
     User.findById(auth.sessions[req.cookies.session], (err, user) => {
       if (err) {
         console.log(err.message);
@@ -410,6 +424,7 @@ db.once("open", () => {
   });
 
   app.get("/inventory/:inventoryId/edit", (req, res) => {
+    console.log("app.get(/inventory/:inventoryId/edit)")
       User.findById(auth.sessions[req.cookies.session], (err, user) => {
         if (err) {
           console.log(err.message);
