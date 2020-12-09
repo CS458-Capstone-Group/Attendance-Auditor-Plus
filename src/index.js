@@ -110,8 +110,7 @@ db.once("open", () => {
   });
 
   app.get("/events", (req, res) => {
-    // Event.find({ date: { $gt: new Date() } }).sort("date").sort("time").exec((err, events) => { 
-    Event.find({}, (err, events) => {
+    Event.find({ date: { $gt: today } }).sort("date").sort("time").exec((err, events) => {
       if (err) {
         console.log(err.message);
       }
