@@ -376,9 +376,7 @@ db.once("open", () => {
               {
                 name: req.body.name,
                 description: req.body.description,
-                sn: req.body.sn,
-                checkedOut: req.body.checkedOut,
-                checkedOutBy: req.body.checkedOutBy
+                sn: req.body.sn
               },
               (err) => {
                 if (err) {
@@ -432,6 +430,61 @@ db.once("open", () => {
         }
       });
     });
+
+    app.get("/inventory/:inventoryId/status", (req, res) => {
+      User.findById(auth.sessions[req.cookies.session], (err, user) => {
+        if (err) {
+          console.log(err.message);
+        }
+        else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
+          res.redirect("/inventory");
+        }
+        else {
+          InventoryItem.findById(req.params.inventoryId, (err, item) => {
+            if(err) {
+              console.error(err);
+            }
+
+            res.render("./inventory/inventoryItemStatusChangeOrg.ejs", { item: item });
+
+          });
+        }
+      });
+    });
+
+    
+  app.post("/inventory/:inventoryId/status", (req, res) => {
+    User.findById(auth.sessions[req.cookies.session], (err, user) => {
+      if (err) {
+        console.log(err.message);
+      }
+      else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
+        res.redirect("/inventory");
+      }
+      else {
+            var updateObject ={
+                 checkedOut: req.body.checkedOut
+            }
+
+            if(req.body.checkedOut === "true")
+            {
+              updateObject.checkedOutBy = req.body.checkedOutBy
+            }
+            else{
+              updateObject.checkedOutBy = ""
+            }
+
+            InventoryItem.findByIdAndUpdate(req.params.inventoryId, updateObject, (err) => {
+                if (err) {
+                  console.error(err);
+                }
+
+                res.redirect("/inventory");
+              });
+            
+        } 
+    });
+  });
 
 
   app.get("/profile", (req, res) => {

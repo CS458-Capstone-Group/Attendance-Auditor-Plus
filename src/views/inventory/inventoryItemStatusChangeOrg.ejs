@@ -1,0 +1,38 @@
+<%- include("../headerOrg.ejs"); %>
+<h1 class="formHeader">Edit Inventory Item</h1>
+<form id="inventoryItemForm" class="formContainer" action="/inventory/<%= item._id %>/status" method="POST">
+    <p class="formElement1-1"> Item Name: </p>
+    <p class="formElement1-2"><%= item.name %></p>
+
+    <p class="formElement2-1">Item Description: </p>
+    <p class="formElement2-2"><%= item.description %></p>
+
+    <p class="formElement3-1">Item Serial Number: </p>
+    <p class="formElement3-2"><%= item.sn %></p>
+
+    <label for="checkedOut" class="formElement4-1">Status: Checked-Out</label>
+    <input type="radio" onclick="showStuff();" name="checkedOut" id="checkedOut" class="formElement4-2" value="true" <% if(item.checkedOut === "true") { %> <%= checked="checked" %> <% } %>>
+    <label for="available" class="formElement5-1">Status: Available </label>
+    <input type="radio" onclick="hideStuff();"name="checkedOut" id="available" class="formElement5-2" value="false" <% if(item.checkedOut === "false") { %> <%= checked="checked" %> <% } %>>
+    
+    <label id="checkedOutByLabel" for="checkedOutBy" class="formElement6-1" <% if(item.checkedOut === "false"){ %> style= "display: none;" <% } %>>Checked out by: </label> <br/>
+    <input id="checkedOutByData" type="text" name="checkedOutBy" class="formElement6-2" value="<%= item.checkedOutBy %>" <% if(item.checkedOut === "false"){ %> style= "display: none;" <% } %>>
+
+    <input class="formElement7-2 formSubmitButton" type="submit" name="submitButton" id="submitButton" value="Save">
+    </div>
+</form>
+
+<script>
+    var formLabel = document.querySelector("#checkedOutByLabel");
+    var formData = document.querySelector("#checkedOutByData");
+    function hideStuff(){
+        formLabel.style.display = "none";
+        formData.style.display = "none";
+    }
+    function showStuff()
+    {
+        formLabel.style.display = "block";
+        formData.style.display = "block";
+    }
+</script>
+<%- include("../footer.ejs"); %>

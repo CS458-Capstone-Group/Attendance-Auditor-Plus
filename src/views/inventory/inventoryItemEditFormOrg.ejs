@@ -10,15 +10,6 @@
     <label for="sn" class="formElement3-1">Item Serial Number: </label>
     <input type="text" name="sn" class="formElement3-2" value="<%= item.sn %>">
 
-    <label for="checkedOut" class="formElement4-1">Status: </label>
-    <select name="checkedOut" id="checkedOut" class="formElement4-2" value="<%= item.checkedOut %>">
-        <option value="false" <% if(item.checkedOut === "false") { %> <%=selected="selected" %> <% } %>>Available</option>
-        <option value="true" <% if(item.checkedOut === "true") { %> <%=selected="selected" %> <% } %>>Checked out</option>
-    </select>
-
-    <label for="checkedOutBy" class="formElement5-1">Checked out by: </label>
-    <input type="text" name="checkedOutBy" class="formElement5-2" value="<%= item.checkedOutBy %>">
-
     <input class="formElement6-2 formSubmitButton" type="submit" name="submitButton" id="submitButton" value="Save">
     </div>
 </form>

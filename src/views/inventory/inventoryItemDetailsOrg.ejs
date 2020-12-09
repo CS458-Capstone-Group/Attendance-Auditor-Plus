@@ -28,7 +28,11 @@
           <p class="inventoryItemViewCheckedOutByData"> <%= item.checkedOutBy %> </p>
         <% } %>
     </div>
-    <button class="inventoryItemViewCheckOutReturnButton">Check In/Out</button>
+
+    <form  class="addForm" action="/inventory/<%= item._id %>/status" method="GET">
+      <input class="inventoryItemViewCheckOutReturnButton" type="submit" value="Check In/Out"> 
+    </form>
+
 </div>
 
 <form action="/inventory/<%= item._id %>/delete" method="POST">
