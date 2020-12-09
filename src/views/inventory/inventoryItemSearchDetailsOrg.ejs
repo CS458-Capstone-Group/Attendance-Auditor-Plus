@@ -1,10 +1,13 @@
-<%- include('../header.ejs'); %>
+<%- include('../headerOrg.ejs'); %>
 
 <div class="inventorySearchAddContainer">  
     <form action="/inventory/search/" method="GET" class="searchForm">
         <input id="inventorySearchField"name="invName" class="inventorySearchField" type="text" placeholder="Item Name">
         <input type="submit" class="inventorySearchButton" value="Search">
     </form>
+    <form  class="addForm" action="/inventory/create" method="GET">
+        <input class="inventoryAddItemButton" type="submit" value="Add Item"> 
+      </form>
 </div>
 
 <h1 class="listHeader"> Inventory Search Results </h1>

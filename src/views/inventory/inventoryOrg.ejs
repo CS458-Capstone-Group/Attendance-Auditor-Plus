@@ -1,20 +1,16 @@
 <%- include('../headerOrg.ejs'); %>
 
-<h1 class="listHeader">All Inventory Items</h1>
-
-<div class="inventorySearchAddContainer">
-
-  <form class="searchFormA" action="/inventory/<%= inventory._id %>" method="GET">
-    
-    <input class="inventorySearchField" type="text" placeholder="search inv name">
-    <input class="inventorySearchButton" type="submit" value="Search Item">
-
+<div class="inventorySearchAddContainer">  
+  <form action="/inventory/search/" method="GET" class="searchForm">
+      <input id="inventorySearchField"name="invName" class="inventorySearchField" type="text" placeholder="Item Name">
+      <input type="submit" class="inventorySearchButton" value="Search">
   </form>
-
-  <form  class="addFormA" action="/inventory/create" method="GET">
+  <form  class="addForm" action="/inventory/create" method="GET">
     <input class="inventoryAddItemButton" type="submit" value="Add Item"> 
   </form>
 </div>
+
+<h1 class="listHeader">All Inventory Items</h1>
 <hr/>
 <% if (inventory) { %>
 <% inventory.forEach(function(inventory) { %>

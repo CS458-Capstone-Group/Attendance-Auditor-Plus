@@ -1,18 +1,17 @@
 <%- include('../headerOrg.ejs'); %>
-<!--
-<div class="inventorySearchAddContainer">
-    <form class="searchFormA">
-       <input class="inventorySearchField" type="text" placeholder="search inv name">
-       <input class="inventorySearchButton" type="submit" value="Search">
 
-    </form>
--->
+<div class="inventorySearchAddContainer">  
+  <form action="/inventory/search/" method="GET" class="searchForm">
+      <input id="inventorySearchField"name="invName" class="inventorySearchField" type="text" placeholder="Item Name">
+      <input type="submit" class="inventorySearchButton" value="Search">
+  </form>
+  <form  class="addForm" action="/inventory/create" method="GET">
+    <input class="inventoryAddItemButton" type="submit" value="Add Item"> 
+  </form>
+</div>
 
-  <form  class="addFormA" action="/inventory/create" method="GET">
-      <input class="inventoryAddItemButton" type="submit" value="Add Item"> 
-    </form>
-  </div>
-
+<h1 class="listHeader">Item Details: <%= item.name %></h1>
+<hr/>
 <div class="inventoryItemViewContainer">
     <form class="inventoryItemViewEditButton" action="/inventory/<%= item._id %>/edit" method="GET">
         <input type="submit" class="inventoryItemViewEditButton" value="Edit Details">
@@ -22,14 +21,12 @@
     <div class="inventoryItemViewDetailsContainer">
         <p class="inventoryItemViewSNLabel">Serial Number: </p>
         <p class="inventoryItemViewSNData"><%= item.sn %></p>
-        <p class="inventoryItemViewCheckedOutByLabel">Checked out by: </p>
-        <p class="inventoryItemViewCheckedOutByData"><%= item.checkedOutBy %></p>
-        
-        <!-- <p class="inventoryItemViewCheckedOutDateLabel">Checked out date: </p>
-        <p class="inventoryItemViewCheckedOutDateData">12/5/2020</p> -->
-        <!-- <p class="inventoryItemViewIntendedReturnDateLabel">Intended return date: </p>
-        <p class="inventoryItemViewIntendedReturnDateData">12/7/2020</p> -->
-        
+        <p class="inventoryItemViewStockStatusLabel">Stock Status: </p>  
+        <p class="inventoryItemViewStockStatusData"><%= ((item.checkedOut ==="true") ? "Checked Out" : "Available"); %> </p>
+        <% if(item.checkedOut === "true"){ %>   
+          <p class="inventoryItemViewCheckedOutByLabel">Checked out by: </p>
+          <p class="inventoryItemViewCheckedOutByData"> <%= item.checkedOutBy %> </p>
+        <% } %>
     </div>
     <button class="inventoryItemViewCheckOutReturnButton">Check In/Out</button>
 </div>

@@ -110,7 +110,8 @@ db.once("open", () => {
   });
 
   app.get("/events", (req, res) => {
-      Event.find({ date: { $gt: new Date() } }).sort("time").exec((err, events) => { 
+      // Event.find({ date: { $gt: new Date() } }).sort("time").exec((err, events) => { 
+        Event.find({},(err, events) => { 
         if (err) {
           console.log(err.message);
         }
@@ -322,19 +323,8 @@ db.once("open", () => {
   });
 
   app.get("/inventory/search/", (req, res) => {
-    console.log("app.get(/search/) call")
-    console.log(req._parsedOriginalUrl.query)
-    console.log("..")
-    
-    var queryStr = req._parsedOriginalUrl.query.toString();
-    var preQ = queryStr.split('&')
-    var postQ = preQ[0].toString().split('=')
 
-  
-        console.log("postQ")
-        console.log(postQ[1])
-
-    InventoryItem.find({name: postQ[1]}, (err, inventory) => {
+      InventoryItem.find({name: req.query.invName}, (err, inventory) => {
       if (err) {
         console.log(err.message);
       }
@@ -343,10 +333,10 @@ db.once("open", () => {
           console.log(err.message);
         }
         else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
-          res.render("./inventory/inventoryItemSearchDetails.ejs", { inventory: inventory });
+          res.render("./inventory/inventoryItemSearchDetails.ejs", { inventory: inventory, keyword: req.query.invName });
         }
         else {
-          res.render("./inventory/inventoryItemSearchDetails.ejs", { inventory: inventory });
+          res.render("./inventory/inventoryItemSearchDetailsOrg.ejs", { inventory: inventory, keyword: req.query.invName  });
         }
 
       });
@@ -354,7 +344,6 @@ db.once("open", () => {
   });
 
   app.get("/inventory/:inventoryId", (req, res) => {
-    console.log("app.get(/inventory/:inventoryId)")
     InventoryItem.findById(req.params.inventoryId, (err, item) => {
       if (err) {
         console.log(err.message);
@@ -375,7 +364,6 @@ db.once("open", () => {
   });
 
   app.post("/inventory/:inventoryId", (req, res) => {
-    console.log("app.post(/inventory/:inventoryId")
     User.findById(auth.sessions[req.cookies.session], (err, user) => {
       if (err) {
         console.log(err.message);
@@ -405,7 +393,6 @@ db.once("open", () => {
   });
  
   app.post("/inventory/:inventoryId/delete", (req, res) => {
-    console.log("app.post(/inventory/:inventoryId/delete)")
     User.findById(auth.sessions[req.cookies.session], (err, user) => {
       if (err) {
         console.log(err.message);
@@ -426,7 +413,6 @@ db.once("open", () => {
   });
 
   app.get("/inventory/:inventoryId/edit", (req, res) => {
-    console.log("app.get(/inventory/:inventoryId/edit)")
       User.findById(auth.sessions[req.cookies.session], (err, user) => {
         if (err) {
           console.log(err.message);

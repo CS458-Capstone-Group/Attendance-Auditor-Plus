@@ -1129,7 +1129,7 @@ legend
    grid-auto-rows: minmax(4vw, auto);
 }
 
-.searchFormA
+.searchForm
 {
    grid-row: 1;
    grid-column: 1/4; 
@@ -1234,8 +1234,8 @@ legend
 .inventoryItemViewDesc
 {
    grid-row: 2;
-   grid-column: 2/3;
-   text-align: left;
+   grid-column: 2;
+   text-align: center;
    font-size: 1.75vw;
 }
 
@@ -1280,7 +1280,7 @@ legend
 
 .inventoryItemViewCheckedOutByLabel
 {
-   grid-row: 2;
+   grid-row: 4;
    grid-column: 1;
    font-weight: bold;
    font-size: 1.75vw;
@@ -1288,7 +1288,7 @@ legend
 
 .inventoryItemViewCheckedOutByData
 {
-   grid-row: 2;
+   grid-row: 4;
    grid-column: 2;
    font-size: 1.75vw;
 }

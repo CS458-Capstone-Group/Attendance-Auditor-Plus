@@ -1,28 +1,24 @@
 <%- include('../header.ejs'); %>
 
-<h1 class="listHeader">All Inventory Items</h1>
-<div class="inventorySearchAddContainer">
-
-  
-        <form>
-       <input id="inventorySearchField"name="invName" class="inventorySearchField" type="text" placeholder="search inv name">
-        <button type="submit" formaction="/inventory/search/" formmethod="GET" onclick="this.form.submit();" 
-                name="button" id="button" class="inventorySearchButton" value="Submit"> Search Item </button>
+<div class="inventorySearchAddContainer">  
+        <form action="/inventory/search/" method="GET" class="searchForm">
+            <input id="inventorySearchField"name="invName" class="inventorySearchField" type="text" placeholder="Item Name">
+            <input type="submit" class="inventorySearchButton" value="Search">
         </form>
-
 </div>
-<hr/>
+
+<h1 class="listHeader">All Inventory Items</h1>
+<hr />
 <% if (inventory) { %>
 <% inventory.forEach(function(inventory) { %>
 <% if (inventory) { %>
 <a class="nostyle" href="/inventory/<%= inventory._id %>">
-    <div class="inventoryItemContainer">
-        <p class="inventoryItemName"><%= inventory.name  %></p>
-        <p class="inventoryItemDesc"><%= inventory.sn %></p>
-    </div>
+        <div class="inventoryItemContainer">
+                <p class="inventoryItemName"><%= inventory.name  %></p>
+                <p class="inventoryItemDesc"><%= inventory.sn %></p>
+        </div>
 </a>
-<% } 
-        %>
+<% } %>
 <% }); %>
 <% } %>
 
