@@ -11,12 +11,12 @@
 
     <% var months = ["Jan", "Feb", "Mar", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"]; %>
     <% var cDate = new Date(event.date);  %>
-    <% var month = cDate.getMonth(); %>
-    <% var day = cDate.getDate(); %>
-    <% var year = cDate.getFullYear(); %>
+    <% var month = cDate.getUTCMonth(); %>
+    <% var day = cDate.getUTCDate(); %>
+    <% var year = cDate.getUTCFullYear(); %>
     <% var zoneOffset = cDate.getTimezoneOffset(); /* maybe doesn't matter if it's LOCAL for now */%>
-    <% var hr = cDate.getHours(); %>
-    <% var mins = cDate.getHours(); %>
+    <% var hr = cDate.getUTCHours(); %>
+    <% var mins = cDate.getUTCHours(); %>
 
     <% function pad(n) { return n<10 ? '0'+n : n;} %>
     <% function pmam(o) { return o <13 ? 'AM' : 'PM';} %>

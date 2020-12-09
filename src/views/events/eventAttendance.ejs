@@ -1,16 +1,17 @@
 <% include("../header.ejs"); %>
 
 <h2>RSVP List</h2>
-
-<% attendance.forEach(function(attendee) { %>
-<div class="eventListItem">
-    <% if (attendee.didRSVP) { %>
-    <input id="rsvp<%= attendee.userId %>" type="checkbox"
-        onchange="updateEntry('<%= attendee.userId %>', '<%= eventId %>');" />
-    <p class="name"><%= attendee.userId %></p>
-    <% } %>
-</div>
-<% }); %>
+<form action="/events/<%= eventId %>/attendance" action="POST">
+    <% attendance.forEach(function(attendee) { %>
+    <div class="eventListItem">
+        <% if (attendee.didRSVP) { %>
+        <input id="rsvp<%= attendee.userId %>" type="checkbox"
+            onchange="updateEntry('<%= attendee.userId %>', '<%= eventId %>');" />
+        <p class="name"><%= attendee.userId %></p>
+        <% } %>
+    </div>
+    <% }); %>
+</form>
 
 <h2>Other</h2>
 
