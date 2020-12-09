@@ -7,35 +7,34 @@
     <label for="description" class="formElement2-1">Event Description: </label>
     <input type="textarea" name="description" class="formElement2-2" value="<%= event.description %>">
 
-  <% var months = ["Jan", "Feb", "Mar", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"]; %>
-      <% var cDate = new Date(event.date);  %>
-      <% var month = cDate.getMonth(); %>
-      <% var day = cDate.getDate(); %>
-      <% var year = cDate.getFullYear(); %>
-      <% var zoneOffset = cDate.getTimezoneOffset(); /* maybe doesn't matter if it's LOCAL for now */%>
-      <% var hr = cDate.getHours(); %>
-      <% var mins = cDate.getHours(); %>
-      
-      <% function pad(n) { return n<10 ? '0'+n : n;} %>
-      <% function pmam(o) { return o <13 ? 'AM' : 'PM';} %>
+    <% var months = ["Jan", "Feb", "Mar", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"]; %>
+    <% var cDate = new Date(event.date);  %>
+    <% var month = cDate.getUTCMonth(); %>
+    <% var day = cDate.getUTCDate(); %>
+    <% var year = cDate.getUTCFullYear(); %>
+    <% var zoneOffset = cDate.getTimezoneOffset(); /* maybe doesn't matter if it's LOCAL for now */%>
+    <% var hr = cDate.getUTCHours(); %>
+    <% var mins = cDate.getUTCHours(); %>
+
+    <% function pad(n) { return n<10 ? '0'+n : n;} %>
+    <% function pmam(o) { return o <13 ? 'AM' : 'PM';} %>
 
 
-      <%  var prefill_date_format=''; prefill_date_format = year+'-'+pad(month+1)+'-'+pad(day);  /* YYYY-MM-DD */ %>
+    <%  var prefill_date_format=''; prefill_date_format = year+'-'+pad(month+1)+'-'+pad(day);  /* YYYY-MM-DD */ %>
 
     <label for="date" class="formElement3-1">Event Date: </label>
-    <input type="date" name="date" class="formElement3-2" required="required"
-        value="<%= prefill_date_format %>">
+    <input type="date" name="date" class="formElement3-2" required="required" value="<%= prefill_date_format %>">
 
-    
+
     <% var fullyTime = event.time %>
     <% var hh = fullyTime.split(":") /* 10:30 AM into ["10", "30 AM"] */ %>
-    <% var mmNampm = hh[1].split(" ") /* "30 AM" into ["30", "AM"] */%> 
- 
+    <% var mmNampm = hh[1].split(" ") /* "30 AM" into ["30", "AM"] */%>
+
 
 
     <label class="formElement4-1" for="time">Choose an hour: </label>
     <select class="formElement4-2" name="time" id="time">
-        <option value="1" <% if(hh[0] === "1") { %> <%= selected="selected" %> <% } %> >1</option>
+        <option value="1" <% if(hh[0] === "1") { %> <%= selected="selected" %> <% } %>>1</option>
         <option value="2" <% if(hh[0] === "2") { %> <%= selected="selected" %> <% } %>>2</option>
         <option value="3" <% if(hh[0] === "3") { %> <%= selected="selected" %> <% } %>>3</option>
         <option value="4" <% if(hh[0] === "4") { %> <%= selected="selected" %> <% } %>>4</option>
@@ -59,8 +58,8 @@
 
     <label class="formElement6-1" for="timeampm">Choose AM / PM</label>
     <select class="formElement6-2" name="timeampm" id="timeampm">
-        <option value="AM" <% if(mmNampm[1] ==="AM") { %> <%= selected="selected" %> <% } %> > AM</option>
-        <option value="PM" <% if(mmNampm[1] ==="PM") { %> <%= selected="selected" %> <% } %> > PM</option>
+        <option value="AM" <% if(mmNampm[1] ==="AM") { %> <%= selected="selected" %> <% } %>> AM</option>
+        <option value="PM" <% if(mmNampm[1] ==="PM") { %> <%= selected="selected" %> <% } %>> PM</option>
     </select>
 
     <label for="capacity" class="formElement7-1">Event Capacity: </label>
@@ -71,5 +70,5 @@
 
     <input class="formElement9-2 formSubmitButton" type="submit" name="submitButton" id="submitButton" value="Save">
     </div>
-</form >
+</form>
 <%- include("../footer.ejs"); %>

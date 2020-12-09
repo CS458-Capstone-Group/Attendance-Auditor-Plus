@@ -110,7 +110,10 @@ db.once("open", () => {
   });
 
   app.get("/events", (req, res) => {
-    Event.find({ date: { $gt: today } }).sort("date").sort("time").exec((err, events) => {
+    var now = new Date();
+    var today = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+
+    Event.find({ date: { $gte: today } }).sort("date").sort("time").exec((err, events) => {
       if (err) {
         console.log(err.message);
       }
