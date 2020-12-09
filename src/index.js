@@ -65,7 +65,7 @@ db.once("open", () => {
 
   app.post("/events", (req, res) => {
     User.findById(auth.sessions[req.cookies.session], (err, user) => {
-      
+
       if (err) {
         console.log(err.message);
       }
@@ -83,18 +83,18 @@ db.once("open", () => {
           res.json({ message: "missing time" });
         }
 
-        
-        
+
+
         var event = new Event({
           title: req.body.title,
           description: req.body.description,
           date: req.body.date,
-          time: req.body.time+req.body.timemins+' '+req.body.timeampm,
+          time: req.body.time + req.body.timemins + ' ' + req.body.timeampm,
           capacity: req.body.capacity,
           location: req.body.location
         });
 
-        
+
 
         event.save((err) => {
           if (err) {
@@ -110,23 +110,23 @@ db.once("open", () => {
   });
 
   app.get("/events", (req, res) => {
-      // Event.find({ date: { $gt: new Date() } }).sort("time").exec((err, events) => { 
-        Event.find({},(err, events) => { 
+    // Event.find({ date: { $gt: new Date() } }).sort("date").sort("time").exec((err, events) => { 
+    Event.find({}, (err, events) => {
+      if (err) {
+        console.log(err.message);
+      }
+
+      User.findById(auth.sessions[req.cookies.session], (err, user) => {
         if (err) {
           console.log(err.message);
         }
-
-        User.findById(auth.sessions[req.cookies.session], (err, user) => {
-          if (err) {
-            console.log(err.message);
-          }
-          else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
-            res.render("./events/events.ejs", { events: events });
-          }
-          else {
-            res.render("./events/eventsOrg.ejs", { events: events });
-          }
-        });
+        else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
+          res.render("./events/events.ejs", { events: events });
+        }
+        else {
+          res.render("./events/eventsOrg.ejs", { events: events });
+        }
+      });
     });
   });
 
@@ -159,24 +159,24 @@ db.once("open", () => {
         res.redirect("/events");
       }
       else {
-            Event.findByIdAndUpdate(req.params.eventId,
-              {
-                title: req.body.title,
-                description: req.body.description,
-                date: req.body.date,
-                time: req.body.time + ":" + req.body.timemins + " " + req.body.timeampm,
-                capacity: req.body.capacity,
-                location: req.body.location
-              },
-              (err) => {
-                if (err) {
-                  console.error(err);
-                }
+        Event.findByIdAndUpdate(req.params.eventId,
+          {
+            title: req.body.title,
+            description: req.body.description,
+            date: req.body.date,
+            time: req.body.time + ":" + req.body.timemins + " " + req.body.timeampm,
+            capacity: req.body.capacity,
+            location: req.body.location
+          },
+          (err) => {
+            if (err) {
+              console.error(err);
+            }
 
-                res.redirect("/events");
-              });
-            
-        } 
+            res.redirect("/events");
+          });
+
+      }
     });
   });
 
@@ -210,6 +210,81 @@ db.once("open", () => {
     });
   });
 
+  app.post("/events/:eventId/rsvp", (req, res) => {
+    if (!auth.sessions[req.cookies.session]) {
+      res.redirect("/login");
+    }
+    else {
+      var userId = auth.sessions[req.cookies.session];
+
+      Event.findById(req.params.eventId, (err, event) => {
+        if (err) console.error(err);
+
+        for (let i = 0; i < event.attendees.length; i++) {
+          if (event.attendees[i].userId === userId) {
+            if (event.attendees[i].didRSVP === false) {
+              event.attendees[i].didRSVP = true;
+            }
+            else {
+              res.redirect("/events");
+            }
+          }
+        }
+
+        Event.findByIdAndUpdate(req.params.eventId,
+          {
+            $push:
+            {
+              attendees:
+              {
+                userId: userId,
+                didRSVP: true,
+                didAttend: false
+              }
+            }
+          }, (err) => {
+            if (err) console.error(err);
+
+            res.redirect("/events");
+          });
+      });
+    }
+  });
+
+  app.get("/events/:eventId/attendance", (req, res) => {
+    User.findById(auth.sessions[req.cookies.session], (err, user) => {
+      if (err) {
+        console.log(err.message);
+      }
+      else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
+        res.redirect("/events");
+      }
+      else {
+        Event.findById(req.params.eventId, (err, event) => {
+          if (err) console.error(err);
+
+          res.render("events/eventAttendance.ejs", { attendance: event.attendees, eventId: req.params.eventId });
+        });
+      }
+    });
+  });
+
+  app.post("/events/:eventId/attendance/:userId", (req, res) => {
+    console.log(req.query.checked);
+    Event.findById(req.params.eventId, (err, event) => {
+      if (err) console.error(err);
+
+      event.attendees.forEach((attendee) => {
+        if (attendee.userId === req.params.userId) {
+          attendee.didAttend = req.query.checked;
+        }
+      });
+
+      Event.findByIdAndUpdate(req.params.eventId, { attendees: event.attendees }, (err) => {
+        if (err) console.error(err);
+      })
+    });
+  });
 
 
 
@@ -225,7 +300,7 @@ db.once("open", () => {
 
 
 
-//app default
+  //app default
 
 
 
@@ -243,14 +318,14 @@ db.once("open", () => {
       }
     });
   })
- 
+
   app.post("/inventory", (req, res) => {
     User.findById(auth.sessions[req.cookies.session], (err, user) => {
-     
+
 
       if (err) {
         console.log(err.message);
-      } 
+      }
       else {
         /*
         if (!user || (user.category !== "organizer" && user.category !== "admin")) {
@@ -272,18 +347,18 @@ db.once("open", () => {
           res.json({ message: "missing checkedOutBy" });
         }
           */
-        
-       
+
+
         var inventoryItem = new InventoryItem({
-          name: req.body.name, 
-          description: req.body.description, 
+          name: req.body.name,
+          description: req.body.description,
           sn: req.body.sn,
           checkedOut: req.body.checkedOut,
           checkedOutBy: req.body.checkedOutBy
         });
 
-        
-     
+
+
 
         inventoryItem.save((err) => {
           if (err) {
@@ -291,7 +366,7 @@ db.once("open", () => {
             res.json({ message: "could not save item" });
           }
           else {
-            
+
             res.redirect("/inventory");
           }
         });
@@ -318,13 +393,13 @@ db.once("open", () => {
 
       });
 
-      
+
     });
   });
 
   app.get("/inventory/search/", (req, res) => {
 
-      InventoryItem.find({name: req.query.invName}, (err, inventory) => {
+    InventoryItem.find({ name: req.query.invName }, (err, inventory) => {
       if (err) {
         console.log(err.message);
       }
@@ -336,7 +411,7 @@ db.once("open", () => {
           res.render("./inventory/inventoryItemSearchDetails.ejs", { inventory: inventory, keyword: req.query.invName });
         }
         else {
-          res.render("./inventory/inventoryItemSearchDetailsOrg.ejs", { inventory: inventory, keyword: req.query.invName  });
+          res.render("./inventory/inventoryItemSearchDetailsOrg.ejs", { inventory: inventory, keyword: req.query.invName });
         }
 
       });
@@ -372,24 +447,24 @@ db.once("open", () => {
         res.redirect("/inventory");
       }
       else {
-            InventoryItem.findByIdAndUpdate(req.params.inventoryId,
-              {
-                name: req.body.name,
-                description: req.body.description,
-                sn: req.body.sn
-              },
-              (err) => {
-                if (err) {
-                  console.error(err);
-                }
+        InventoryItem.findByIdAndUpdate(req.params.inventoryId,
+          {
+            name: req.body.name,
+            description: req.body.description,
+            sn: req.body.sn
+          },
+          (err) => {
+            if (err) {
+              console.error(err);
+            }
 
-                res.redirect("/inventory");
-              });
-            
-        } 
+            res.redirect("/inventory");
+          });
+
+      }
     });
   });
- 
+
   app.post("/inventory/:inventoryId/delete", (req, res) => {
     User.findById(auth.sessions[req.cookies.session], (err, user) => {
       if (err) {
@@ -411,48 +486,48 @@ db.once("open", () => {
   });
 
   app.get("/inventory/:inventoryId/edit", (req, res) => {
-      User.findById(auth.sessions[req.cookies.session], (err, user) => {
-        if (err) {
-          console.log(err.message);
-        }
-        else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
-          res.redirect("/inventory");
-        }
-        else {
-          InventoryItem.findById(req.params.inventoryId, (err, item) => {
-            if(err) {
-              console.error(err);
-            }
+    User.findById(auth.sessions[req.cookies.session], (err, user) => {
+      if (err) {
+        console.log(err.message);
+      }
+      else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
+        res.redirect("/inventory");
+      }
+      else {
+        InventoryItem.findById(req.params.inventoryId, (err, item) => {
+          if (err) {
+            console.error(err);
+          }
 
-            res.render("./inventory/inventoryItemEditFormOrg.ejs", { item: item });
+          res.render("./inventory/inventoryItemEditFormOrg.ejs", { item: item });
 
-          });
-        }
-      });
+        });
+      }
     });
+  });
 
-    app.get("/inventory/:inventoryId/status", (req, res) => {
-      User.findById(auth.sessions[req.cookies.session], (err, user) => {
-        if (err) {
-          console.log(err.message);
-        }
-        else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
-          res.redirect("/inventory");
-        }
-        else {
-          InventoryItem.findById(req.params.inventoryId, (err, item) => {
-            if(err) {
-              console.error(err);
-            }
+  app.get("/inventory/:inventoryId/status", (req, res) => {
+    User.findById(auth.sessions[req.cookies.session], (err, user) => {
+      if (err) {
+        console.log(err.message);
+      }
+      else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
+        res.redirect("/inventory");
+      }
+      else {
+        InventoryItem.findById(req.params.inventoryId, (err, item) => {
+          if (err) {
+            console.error(err);
+          }
 
-            res.render("./inventory/inventoryItemStatusChangeOrg.ejs", { item: item });
+          res.render("./inventory/inventoryItemStatusChangeOrg.ejs", { item: item });
 
-          });
-        }
-      });
+        });
+      }
     });
+  });
 
-    
+
   app.post("/inventory/:inventoryId/status", (req, res) => {
     User.findById(auth.sessions[req.cookies.session], (err, user) => {
       if (err) {
@@ -462,27 +537,26 @@ db.once("open", () => {
         res.redirect("/inventory");
       }
       else {
-            var updateObject ={
-                 checkedOut: req.body.checkedOut
-            }
+        var updateObject = {
+          checkedOut: req.body.checkedOut
+        }
 
-            if(req.body.checkedOut === "true")
-            {
-              updateObject.checkedOutBy = req.body.checkedOutBy
-            }
-            else{
-              updateObject.checkedOutBy = ""
-            }
+        if (req.body.checkedOut === "true") {
+          updateObject.checkedOutBy = req.body.checkedOutBy
+        }
+        else {
+          updateObject.checkedOutBy = ""
+        }
 
-            InventoryItem.findByIdAndUpdate(req.params.inventoryId, updateObject, (err) => {
-                if (err) {
-                  console.error(err);
-                }
+        InventoryItem.findByIdAndUpdate(req.params.inventoryId, updateObject, (err) => {
+          if (err) {
+            console.error(err);
+          }
 
-                res.redirect("/inventory");
-              });
-            
-        } 
+          res.redirect("/inventory");
+        });
+
+      }
     });
   });
 
@@ -494,10 +568,10 @@ db.once("open", () => {
           console.log(err.message);
         }
         else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
-          res.render("./profile/profile.ejs", { user: user});
+          res.render("./profile/profile.ejs", { user: user });
         }
         else {
-          res.render("./profile/profileOrg.ejs", { user: user});
+          res.render("./profile/profileOrg.ejs", { user: user });
         }
       });
     }
@@ -513,7 +587,7 @@ db.once("open", () => {
           console.log(err.message);
         }
         else {
-          res.render("./profile/editProfile.ejs", { user: user});
+          res.render("./profile/editProfile.ejs", { user: user });
         }
       });
     }
@@ -535,7 +609,7 @@ db.once("open", () => {
             email: req.body.email,
             phone: req.body.phone,
             department: req.body.department,
-            category: req.body.category            
+            category: req.body.category
           },
           (err) => {
             if (err) {

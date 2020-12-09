@@ -1,6 +1,8 @@
 <%- include('../headerOrg.ejs'); %>
 <div class="eventControlsHeaderContainer">
-    <button class="eventSignInButton">Event Sign-In</button>
+    <form action="/events/<%= event._id %>/attendance">
+        <input type="submit" class="eventSignInButton" value="Event Sign-In">
+    </form>
     <form action="/events/<%= event._id %>/edit" method="GET">
         <input type='submit' class="eventEditButton" value="Edit Event" />
     </form>
@@ -24,14 +26,14 @@
     <% var zoneOffset = cDate.getTimezoneOffset(); /* maybe doesn't matter if it's LOCAL for now */%>
     <% var hr = cDate.getHours(); %>
     <% var mins = cDate.getHours(); %>
-      
-      <% function pad(n) { return n<10 ? '0'+n : n;} %>
-      <% function pmam(o) { return o <13 ? 'AM' : 'PM';} %>
+
+    <% function pad(n) { return n<10 ? '0'+n : n;} %>
+    <% function pmam(o) { return o <13 ? 'AM' : 'PM';} %>
 
 
-      <%  var dispDate=''; dispDate = months[month]+'-'+pad(day)+'-'+year;  /* MM-DD-YYYY */ %>
-      
-      
+    <%  var dispDate=''; dispDate = months[month]+'-'+pad(day)+'-'+year;  /* MM-DD-YYYY */ %>
+
+
 
     <p class="eventDetailsDateLabel">Date: </p>
     <p class="eventDetailsDateData"><%= dispDate %></p>

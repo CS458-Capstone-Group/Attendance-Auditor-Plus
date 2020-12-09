@@ -1,0 +1,36 @@
+<% include("../header.ejs"); %>
+
+<h2>RSVP List</h2>
+
+<% attendance.forEach(function(attendee) { %>
+<div class="eventListItem">
+    <% if (attendee.didRSVP) { %>
+    <input id="rsvp<%= attendee.userId %>" type="checkbox"
+        onchange="updateEntry('<%= attendee.userId %>', '<%= eventId %>');" />
+    <p class="name"><%= attendee.userId %></p>
+    <% } %>
+</div>
+<% }); %>
+
+<h2>Other</h2>
+
+<script>
+
+
+    function updateEntry(userId, eventId) {
+        let checkbox = document.querySelector("#rsvp" + userId);
+
+        let b = { checked: checkbox.checked };
+
+        fetch("/events/" + eventId + "/attendance/" + userId + "?checked=" + checkbox.checked, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }, {
+            body: ""
+        });
+    }
+</script>
+
+<% include("../footer.ejs"); %>

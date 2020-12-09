@@ -1,14 +1,14 @@
-    <%- include('../header.ejs'); %>
-    <div class="eventDetailsContainer">
+<%- include('../header.ejs'); %>
+<div class="eventDetailsContainer">
 
-        <h1 class="eventDetailsTitle"><%= event.title %></h1>
-    
-        <p class="eventDetailsDescLabel">Description: </p>
-        <p class="eventDetailsDescData"><%= event.description %></p>
-    
-        <p class="eventDetailsFacLabel">Facilitator(s): </p>
-        <p class="eventDetailsFacData"><%= event.facilitators%></p>
-    
+    <h1 class="eventDetailsTitle"><%= event.title %></h1>
+
+    <p class="eventDetailsDescLabel">Description: </p>
+    <p class="eventDetailsDescData"><%= event.description %></p>
+
+    <p class="eventDetailsFacLabel">Facilitator(s): </p>
+    <p class="eventDetailsFacData"><%= event.facilitators%></p>
+
     <% var months = ["Jan", "Feb", "Mar", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"]; %>
     <% var cDate = new Date(event.date);  %>
     <% var month = cDate.getMonth(); %>
@@ -17,32 +17,32 @@
     <% var zoneOffset = cDate.getTimezoneOffset(); /* maybe doesn't matter if it's LOCAL for now */%>
     <% var hr = cDate.getHours(); %>
     <% var mins = cDate.getHours(); %>
-      
-      <% function pad(n) { return n<10 ? '0'+n : n;} %>
-      <% function pmam(o) { return o <13 ? 'AM' : 'PM';} %>
+
+    <% function pad(n) { return n<10 ? '0'+n : n;} %>
+    <% function pmam(o) { return o <13 ? 'AM' : 'PM';} %>
 
 
-      <%  var dispDate=''; dispDate = months[month]+'-'+pad(day)+'-'+year;  /* MM-DD-YYYY */ %>
-      
-      
+    <%  var dispDate=''; dispDate = months[month]+'-'+pad(day)+'-'+year;  /* MM-DD-YYYY */ %>
+
+
 
     <p class="eventDetailsDateLabel">Date: </p>
     <p class="eventDetailsDateData"><%= dispDate %></p>
 
     <p class="eventDetailsTimeLabel">Time: </p>
     <p class="eventDetailsTimeData"><%= event.time %></p>
-    
-        <p class="eventDetailsLocLabel">Location: </p>
-        <p class="eventDetailsLocData"><%= event.location %></p>
 
-        <% function searchSub() { $("#selectSearch").change(function() {
+    <p class="eventDetailsLocLabel">Location: </p>
+    <p class="eventDetailsLocData"><%= event.location %></p>
+
+    <% function searchSub() { $("#selectSearch").change(function() {
             var action = $(this).val();
             $("#searchForm").attr("action", "/inventory/" + action);
             }); }
         %>
-    
-    <form class="searchForm"  id="searchForm" method="POST" action="/inventory" >
-        <input id="selectSearch" name="selectSearch"  class="eventRSVPButton" value="RSVP">
-    <form>
-    </div>
-    <%- include('../footer.ejs'); %>
+
+    <form method="POST" action="/events/<%= event._id %>/rsvp">
+        <input type="submit" class="eventRSVPButton" value="RSVP">
+        <form>
+</div>
+<%- include('../footer.ejs'); %>
