@@ -2,6 +2,14 @@
 Adrian css 
 */
 
+a:hover{
+   background-color:yellow;
+}
+
+input:focus {
+   background-color: rgb(203, 227, 235);
+ }
+
 .flashHead {
    border-style: dotted;
    border-width: .5vw;
@@ -525,6 +533,12 @@ legend
     font-family: Arial, Helvetica, sans-serif;
     width: 15vw;
 }
+#eventMenuItem:hover, #inventoryMenuItem:hover, #auditMenuItem:hover, #profileMenuItem:hover, #eventListItem:hover
+{
+   background-color:yellow;
+
+
+}
 
 #inventoryMenuItem
 {
@@ -724,12 +738,17 @@ legend
    font-size: 2.5vw;
    height: 3vw;
    width: 50%;
+   border-style: double;
+   padding: 1.5vw;
+   background-color: lightskyblue;
 }
 
 .formHeader
 {
   text-align: center;
-  font-size: 3vw;   
+  font-size: 3vw;  
+  text-shadow: .1vw .1vw darkgray;
+ 
 }
 
 .formContainer
@@ -943,6 +962,7 @@ legend
 {
   text-align: center;
   font-size: 3vw;   
+  text-shadow: .1vw .1vw darkgray;
 }
 
 
@@ -1572,3 +1592,7 @@ legend
     td { 
         font-weight: lighter; 
     } 
+    div.eventListItem:hover
+    {
+       background-color:lightgray;
+    }
