@@ -22,7 +22,12 @@ const user = require("./models/user.js");
 
 const app = express();
 const port = process.env.PORT || 5000;
+var FLASHMESSAGE = ""
+var FLASHRESETFLAG =0;
 
+
+// IF FLAG IS 1 THEN SET STRING TO EMPTY
+// ELSE SET FLAG TO 1 WHEN MESSAGE IS SET
 mongoose.connect(
   "mongodb+srv://readwrite:humboldt!1@cluster0.0sjmg.mongodb.net/attendanceauditor?retryWrites=true&w=majority",
   { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }
@@ -50,28 +55,7 @@ db.once("open", () => {
     Event.findById(req.params.eventId, (err, event) => {
       if (err) console.error(err);
 
-      var didRSVP = false;
-
-      attendees = [];
-
-      for (const id in req.body) {
-        if (req.body[id] === "addAttendeeText") {
-          didRSVP = true;
-          continue;
-        }
-
-        attendees.push({ userId: id, didRSVP: didRSVP, didAttend: req.body[id] });
-      }
-
-      event.attendees.forEach(attendee => {
-        attendees.forEach(a => {
-          if (attendee.userid === a.userId) continue;
-
-          attendees.push({})
-        });
-      });
-
-      Event.findByIdAndUpdate();
+      console.log(req.body);
     });
 
     res.redirect("/events/" + req.params.eventId);
@@ -97,11 +81,18 @@ db.once("open", () => {
 
   app.post("/events", (req, res) => {
     User.findById(auth.sessions[req.cookies.session], (err, user) => {
+        //flash message
+        FLASHMESSAGE = 'Event Created!';
+        FLASHRESETFLAG = 0;
+        //flash message
 
       if (err) {
         console.log(err.message);
+        FLASHMESSAGE = 'MongoDb failed to fetch Users';
+
       }
       else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
+        FLASHMESSAGE = 'Unauthorized Access, logged out?';
         res.redirect("/events");
       }
       else {
@@ -131,6 +122,7 @@ db.once("open", () => {
         event.save((err) => {
           if (err) {
             console.error(err);
+            FLASHMESSAGE = 'Event failed to be Created!';
             res.json({ message: "could not save event" });
           }
           else {
@@ -142,23 +134,33 @@ db.once("open", () => {
   });
 
   app.get("/events", (req, res) => {
+    if(FLASHRESETFLAG == 1)
+    {
+      FLASHMESSAGE =""
+      FLASHRESETFLAG = 0;
+    }
+    
     var now = new Date();
     var today = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
 
     Event.find({ date: { $gte: today } }).sort("date").sort("time").exec((err, events) => {
       if (err) {
         console.log(err.message);
+        FLASHMESSAGE = 'MongoDb Event query fail!';
       }
 
       User.findById(auth.sessions[req.cookies.session], (err, user) => {
         if (err) {
           console.log(err.message);
+          FLASHMESSAGE = 'MongoDb User query fail!';
         }
         else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
-          res.render("./events/events.ejs", { events: events });
+          FLASHRESETFLAG = 1;
+          res.render("./events/events.ejs", { events: events, FLASHMESSAGE: FLASHMESSAGE });
         }
         else {
-          res.render("./events/eventsOrg.ejs", { events: events });
+          FLASHRESETFLAG = 1;
+          res.render("./events/eventsOrg.ejs", { events: events, FLASHMESSAGE: FLASHMESSAGE });
         }
       });
     });
@@ -185,11 +187,17 @@ db.once("open", () => {
   });
 
   app.post("/events/:eventId", (req, res) => {
+    //flash message update
+      FLASHRESETFLAG = 0;
+      FLASHMESSAGE = 'Event Updated!';
+    //flash message
     User.findById(auth.sessions[req.cookies.session], (err, user) => {
       if (err) {
         console.log(err.message);
+        FLASHMESSAGE = 'MongoDb failed to fetch Users';
       }
       else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
+        FLASHMESSAGE = 'Unauthorized Access, logged out?';
         res.redirect("/events");
       }
       else {
@@ -205,6 +213,7 @@ db.once("open", () => {
           (err) => {
             if (err) {
               console.error(err);
+              FLASHMESSAGE = 'Event failed to be Updated!';
             }
 
             res.redirect("/events");
@@ -215,17 +224,24 @@ db.once("open", () => {
   });
 
   app.post("/events/:eventId/delete", (req, res) => {
+         //flash message
+         FLASHMESSAGE = 'Event Deleted!';
+         FLASHRESETFLAG = 0;
+         //flash message
     User.findById(auth.sessions[req.cookies.session], (err, user) => {
       if (err) {
         console.log(err.message);
+        FLASHMESSAGE = 'MongoDb failed to fetch Users';
       }
       else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
+        FLASHMESSAGE = 'Unauthorized Access, logged out?';
         res.redirect("/events");
       }
       else {
         Event.findByIdAndDelete(req.params.eventId, (err) => {
           if (err) {
             console.error(err.message);
+            FLASHMESSAGE = 'Event failed to be Deleted!';
           }
 
           res.redirect("/events");
@@ -249,10 +265,15 @@ db.once("open", () => {
       res.redirect("/login");
     }
     else {
+      //flash message
+      FLASHMESSAGE = 'Successful Event RSVP!';
+      FLASHRESETFLAG = 0;
+      //flash message
       var userId = auth.sessions[req.cookies.session];
 
       Event.findById(req.params.eventId, (err, event) => {
         if (err) console.error(err);
+        if(err)  FLASHMESSAGE = 'MongoDb failed to fetch Users';
 
         for (let i = 0; i < event.attendees.length; i++) {
           if (event.attendees[i].userId === userId) {
@@ -278,7 +299,7 @@ db.once("open", () => {
             }
           }, (err) => {
             if (err) console.error(err);
-
+            if(err) FLASHMESSAGE = 'Failed to RSVP!';
             res.redirect("/events");
           });
       });
@@ -364,11 +385,16 @@ db.once("open", () => {
   })
 
   app.post("/inventory", (req, res) => {
+       //flash message
+       FLASHMESSAGE = 'Item added Successfully!';
+       FLASHRESETFLAG = 0;
+       //flash message
     User.findById(auth.sessions[req.cookies.session], (err, user) => {
 
 
       if (err) {
         console.log(err.message);
+        FLASHMESSAGE = 'MongoDb failed to fetch Users';
       }
       else {
         /*
@@ -408,6 +434,7 @@ db.once("open", () => {
           if (err) {
             console.error(err);
             res.json({ message: "could not save item" });
+            FLASHMESSAGE = 'Failed to create Item!';
           }
           else {
 
@@ -419,20 +446,29 @@ db.once("open", () => {
   });
 
   app.get("/inventory", (req, res) => {
-    console.log("app.get(/inventory)")
+    if(FLASHRESETFLAG == 1)
+    {
+      FLASHMESSAGE =""
+      FLASHRESETFLAG = 0;
+    }
+
     InventoryItem.find({}, (err, inventory) => {
       if (err) {
         console.log(err.message);
+        FLASHMESSAGE = 'MongoDb fetch inventory error!';
       }
       User.findById(auth.sessions[req.cookies.session], (err, user) => {
         if (err) {
           console.log(err.message);
+          FLASHMESSAGE = 'MongoDb fetch user error!';
         }
         else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
-          res.render("./inventory/inventory.ejs", { inventory: inventory });
+          FLASHRESETFLAG = 1;
+          res.render("./inventory/inventory.ejs", { inventory: inventory,  FLASHMESSAGE: FLASHMESSAGE });
         }
         else {
-          res.render("./inventory/inventoryOrg.ejs", { inventory: inventory });
+          FLASHRESETFLAG = 1;
+          res.render("./inventory/inventoryOrg.ejs", { inventory: inventory,  FLASHMESSAGE: FLASHMESSAGE });
         }
 
       });
@@ -483,11 +519,18 @@ db.once("open", () => {
   });
 
   app.post("/inventory/:inventoryId", (req, res) => {
+      //flash message update
+      FLASHRESETFLAG = 0;
+      FLASHMESSAGE = 'Item succesfully updated!';
+    //flash message
     User.findById(auth.sessions[req.cookies.session], (err, user) => {
       if (err) {
         console.log(err.message);
+        FLASHMESSAGE = 'User not recognized!';
+
       }
       else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
+        FLASHMESSAGE = 'Unathorized Access Detected! Logged out?';
         res.redirect("/inventory");
       }
       else {
@@ -500,6 +543,7 @@ db.once("open", () => {
           (err) => {
             if (err) {
               console.error(err);
+              FLASHMESSAGE = 'Failed to Update Item!';
             }
 
             res.redirect("/inventory");
@@ -510,17 +554,24 @@ db.once("open", () => {
   });
 
   app.post("/inventory/:inventoryId/delete", (req, res) => {
+      //flash message update
+      FLASHRESETFLAG = 0;
+      FLASHMESSAGE = 'Item Successfully Deleted!';
+      //flash message    
     User.findById(auth.sessions[req.cookies.session], (err, user) => {
       if (err) {
         console.log(err.message);
+        FLASHMESSAGE = 'User not recognized!';
       }
       else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
+        FLASHMESSAGE = 'Unathorized Access Detected! Logged out?';
         res.redirect("/inventory");
       }
       else {
         InventoryItem.findByIdAndDelete(req.params.inventoryId, (err) => {
           if (err) {
             console.error(err.message);
+            FLASHMESSAGE = 'Failed to Delete Item!';
           }
 
           res.redirect("/inventory");
@@ -606,16 +657,24 @@ db.once("open", () => {
 
 
   app.get("/profile", (req, res) => {
+    if(FLASHRESETFLAG == 1)
+    {
+      FLASHMESSAGE =""
+      FLASHRESETFLAG = 0;
+    }
     if (auth.sessions[req.cookies.session]) {
       User.findById(auth.sessions[req.cookies.session], (err, user) => {
         if (err) {
           console.log(err.message);
+          FLASHMESSAGE = 'MongoDb fetch user error!';
         }
         else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
-          res.render("./profile/profile.ejs", { user: user });
+          FLASHRESETFLAG = 1;
+          res.render("./profile/profile.ejs", { user: user,  FLASHMESSAGE: FLASHMESSAGE  });
         }
         else {
-          res.render("./profile/profileOrg.ejs", { user: user });
+          FLASHRESETFLAG = 1;
+          res.render("./profile/profileOrg.ejs", { user: user ,  FLASHMESSAGE: FLASHMESSAGE });
         }
       });
     }
@@ -641,6 +700,10 @@ db.once("open", () => {
   });
 
   app.post("/profile/:userId", (req, res) => {
+      //flash message update
+      FLASHRESETFLAG = 0;
+      FLASHMESSAGE = 'Profile succesfully updated!';
+    //flash message
     User.findById(auth.sessions[req.cookies.session], (err, user) => {
       if (err) {
         console.log(err.message);
@@ -658,6 +721,7 @@ db.once("open", () => {
           (err) => {
             if (err) {
               console.error(err);
+              FLASHMESSAGE = 'Failed MongoDb User fetch!';
             }
 
             res.redirect("/profile");
@@ -725,6 +789,10 @@ db.once("open", () => {
   });
 
   app.post("/logout", (req, res) => {
+      //flash message
+      FLASHMESSAGE = 'Successfully logged out!';
+      FLASHRESETFLAG = 0;
+      //flash message
     if (auth.sessions[req.cookies.session]) {
       auth.sessions[req.cookies.session] = null;
       res.redirect('/events');
