@@ -353,18 +353,6 @@ db.once("open", () => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
   //app default
 
 
@@ -801,8 +789,6 @@ db.once("open", () => {
       res.redirect("/events");
     }
   });
-
-
 
   app.get("/register", (req, res) => {
     res.render("./profile/registerUserForm.ejs");
