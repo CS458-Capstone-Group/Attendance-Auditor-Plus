@@ -18,6 +18,7 @@ const auth = require("./auth.js");
 const Event = require("./models/event.js");
 const InventoryItem = require("./models/inventoryItem.js");
 const User = require("./models/user.js");
+const user = require("./models/user.js");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -51,7 +52,20 @@ db.once("open", () => {
     next();
   });
 
+<<<<<<< HEAD
   
+=======
+  app.post("/events/:eventId/attendance", (req, res) => {
+    Event.findById(req.params.eventId, (err, event) => {
+      if (err) console.error(err);
+
+      console.log(req.body);
+    });
+
+    res.redirect("/events/" + req.params.eventId);
+  });
+
+>>>>>>> 7e3d0c054682590e6692bb248812831e956a3103
   app.get("/", (req, res) => {
     res.redirect("/events");
   });
@@ -313,15 +327,28 @@ db.once("open", () => {
         res.redirect("/events");
       }
       else {
-        Event.findById(req.params.eventId, (err, event) => {
+        Event.findById(req.params.eventId, async function (err, event) {
           if (err) console.error(err);
 
-          res.render("events/eventAttendance.ejs", { attendance: event.attendees, eventId: req.params.eventId });
+          User.find({}, (err, users) => {
+            let actualUsersForReal = [];
+
+            users.forEach(user => {
+              event.attendees.forEach(attendee => {
+                if (user._id == attendee.userId) {
+                  actualUsersForReal.push({ email: user.email, attendInfo: attendee });
+                }
+              });
+            });
+
+            res.render("events/eventAttendance.ejs", { attendance: actualUsersForReal, eventId: req.params.eventId });
+          });
         });
       }
     });
   });
 
+<<<<<<< HEAD
   app.post("/events/:eventId/attendance/:userId", (req, res) => {
      //flash message
     // flashing not supported here...yet
@@ -335,10 +362,20 @@ db.once("open", () => {
           attendee.didAttend = req.query.checked;
         }
       });
+=======
+  app.get("/attendees/:email", (req, res) => {
+    User.findOne({ email: req.params.email }, (err, user) => {
+      if (err) {
+        console.error(err.message);
+      }
+>>>>>>> 7e3d0c054682590e6692bb248812831e956a3103
 
-      Event.findByIdAndUpdate(req.params.eventId, { attendees: event.attendees }, (err) => {
-        if (err) console.error(err);
-      })
+      if (!user) {
+        res.json({ isValidEmail: false });
+      }
+      else {
+        res.json({ isValidEmail: true, id: user._id });
+      }
     });
   });
 
