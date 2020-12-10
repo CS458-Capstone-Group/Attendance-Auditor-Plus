@@ -1,7 +1,10 @@
-<% include("../header.ejs"); %>
+<%- include("../header.ejs"); %>
 
-<h2>RSVP List</h2>
-<form action="/events/<%= eventId %>/attendance" method="POST">
+
+
+<form class="attendanceContainer" action="/events/<%= eventId %>/attendance" method="POST">
+    <h2 class="attendanceRSVPHeader">RSVP List</h2>
+    <input class="attendanceSaveButton" type='submit' value='Save All' />
     <% attendance.forEach(function(attendee) { %>
     <% if (attendee.attendInfo.didRSVP) { %>
     <input name="<%= attendee.attendInfo.userId %>" id="<%= attendee.attendInfo.userId %>" value="true"
@@ -10,7 +13,11 @@
     <% } %>
     <% }); %>
 
-    <h2>Other</h2>
+    <h2 class="attendanceOtherHeader">Other</h2>
+    <input class="search attendanceAddField" type='text' id='addAttendeeText' name='addAttendeeText' />
+    <button class="attendanceAddButton" id='addAttendeeButton' name='addAttendeeButton'>Add</button>  
+
+   
     <% attendance.forEach(function(attendee) { %>
     <% if (attendee.attendInfo.didRSVP === false && attendee.attendInfo.didAttend === true) { %>
     <input name="<%= attendee.attendInfo.userId %>" id="<%= attendee.attendInfo.userId %>" value="true"
@@ -19,10 +26,8 @@
     <% } %>
     <% }); %>
 
-    <input type='text' id='addAttendeeText' name='addAttendeeText' />
-    <button id='addAttendeeButton' name='addAttendeeButton'>Add</button>
-    <input type='submit' value='Save All' />
     <div id='attendeeListDiv'></div>
+
 </form>
 
 <script>
@@ -73,4 +78,4 @@
     }
 </script>
 
-<% include("../footer.ejs"); %>
+<%- include("../footer.ejs"); %>
