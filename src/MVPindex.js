@@ -789,6 +789,10 @@ db.once("open", () => {
   });
 
   app.post("/logout", (req, res) => {
+      //flash message
+      FLASHMESSAGE = 'Successfully logged out!';
+      FLASHRESETFLAG = 0;
+      //flash message
     if (auth.sessions[req.cookies.session]) {
       auth.sessions[req.cookies.session] = null;
       res.redirect('/events');
