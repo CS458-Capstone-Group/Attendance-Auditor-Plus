@@ -452,7 +452,6 @@ db.once("open", () => {
       FLASHRESETFLAG = 0;
     }
 
-    console.log("app.get(/inventory)")
     InventoryItem.find({}, (err, inventory) => {
       if (err) {
         console.log(err.message);
