@@ -751,6 +751,7 @@ db.once("open", () => {
 
   app.post("/login", (req, res) => {
     if (auth.sessions[req.cookies.session]) {
+
       res.redirect("/events");
     }
     else {
@@ -780,6 +781,10 @@ db.once("open", () => {
             else {
               auth.sessions[req.cookies.session] = user._id;
               //res.json({ message: "Successful Login!"});
+                //flash message update
+                FLASHRESETFLAG = 0;
+                FLASHMESSAGE = 'Successful Login!';
+              //flash message
               res.redirect("/events");
             }
           });
