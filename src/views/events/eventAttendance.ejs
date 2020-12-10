@@ -4,8 +4,8 @@
 <form action="/events/<%= eventId %>/attendance" method="POST">
     <% attendance.forEach(function(attendee) { %>
     <% if (attendee.attendInfo.didRSVP) { %>
-    <input name="<%= attendee.attendInfo.userId %>" id="<%= attendee.attendInfo.userId %>" value="true"
-        type="checkbox" />
+    <input name="<%= attendee.attendInfo.userId %>" id="<%= attendee.attendInfo.userId %>" value="true" type="checkbox"
+        <% if (attendee.attendInfo.didAttend) { %>checked="checked" <% } %> />
     <label for="<%=attendee.attendInfo.userId %>" class="name"><%= attendee.email %></label><br />
     <% } %>
     <% }); %>
@@ -13,8 +13,8 @@
     <h2>Other</h2>
     <% attendance.forEach(function(attendee) { %>
     <% if (attendee.attendInfo.didRSVP === false && attendee.attendInfo.didAttend === true) { %>
-    <input name="<%= attendee.attendInfo.userId %>" id="<%= attendee.attendInfo.userId %>" value="true"
-        type="checkbox" />
+    <input name="<%= attendee.attendInfo.userId %>" id="<%= attendee.attendInfo.userId %>" value="true" type="checkbox"
+        <% if (attendee.attendInfo.didAttend) { %>checked="checked" <% } %> />
     <label for="<%=attendee.attendInfo.userId %>" class="name"><%= attendee.email %></label><br />
     <% } %>
     <% }); %>

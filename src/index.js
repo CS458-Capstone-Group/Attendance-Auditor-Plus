@@ -50,7 +50,24 @@ db.once("open", () => {
     Event.findById(req.params.eventId, (err, event) => {
       if (err) console.error(err);
 
-      console.log(req.body);
+      var didRSVP = false;
+
+      attendees = [];
+
+      for (const id in req.body) {
+        if (req.body[id] === "addAttendeeText") {
+          didRSVP = true;
+          continue;
+        }
+
+        attendees.push({ userId: id, didRSVP: didRSVP, didAttend: req.body[id] });
+      }
+
+      event.attendees.forEach(attendee => {
+
+      });
+
+      Event.findByIdAndUpdate();
     });
 
     res.redirect("/events/" + req.params.eventId);
