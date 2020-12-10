@@ -23,7 +23,7 @@ const user = require("./models/user.js");
 const app = express();
 const port = process.env.PORT || 5000;
 var FLASHMESSAGE = ""
-var FLASHRESETFLAG =0;
+var FLASHRESETFLAG = 0;
 
 
 // IF FLAG IS 1 THEN SET STRING TO EMPTY
@@ -51,36 +51,50 @@ db.once("open", () => {
 
     next();
   });
-// skye
+  // skye
   app.post("/events/:eventId/attendance", (req, res) => {
     Event.findById(req.params.eventId, (err, event) => {
       if (err) console.error(err);
 
-      var didRSVP = false;
+      console.log(req.body);
+
+      var didRSVP = true;
 
       attendees = [];
 
       for (const id in req.body) {
-        if (req.body[id] === "addAttendeeText") {
-          didRSVP = true;
-          continue;
+        if (id === "addAttendeeText") {
+          didRSVP = false;
         }
-
-        attendees.push({ userId: id, didRSVP: didRSVP, didAttend: req.body[id] });
+        else {
+          attendees.push({ userId: id, didRSVP: didRSVP, didAttend: req.body[id] });
+        }
       }
 
-      event.attendees.forEach(attendee => {
-        attendees.forEach(a => {
-          //if (attendee.userid === a.userId) continue;
+      for (var i = 0; i < event.attendees.length; i++) {
+        var isIncluded = false;
 
-          attendees.push({})
-        });
+        for (var j = 0; j < attendees.length; j++) {
+          if (event.attendees[i].userId === attendees[j].userId) {
+            isIncluded = true;
+          }
+        }
+
+        if (!isIncluded) {
+          attendees.push({
+            userId: event.attendees[i].userId,
+            didRSVP: event.attendees[i].didRSVP,
+            didAttend: false
+          });
+        }
+      }
+
+      Event.findByIdAndUpdate(req.params.eventId, { attendees: attendees }, (err) => {
+        if (err) console.log(err);
+
+        res.redirect("/events/" + req.params.eventId);
       });
-
-      Event.findByIdAndUpdate();
     });
-
-    res.redirect("/events/" + req.params.eventId);
   });
 
   app.get("/", (req, res) => {
@@ -103,10 +117,10 @@ db.once("open", () => {
 
   app.post("/events", (req, res) => {
     User.findById(auth.sessions[req.cookies.session], (err, user) => {
-        //flash message
-        FLASHMESSAGE = 'Event Created!';
-        FLASHRESETFLAG = 0;
-        //flash message
+      //flash message
+      FLASHMESSAGE = 'Event Created!';
+      FLASHRESETFLAG = 0;
+      //flash message
 
       if (err) {
         console.log(err.message);
@@ -156,12 +170,11 @@ db.once("open", () => {
   });
 
   app.get("/events", (req, res) => {
-    if(FLASHRESETFLAG == 1)
-    {
-      FLASHMESSAGE =""
+    if (FLASHRESETFLAG == 1) {
+      FLASHMESSAGE = ""
       FLASHRESETFLAG = 0;
     }
-    
+
     var now = new Date();
     var today = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
 
@@ -210,8 +223,8 @@ db.once("open", () => {
 
   app.post("/events/:eventId", (req, res) => {
     //flash message update
-      FLASHRESETFLAG = 0;
-      FLASHMESSAGE = 'Event Updated!';
+    FLASHRESETFLAG = 0;
+    FLASHMESSAGE = 'Event Updated!';
     //flash message
     User.findById(auth.sessions[req.cookies.session], (err, user) => {
       if (err) {
@@ -246,10 +259,10 @@ db.once("open", () => {
   });
 
   app.post("/events/:eventId/delete", (req, res) => {
-         //flash message
-         FLASHMESSAGE = 'Event Deleted!';
-         FLASHRESETFLAG = 0;
-         //flash message
+    //flash message
+    FLASHMESSAGE = 'Event Deleted!';
+    FLASHRESETFLAG = 0;
+    //flash message
     User.findById(auth.sessions[req.cookies.session], (err, user) => {
       if (err) {
         console.log(err.message);
@@ -295,7 +308,7 @@ db.once("open", () => {
 
       Event.findById(req.params.eventId, (err, event) => {
         if (err) console.error(err);
-        if(err)  FLASHMESSAGE = 'MongoDb failed to fetch Users';
+        if (err) FLASHMESSAGE = 'MongoDb failed to fetch Users';
 
         for (let i = 0; i < event.attendees.length; i++) {
           if (event.attendees[i].userId === userId) {
@@ -321,7 +334,7 @@ db.once("open", () => {
             }
           }, (err) => {
             if (err) console.error(err);
-            if(err) FLASHMESSAGE = 'Failed to RSVP!';
+            if (err) FLASHMESSAGE = 'Failed to RSVP!';
             res.redirect("/events");
           });
       });
@@ -341,6 +354,8 @@ db.once("open", () => {
           if (err) console.error(err);
 
           User.find({}, (err, users) => {
+            if (err) console.error(err);
+
             let actualUsersForReal = [];
 
             users.forEach(user => {
@@ -394,10 +409,10 @@ db.once("open", () => {
   })
 
   app.post("/inventory", (req, res) => {
-       //flash message
-       FLASHMESSAGE = 'Item added Successfully!';
-       FLASHRESETFLAG = 0;
-       //flash message
+    //flash message
+    FLASHMESSAGE = 'Item added Successfully!';
+    FLASHRESETFLAG = 0;
+    //flash message
     User.findById(auth.sessions[req.cookies.session], (err, user) => {
 
 
@@ -455,9 +470,8 @@ db.once("open", () => {
   });
 
   app.get("/inventory", (req, res) => {
-    if(FLASHRESETFLAG == 1)
-    {
-      FLASHMESSAGE =""
+    if (FLASHRESETFLAG == 1) {
+      FLASHMESSAGE = ""
       FLASHRESETFLAG = 0;
     }
 
@@ -473,11 +487,11 @@ db.once("open", () => {
         }
         else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
           FLASHRESETFLAG = 1;
-          res.render("./inventory/inventory.ejs", { inventory: inventory,  FLASHMESSAGE: FLASHMESSAGE });
+          res.render("./inventory/inventory.ejs", { inventory: inventory, FLASHMESSAGE: FLASHMESSAGE });
         }
         else {
           FLASHRESETFLAG = 1;
-          res.render("./inventory/inventoryOrg.ejs", { inventory: inventory,  FLASHMESSAGE: FLASHMESSAGE });
+          res.render("./inventory/inventoryOrg.ejs", { inventory: inventory, FLASHMESSAGE: FLASHMESSAGE });
         }
 
       });
@@ -528,9 +542,9 @@ db.once("open", () => {
   });
 
   app.post("/inventory/:inventoryId", (req, res) => {
-      //flash message update
-      FLASHRESETFLAG = 0;
-      FLASHMESSAGE = 'Item succesfully updated!';
+    //flash message update
+    FLASHRESETFLAG = 0;
+    FLASHMESSAGE = 'Item succesfully updated!';
     //flash message
     User.findById(auth.sessions[req.cookies.session], (err, user) => {
       if (err) {
@@ -563,10 +577,10 @@ db.once("open", () => {
   });
 
   app.post("/inventory/:inventoryId/delete", (req, res) => {
-      //flash message update
-      FLASHRESETFLAG = 0;
-      FLASHMESSAGE = 'Item Successfully Deleted!';
-      //flash message    
+    //flash message update
+    FLASHRESETFLAG = 0;
+    FLASHMESSAGE = 'Item Successfully Deleted!';
+    //flash message    
     User.findById(auth.sessions[req.cookies.session], (err, user) => {
       if (err) {
         console.log(err.message);
@@ -666,9 +680,8 @@ db.once("open", () => {
 
 
   app.get("/profile", (req, res) => {
-    if(FLASHRESETFLAG == 1)
-    {
-      FLASHMESSAGE =""
+    if (FLASHRESETFLAG == 1) {
+      FLASHMESSAGE = ""
       FLASHRESETFLAG = 0;
     }
     if (auth.sessions[req.cookies.session]) {
@@ -679,11 +692,11 @@ db.once("open", () => {
         }
         else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
           FLASHRESETFLAG = 1;
-          res.render("./profile/profile.ejs", { user: user,  FLASHMESSAGE: FLASHMESSAGE  });
+          res.render("./profile/profile.ejs", { user: user, FLASHMESSAGE: FLASHMESSAGE });
         }
         else {
           FLASHRESETFLAG = 1;
-          res.render("./profile/profileOrg.ejs", { user: user ,  FLASHMESSAGE: FLASHMESSAGE });
+          res.render("./profile/profileOrg.ejs", { user: user, FLASHMESSAGE: FLASHMESSAGE });
         }
       });
     }
@@ -709,9 +722,9 @@ db.once("open", () => {
   });
 
   app.post("/profile/:userId", (req, res) => {
-      //flash message update
-      FLASHRESETFLAG = 0;
-      FLASHMESSAGE = 'Profile succesfully updated!';
+    //flash message update
+    FLASHRESETFLAG = 0;
+    FLASHMESSAGE = 'Profile succesfully updated!';
     //flash message
     User.findById(auth.sessions[req.cookies.session], (err, user) => {
       if (err) {
@@ -781,9 +794,9 @@ db.once("open", () => {
             else {
               auth.sessions[req.cookies.session] = user._id;
               //res.json({ message: "Successful Login!"});
-                //flash message update
-                FLASHRESETFLAG = 0;
-                FLASHMESSAGE = 'Successful Login!';
+              //flash message update
+              FLASHRESETFLAG = 0;
+              FLASHMESSAGE = 'Successful Login!';
               //flash message
               res.redirect("/events");
             }
@@ -803,10 +816,10 @@ db.once("open", () => {
   });
 
   app.post("/logout", (req, res) => {
-      //flash message
-      FLASHMESSAGE = 'Successfully logged out!';
-      FLASHRESETFLAG = 0;
-      //flash message
+    //flash message
+    FLASHMESSAGE = 'Successfully logged out!';
+    FLASHRESETFLAG = 0;
+    //flash message
     if (auth.sessions[req.cookies.session]) {
       auth.sessions[req.cookies.session] = null;
       res.redirect('/events');
