@@ -2,6 +2,10 @@
 <div class="centerContainer">
   <a class="createEventButton" href="/events/create">Create Event</a>
 
+<% if (FLASHMESSAGE) { %> 
+            <h1> <%= FLASHMESSAGE %> </h1>
+<% } %>
+
   <h1 class="listHeader">Upcoming Events</h1>
 
   <% if (events) { %>

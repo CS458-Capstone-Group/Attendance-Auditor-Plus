@@ -28,7 +28,6 @@ var FLASHRESETFLAG =0;
 
 // IF FLAG IS 1 THEN SET STRING TO EMPTY
 // ELSE SET FLAG TO 1 WHEN MESSAGE IS SET
-
 mongoose.connect(
   "mongodb+srv://readwrite:humboldt!1@cluster0.0sjmg.mongodb.net/attendanceauditor?retryWrites=true&w=majority",
   { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }
@@ -51,33 +50,12 @@ db.once("open", () => {
 
     next();
   });
-// skye
+
   app.post("/events/:eventId/attendance", (req, res) => {
     Event.findById(req.params.eventId, (err, event) => {
       if (err) console.error(err);
 
-      var didRSVP = false;
-
-      attendees = [];
-
-      for (const id in req.body) {
-        if (req.body[id] === "addAttendeeText") {
-          didRSVP = true;
-          continue;
-        }
-
-        attendees.push({ userId: id, didRSVP: didRSVP, didAttend: req.body[id] });
-      }
-
-      event.attendees.forEach(attendee => {
-        attendees.forEach(a => {
-          //if (attendee.userid === a.userId) continue;
-
-          attendees.push({})
-        });
-      });
-
-      Event.findByIdAndUpdate();
+      console.log(req.body);
     });
 
     res.redirect("/events/" + req.params.eventId);
@@ -372,6 +350,7 @@ db.once("open", () => {
       }
     });
   });
+
 
 
   //app default
@@ -876,7 +855,6 @@ db.once("open", () => {
       }
     });
   });
-
 
 
 

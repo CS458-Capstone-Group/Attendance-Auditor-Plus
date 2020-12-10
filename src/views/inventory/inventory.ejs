@@ -1,5 +1,9 @@
 <%- include('../header.ejs'); %>
 
+<% if (FLASHMESSAGE) { %> 
+            <h1> <%= FLASHMESSAGE %> </h1>
+<% } %>
+
 <div class="inventorySearchAddContainer">  
         <form action="/inventory/search/" method="GET" class="searchForm">
             <input id="inventorySearchField"name="invName" class="inventorySearchField" type="text" placeholder="Item Name">

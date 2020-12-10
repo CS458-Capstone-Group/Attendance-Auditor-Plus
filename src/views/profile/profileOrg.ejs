@@ -1,5 +1,9 @@
 <%- include('../headerOrg.ejs'); %>
 
+<% if (FLASHMESSAGE) { %> 
+            <h1> <%= FLASHMESSAGE %> </h1>
+<% } %>
+
 <div class="centerContainer">
     <div class="profileInfoContainer">
         <h1 class="profileName"> <%= user.fname %>  <%= user.lname %> </h1>
