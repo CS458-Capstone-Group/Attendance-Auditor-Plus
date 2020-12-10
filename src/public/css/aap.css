@@ -1202,15 +1202,29 @@ legend
 .attendanceRSVPCheckbox
 {
    grid-column: 1;
-   width: 1.5vw;
-   height: 1.5vw;
+   width: 3vw;
+   height: 3vw;
+   transform: scale(2);
+}
+
+.attendeeRSVPData
+{
+   font-size: 1.5vw;
+   text-align: left;
+   vertical-align: center;
 }
 
 .attendanceOtherCheckbox
 {
    grid-column: 1;
-   width: 1.5vw;
-   height: 1.5vw;
+   width: 3vw;
+   height: 3vw;
+   transform: scale(2);
+}
+
+#attendeeListDiv
+{
+   grid-column: 3/5;
 }
 
 .deleteButton

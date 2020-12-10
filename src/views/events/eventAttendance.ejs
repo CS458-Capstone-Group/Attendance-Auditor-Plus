@@ -6,22 +6,25 @@
 
     <% attendance.forEach(function(attendee) { %>
     <% if (attendee.attendInfo.didRSVP) { %>
-    <input name="<%= attendee.attendInfo.userId %>" id="<%= attendee.attendInfo.userId %>" value="true" type="checkbox"
+    <input class="attendanceRSVPCheckbox" name="<%= attendee.attendInfo.userId %>" id="<%= attendee.attendInfo.userId %>" value="true" type="checkbox"
         <% if (attendee.attendInfo.didAttend) { %>checked="checked" <% } %> />
-    <label for="<%=attendee.attendInfo.userId %>" class="name"><%= attendee.email %></label><br />
+    <label for="<%=attendee.attendInfo.userId %>" class="attendeeRSVPData"><%= attendee.email %></label><br />
+
     <% } %>
     <% }); %>
 
-    <h2 class="attendanceOtherHeader">Other</h2>
+    <h2 class="attendanceOtherHeader">Other List</h2>
     <input class="search attendanceAddField" type='text' id='addAttendeeText' name='addAttendeeText' />
     <button class="attendanceAddButton" id='addAttendeeButton' name='addAttendeeButton'>Add</button>  
 
    
     <% attendance.forEach(function(attendee) { %>
     <% if (attendee.attendInfo.didRSVP === false && attendee.attendInfo.didAttend === true) { %>
+
     <input name="<%= attendee.attendInfo.userId %>" id="<%= attendee.attendInfo.userId %>" value="true" type="checkbox"
         <% if (attendee.attendInfo.didAttend) { %>checked="checked" <% } %> />
     <label for="<%=attendee.attendInfo.userId %>" class="name"><%= attendee.email %></label><br />
+
     <% } %>
     <% }); %>
 
@@ -29,13 +32,75 @@
 
 </form>
 
-<h2>Other</h2>
-
 <script>
+
+    var attendees = [];
+    var attendeeInput = document.querySelector('#addAttendeeText');
+    var addAttendeeButton = document.querySelector('#addAttendeeButton');
+    var attendeeListDiv = document.querySelector('#attendeeListDiv');
+
+    addAttendeeButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        for (let i = 0; i < attendees.length; i++) {
+            if (attendees[i].trim() === attendeeInput.value.trim()) {
+                return;
+            }
+        }
+        fetch("/attendees/" + attendeeInput.value)
+            .then(response => response.json())
+            .then(data => {
+                if (data.isValidEmail === true) {
+                    createAttendeeDiv(data.id, attendeeInput.value);
+                }
+            });
+    });
+
+    function createAttendeeDiv(userId, email) {
+        var div = document.createElement('div');
+        div.style= 'text-align: left; grid-auto-flow: column;';
+        
+
+        var checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.id = userId;
+        checkbox.name = userId;
+        checkbox.checked = true;
+        checkbox.value = true;
+        checkbox.style = 'transform: scale(2); text-align: left; margin-right: 4vw;';
+
+        var emailText = document.createElement('label');
+        emailText.innerHTML = email;
+        emailText.for = userId;
+        emailText.style = "font-size: 1.5vw;"
+        div.appendChild(checkbox);
+        div.appendChild(emailText);
+        attendeeListDiv.appendChild(div);
+        attendees.push(email);
+    }
+</script>
+
+<!-- <script>
+
 
 
     function updateEntry(userId, eventId) {
         let checkbox = document.querySelector("#rsvp" + userId);
+
+        div.style= 'text-align: left;'
+
+        var checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.id = userId;
+        checkbox.name = userId;
+        checkbox.checked = true;
+        checkbox.value = true;
+        checkbox.style = 'transform: scale(2); text-align: left; margin-right: 4vw;';
+
+        var emailText = document.createElement('label');
+        emailText.innerHTML = email;
+        emailText.for = userId;
+        emailText.style = "font-size: 1.5vw;"
+
 
         let b = { checked: checkbox.checked };
 
@@ -48,6 +113,6 @@
             body: ""
         });
     }
-</script>
+</script> -->
 
 <%- include("../footer.ejs"); %>
