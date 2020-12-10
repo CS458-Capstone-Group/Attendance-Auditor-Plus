@@ -1,75 +1,36 @@
 <% include("../header.ejs"); %>
 
 <h2>RSVP List</h2>
-<form action="/events/<%= eventId %>/attendance" method="POST">
+<form action="/events/<%= eventId %>/attendance" action="POST">
     <% attendance.forEach(function(attendee) { %>
-    <% if (attendee.attendInfo.didRSVP) { %>
-    <input name="<%= attendee.attendInfo.userId %>" id="<%= attendee.attendInfo.userId %>" value="true"
-        type="checkbox" />
-    <label for="<%=attendee.attendInfo.userId %>" class="name"><%= attendee.email %></label><br />
-    <% } %>
+    <div class="eventListItem">
+        <% if (attendee.didRSVP) { %>
+        <input id="rsvp<%= attendee.userId %>" type="checkbox"
+            onchange="updateEntry('<%= attendee.userId %>', '<%= eventId %>');" />
+        <p class="name"><%= attendee.userId %></p>
+        <% } %>
+    </div>
     <% }); %>
-
-    <h2>Other</h2>
-    <% attendance.forEach(function(attendee) { %>
-    <% if (attendee.attendInfo.didRSVP === false && attendee.attendInfo.didAttend === true) { %>
-    <input name="<%= attendee.attendInfo.userId %>" id="<%= attendee.attendInfo.userId %>" value="true"
-        type="checkbox" />
-    <label for="<%=attendee.attendInfo.userId %>" class="name"><%= attendee.email %></label><br />
-    <% } %>
-    <% }); %>
-
-    <input type='text' id='addAttendeeText' name='addAttendeeText' />
-    <button id='addAttendeeButton' name='addAttendeeButton'>Add</button>
-    <input type='submit' value='Save All' />
-    <div id='attendeeListDiv'></div>
 </form>
 
+<h2>Other</h2>
+
 <script>
-    var attendees = [];
 
-    var attendeeInput = document.querySelector('#addAttendeeText');
-    var addAttendeeButton = document.querySelector('#addAttendeeButton');
-    var attendeeListDiv = document.querySelector('#attendeeListDiv');
 
-    addAttendeeButton.addEventListener("click", (e) => {
-        e.preventDefault();
+    function updateEntry(userId, eventId) {
+        let checkbox = document.querySelector("#rsvp" + userId);
 
-        for (let i = 0; i < attendees.length; i++) {
-            if (attendees[i].trim() === attendeeInput.value.trim()) {
-                return;
+        let b = { checked: checkbox.checked };
+
+        fetch("/events/" + eventId + "/attendance/" + userId + "?checked=" + checkbox.checked, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
             }
-        }
-
-        fetch("/attendees/" + attendeeInput.value)
-            .then(response => response.json())
-            .then(data => {
-                if (data.isValidEmail === true) {
-                    createAttendeeDiv(data.id, attendeeInput.value);
-                }
-            });
-    });
-
-    function createAttendeeDiv(userId, email) {
-
-        var div = document.createElement('div');
-
-        var checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.id = userId;
-        checkbox.name = userId;
-        checkbox.checked = true;
-        checkbox.value = true;
-
-        var emailText = document.createElement('label');
-        emailText.innerHTML = email;
-        emailText.for = userId;
-
-        div.appendChild(checkbox);
-        div.appendChild(emailText);
-        attendeeListDiv.appendChild(div);
-
-        attendees.push(email);
+        }, {
+            body: ""
+        });
     }
 </script>
 
