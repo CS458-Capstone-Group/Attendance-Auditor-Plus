@@ -22,12 +22,11 @@ const user = require("./models/user.js");
 
 const app = express();
 const port = process.env.PORT || 5000;
-var FLASHMESSAGE = ""
-var FLASHRESETFLAG = 0;
-
 
 // IF FLAG IS 1 THEN SET STRING TO EMPTY
 // ELSE SET FLAG TO 1 WHEN MESSAGE IS SET
+var FLASHMESSAGE = ""
+var FLASHRESETFLAG = 0;
 
 mongoose.connect(
   "mongodb+srv://readwrite:humboldt!1@cluster0.0sjmg.mongodb.net/attendanceauditor?retryWrites=true&w=majority",
@@ -51,7 +50,12 @@ db.once("open", () => {
 
     next();
   });
-  // skye
+  
+
+  app.get("/", (req, res) => {
+    res.redirect("/events");
+  });
+
   app.post("/events/:eventId/attendance", (req, res) => {
     Event.findById(req.params.eventId, (err, event) => {
       if (err) console.error(err);
@@ -93,10 +97,6 @@ db.once("open", () => {
         res.redirect("/events/" + req.params.eventId);
       });
     });
-  });
-
-  app.get("/", (req, res) => {
-    res.redirect("/events");
   });
 
   app.get("/events/create", (req, res) => {
@@ -299,7 +299,7 @@ db.once("open", () => {
     }
     else {
       //flash message
-      FLASHMESSAGE = 'Successful Event RSVP! Email info sent!';
+      FLASHMESSAGE = 'Success! RSVP Email sent!';
       FLASHRESETFLAG = 0;
       //flash message
       var userId = auth.sessions[req.cookies.session];
@@ -399,10 +399,9 @@ db.once("open", () => {
   });
 
 
-  //app default
 
 
-
+// INVENTORY
 
   app.get("/inventory/create", (req, res) => {
     User.findById(auth.sessions[req.cookies.session], (err, user) => {
@@ -511,8 +510,11 @@ db.once("open", () => {
   });
 
   app.get("/inventory/search/", (req, res) => {
+      // dev mode add regex
+   // InventoryItem.find({ name: req.query.invName }, (err, inventory) => {
 
-    InventoryItem.find({ name: req.query.invName }, (err, inventory) => {
+   var sWord = req.query.invName.toString()
+    InventoryItem.find({ name: { $regex: sWord, $options:"mi"} }, (err, inventory) => {
       if (err) {
         console.log(err.message);
       }
@@ -655,7 +657,6 @@ db.once("open", () => {
     });
   });
 
-
   app.post("/inventory/:inventoryId/status", (req, res) => {
     User.findById(auth.sessions[req.cookies.session], (err, user) => {
       if (err) {
@@ -688,6 +689,8 @@ db.once("open", () => {
     });
   });
 
+
+// PROFILE
 
   app.get("/profile", (req, res) => {
     if (FLASHRESETFLAG == 1) {
@@ -762,6 +765,8 @@ db.once("open", () => {
     });
   });
 
+
+ // LOGIN & REGISTER
 
   app.get("/login", (req, res) => {
     if (auth.sessions[req.cookies.session]) {
@@ -908,6 +913,9 @@ db.once("open", () => {
     });
   });
 
+
+
+// AUDIT
   app.get("/audit/:userEmail", (req, res) => {
     User.findById(auth.sessions[req.cookies.session], (err, user) => {
       if (err) {
@@ -948,7 +956,17 @@ db.once("open", () => {
   });
 
   app.get("/audit", (req, res) => {
-    User.findById(auth.sessions[req.cookies.session], (err, user) => {
+
+
+    // dev mode add regex
+      // var sWord = auth.sessions[req.cookies.session].toString()
+      //console.log(sWord)
+      // conflicts: 'findById' searches hidden model data
+      //            'find' will search for data for model params
+      //            '$regex matches cannot access 'findById' ?
+
+
+      User.findById(auth.sessions[req.cookies.session], (err, user) => {
       if (err) {
         console.log(err.message);
       }
