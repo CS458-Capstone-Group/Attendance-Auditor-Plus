@@ -5,7 +5,7 @@
     <input type="text" name="title" class="formElement1-2" required="required" value="<%= event.title %>">
 
     <label for="description" class="formElement2-1">Event Description: </label>
-    <input type="textarea" name="description" class="formElement2-2" value="<%= event.description %>">
+    <textarea rows="8" cols="20" name="description" class="formElement2-2 textArea"><%= event.description %></textarea>
 
     <% var months = ["Jan", "Feb", "Mar", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"]; %>
     <% var cDate = new Date(event.date);  %>
