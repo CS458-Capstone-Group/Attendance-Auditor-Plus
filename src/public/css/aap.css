@@ -1633,3 +1633,7 @@ legend
       background-color:lightgray;
 
     }
+    a.nostyle.createEventButton:hover{
+      background-color:yellow;
+
+    }
