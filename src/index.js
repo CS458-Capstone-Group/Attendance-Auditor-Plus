@@ -364,7 +364,7 @@ db.once("open", () => {
               });
             });
 
-            res.render("events/eventAttendance.ejs", { attendance: actualUsersForReal, eventId: req.params.eventId });
+            res.render("events/eventAttendance.ejs", { attendance: actualUsersForReal, eventId: req.params.eventId, eventTitle: event.title });
           });
         });
       }

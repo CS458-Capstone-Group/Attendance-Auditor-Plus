@@ -1,23 +1,27 @@
 <%- include("../headerOrg.ejs"); %>
-
+<h1 class="listHeader"><%= eventTitle %></h1>
 <form class="attendanceContainer" action="/events/<%= eventId %>/attendance" method="POST">
-    <h2 class="attendanceRSVPHeader">RSVP List</h2>
+    
+    <div class="attendeeDiv">
+    <h2 class="attendanceHeader">RSVP List</h2>
     <input class="attendanceSaveButton" type='submit' value='Save All' />
 
     <% attendance.forEach(function(attendee) { %>
     <% if (attendee.attendInfo.didRSVP) { %>
-    <div style='text-align: left; grid-auto-flow: column;'>
+    <div class="attendanceListItem">
         <input class="attendanceRSVPCheckbox" name="<%= attendee.attendInfo.userId %>"
             id="<%= attendee.attendInfo.userId %>" value="true" type="checkbox"
             <% if (attendee.attendInfo.didAttend) { %>checked="checked" <% } %>
             style='transform: scale(2); text-align: left; margin-right: 4vw;' />
-        <label for="<%=attendee.attendInfo.userId %>" class="attendeeRSVPData"
-            style='font-size: 1.5vw;'><%= attendee.email %></label></div>
+        <label for="<%=attendee.attendInfo.userId %>" class="attendeeData"><%= attendee.email %></label>
+    </div>
 
     <% } %>
     <% }); %>
+    </div>
 
-    <h2 class="attendanceOtherHeader">Other List</h2>
+    <div class="attendeeDiv">
+    <h2 class="attendanceHeader">Other List</h2>
     <input class="search attendanceAddField" type='text' id='addAttendeeText' name='addAttendeeText' />
     <button class="attendanceAddButton" id='addAttendeeButton' name='addAttendeeButton'>Add</button>
 
@@ -25,7 +29,7 @@
     <% attendance.forEach(function(attendee) { %>
     <% if (attendee.attendInfo.didRSVP === false && attendee.attendInfo.didAttend === true) { %>
 
-    <div style='text-align: left; grid-auto-flow: column;'>
+    <div class="attendanceListItem">
         <input name="<%= attendee.attendInfo.userId %>" id="<%= attendee.attendInfo.userId %>" value="true"
             type="checkbox" <% if (attendee.attendInfo.didAttend) { %>checked="checked" <% } %>
             style='transform: scale(2); text-align: left; margin-right: 4vw;' />
@@ -34,9 +38,9 @@
 
     <% } %>
     <% }); %>
-
+   
     <div id='attendeeListDiv'></div>
-
+ </div>
 </form>
 
 <script>
@@ -73,7 +77,7 @@
         checkbox.name = userId;
         checkbox.checked = true;
         checkbox.value = true;
-        checkbox.style = 'transform: scale(2); text-align: left; margin-right: 4vw;';
+        checkbox.class = "attendanceListItem";
 
         var emailText = document.createElement('label');
         emailText.innerHTML = email;
