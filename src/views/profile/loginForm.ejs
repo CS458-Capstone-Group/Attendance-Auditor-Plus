@@ -1,4 +1,9 @@
 <%- include('../headerBare.ejs'); %>
+<% if (FLASHMESSAGE) { %> 
+            <h1 class="flashHead"> <%= FLASHMESSAGE %> </h1>
+            <br/><br/>
+<% } %>
+            <br/>
 <h1 class="formHeader">Log In</h1>
 <form class="formContainer" action="/login" method="POST">
     <label class="formElement1-1" for="email">Email Address: </label> 

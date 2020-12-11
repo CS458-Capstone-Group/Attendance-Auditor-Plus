@@ -768,7 +768,8 @@ db.once("open", () => {
       res.redirect("/events");
     }
     else {
-      res.render("./profile/loginForm.ejs");
+      FLASHRESETFLAG=1;
+      res.render("./profile/loginForm.ejs",{ FLASHMESSAGE: FLASHMESSAGE });
     }
   });
 
@@ -844,6 +845,8 @@ db.once("open", () => {
   });
 
   app.post("/register", (req, res) => {
+    FLASHMESSAGE = 'Successfully registered!';
+    FLASHRESETFLAG = 0;
     User.findOne({ email: req.body.email }, (err, user) => {
       if (err) {
         console.error(err.message);
