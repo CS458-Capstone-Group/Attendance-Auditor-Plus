@@ -3,21 +3,60 @@
 <input type='text' name='searchInput' id='searchInput' />
 <button id='searchButton'>Search</button>
 
+<div id='results'>
+    <h2>Audit results for: </h2>
+</div>
+
 <script>
     var searchInput = document.querySelector("#searchInput");
     var searchButton = document.querySelector("#searchButton");
+    var resultsDiv = document.querySelector('#results');
 
     searchButton.addEventListener("click", (e) => {
         e.preventDefault();
 
-        console.log("beep");
+        if (searchInput.value === "") {
+            return;
+        }
 
-        fetch('/audit/' + searchInput.value.toString())
+        fetch('/audit/' + searchInput.value)
             .then(response => response.json())
             .then(data => {
 
+                resultsDiv.innerHTML = "<h2>Audit results for: " + searchInput.value + "</h2>";
+                if (data.results) {
+
+                    for (let i = 0; i < data.results.length; i++) {
+                        createDiv(data.results[i]);
+                    }
+                }
             });
     });
+
+    function createDiv(event) {
+        var div = document.createElement('div');
+        div.style = 'background-color: #eee; border: 2px solid black; margin: 20px;'
+
+        var title = document.createElement('h3');
+        title.textContent = event.title;
+        title.style = ''
+
+        var date = document.createElement('p');
+        date.textContent = event.date;
+
+        var time = document.createElement('p');
+        time.textContent = event.time;
+
+        var desc = document.createElement('p');
+        desc.textContent = event.description;
+        desc.style = ''
+
+        div.appendChild(title);
+        div.appendChild(date);
+        div.appendChild(time);
+        div.appendChild(desc);
+        resultsDiv.appendChild(div);
+    }
 </script>
 
 <%- include("../footer.ejs"); %>
