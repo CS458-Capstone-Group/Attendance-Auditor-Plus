@@ -623,6 +623,8 @@ legend
    grid-column: 5;
    font-size: 1.75vw;
    margin: auto;
+   height: 6vw;
+   width: 10vw;
 }
 
 .spacer
@@ -638,6 +640,8 @@ legend
    grid-column: 5;
    font-size: 1.75vw;
    margin: auto;
+   height: 8vw;
+   width: 12vw;
 }
 
 .profileEmailLabel
@@ -961,7 +965,7 @@ legend
 .listHeader
 {
   text-align: center;
-  font-size: 3vw;   
+  font-size: 3.5vw;   
   text-shadow: .1vw .1vw darkgray;
 }
 
@@ -1152,6 +1156,8 @@ legend
    grid-row: 3/4;
    grid-column: 3;
    font-size: 1.75vw;
+   height: 8vw;
+   width: 12vw;
 }
 
 .eventControlsFooterContainer
@@ -1171,7 +1177,6 @@ legend
    padding: 1vw;
    margin: 1vw;
    display: grid;
-   width: 80%;
    margin: auto;
    grid-template-columns: 50% 50%;
    grid-auto-rows: minmax(2vw, auto);
@@ -1216,7 +1221,7 @@ legend
    width: 20vw;
    font-size: 1.75vw;
    margin-right: 1vw;
-   margin-bottom: 3vw;
+   margin-bottom: 3.5vw;
 }
 
 .attendanceRSVPCheckbox
@@ -1224,8 +1229,9 @@ legend
    grid-column: 1;
    width: 2vw;
    height: 2vw;
-   margin: 1vw;
+   margin: 2vw;
    transform: scale(2);
+   vertical-align: middle;
 }
 
 .attendeeData
@@ -1233,7 +1239,9 @@ legend
    font-size: 2vw;
    text-align: left;
    vertical-align: center;
-   margin: 2vw;
+   margin-right: 1vw;
+   margin-bottom: 2vw;
+   vertical-align: middle;
 }
 
 .attendanceOtherCheckbox
@@ -1243,6 +1251,7 @@ legend
    height: 2vw;
    margin: 1vw;
    transform: scale(2);
+   vertical-align: middle;
 }
 
 .attendanceListItem

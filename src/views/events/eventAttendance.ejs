@@ -18,7 +18,7 @@
         <% }); %>
     </div>
 
-    <div class="attendeeDiv">
+    <div class="attendeeDiv" id="attendeeListDiv">
         <h2 class="attendanceHeader">Other List</h2>
         <input class="search attendanceAddField" type='text' id='addAttendeeText' name='addAttendeeText' />
         <button class="attendanceAddButton" id='addAttendeeButton' name='addAttendeeButton'>Add</button>
@@ -36,8 +36,9 @@
         <% } %>
         <% }); %>
 
-        <div id='attendeeListDiv'></div>
+        <!-- <div id='attendeeListDiv'></div> -->
     </div>
+    >>>>>>> 9ab9043a079ffc67b2c454601314e34a49cdad2c
 </form>
 
 <script>
@@ -60,14 +61,12 @@
                 if (data.isValidEmail === true) {
                     createAttendeeDiv(data.id, attendeeInput.value);
                 }
-
-                attendeeInput.value = "";
             });
     });
 
     function createAttendeeDiv(userId, email) {
         var div = document.createElement('div');
-        div.class = 'attendanceListItem';
+        div.className = 'attendanceListItem';
 
         var checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
@@ -75,12 +74,12 @@
         checkbox.name = userId;
         checkbox.checked = true;
         checkbox.value = true;
-        checkbox.class = 'attendanceOtherCheckbox';
+        checkbox.className = 'attendanceOtherCheckbox';
 
         var emailText = document.createElement('label');
         emailText.innerHTML = email;
         emailText.for = userId;
-        emailText.class = 'attendeeData'
+        emailText.className = 'attendeeData'
         div.appendChild(checkbox);
         div.appendChild(emailText);
         attendeeListDiv.appendChild(div);
