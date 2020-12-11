@@ -56,8 +56,6 @@ db.once("open", () => {
     Event.findById(req.params.eventId, (err, event) => {
       if (err) console.error(err);
 
-      console.log(req.body);
-
       var didRSVP = true;
 
       attendees = [];
