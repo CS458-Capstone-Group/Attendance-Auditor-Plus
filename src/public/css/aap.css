@@ -1629,3 +1629,21 @@ legend
     {
        background-color:lightgray;
     }
+
+    div.a.nostyle:hover{
+      background-color:lightgray;
+
+    }
+
+     a.nostyle:hover{
+      background-color:lightgray;
+
+    }
+    div.inventoryItemContainer:hover{
+      background-color:lightgray;
+
+    }
+    a.nostyle.createEventButton:hover{
+      background-color:yellow;
+
+    }
