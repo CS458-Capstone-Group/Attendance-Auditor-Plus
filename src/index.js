@@ -174,7 +174,7 @@ db.once("open", () => {
     }
 
     var now = new Date();
-    var today = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+    var today = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getDate()));
 
     Event.find({ date: { $gte: today } }).sort("date").sort("time").exec((err, events) => {
       if (err) {
