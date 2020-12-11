@@ -1,58 +1,43 @@
 <%- include("../headerOrg.ejs"); %>
 <h1 class="listHeader"><%= eventTitle %></h1>
 <form class="attendanceContainer" action="/events/<%= eventId %>/attendance" method="POST">
-    <<<<<<< HEAD=======<div class="attendeeDiv">
-        <h2 class="attendanceHeader">RSVP List</h2>
-        <input class="attendanceSaveButton" type='submit' value='Save All' />
+    
+    <div class="attendeeDiv">
+    <h2 class="attendanceHeader">RSVP List</h2>
+    <input class="attendanceSaveButton" type='submit' value='Save All' />
 
-        <% attendance.forEach(function(attendee) { %>
-        <% if (attendee.attendInfo.didRSVP) { %>
-        <div class="attendanceListItem">
-            <input class="attendanceRSVPCheckbox" name="<%= attendee.attendInfo.userId %>"
-                id="<%= attendee.attendInfo.userId %>" value="true" type="checkbox"
-                <% if (attendee.attendInfo.didAttend) { %>checked="checked" <% } %> />
-            <label for="<%=attendee.attendInfo.userId %>" class="attendeeData"><%= attendee.email %></label>
-        </div>
-        >>>>>>> 801b55603c1f42ad8058e0bf6cf7196421844039
+    <% attendance.forEach(function(attendee) { %>
+    <% if (attendee.attendInfo.didRSVP) { %>
+    <div class="attendanceListItem">
+        <input class="attendanceRSVPCheckbox" name="<%= attendee.attendInfo.userId %>"
+            id="<%= attendee.attendInfo.userId %>" value="true" type="checkbox"
+            <% if (attendee.attendInfo.didAttend) { %>checked="checked" <% } %> />
+        <label for="<%=attendee.attendInfo.userId %>" class="attendeeData"><%= attendee.email %></label>
+    </div>
 
-        <div class="attendeeDiv">
-            <h2 class="attendanceHeader">RSVP List</h2>
-            <input class="attendanceSaveButton" type='submit' value='Save All' />
+    <% } %>
+    <% }); %>
+    </div>
 
-            <% attendance.forEach(function(attendee) { %>
-            <% if (attendee.attendInfo.didRSVP) { %>
-            <div class="attendanceListItem">
-                <input class="attendanceRSVPCheckbox" name="<%= attendee.attendInfo.userId %>"
-                    id="<%= attendee.attendInfo.userId %>" value="true" type="checkbox"
-                    <% if (attendee.attendInfo.didAttend) { %>checked="checked" <% } %>
-                    style='transform: scale(2); text-align: left; margin-right: 4vw;' />
-                <label for="<%=attendee.attendInfo.userId %>" class="attendeeData"><%= attendee.email %></label>
-            </div>
-
-            <% } %>
-            <% }); %>
-        </div>
-
-        <div class="attendeeDiv">
-            <h2 class="attendanceHeader">Other List</h2>
-            <input class="search attendanceAddField" type='text' id='addAttendeeText' name='addAttendeeText' />
-            <button class="attendanceAddButton" id='addAttendeeButton' name='addAttendeeButton'>Add</button>
+    <div class="attendeeDiv" id="attendeeListDiv">
+    <h2 class="attendanceHeader">Other List</h2>
+    <input class="search attendanceAddField" type='text' id='addAttendeeText' name='addAttendeeText' />
+    <button class="attendanceAddButton" id='addAttendeeButton' name='addAttendeeButton'>Add</button>
 
 
-            <% attendance.forEach(function(attendee) { %>
-            <% if (attendee.attendInfo.didRSVP === false && attendee.attendInfo.didAttend === true) { %>
+    <% attendance.forEach(function(attendee) { %>
+    <% if (attendee.attendInfo.didRSVP === false && attendee.attendInfo.didAttend === true) { %>
 
-            <div class="attendanceListItem">
-                <input name="<%= attendee.attendInfo.userId %>" id="<%= attendee.attendInfo.userId %>" value="true"
-                    type="checkbox" <% if (attendee.attendInfo.didAttend) { %>checked="checked" <% } %>
-                    class="attendanceOtherCheckbox" />
-                <label for="<%=attendee.attendInfo.userId %>" class="attendeeData"><%= attendee.email %></label></div>
+    <div class="attendanceListItem">
+        <input name="<%= attendee.attendInfo.userId %>" id="<%= attendee.attendInfo.userId %>" value="true"
+            type="checkbox" <% if (attendee.attendInfo.didAttend) { %>checked="checked" <% } %> class="attendanceOtherCheckbox"/>
+        <label for="<%=attendee.attendInfo.userId %>" class="attendeeData"><%= attendee.email %></label></div>
 
-            <% } %>
-            <% }); %>
-
-            <div id='attendeeListDiv'></div>
-        </div>
+    <% } %>
+    <% }); %>
+   
+    <!-- <div id='attendeeListDiv'></div> -->
+ </div>
 </form>
 
 <script>
@@ -75,14 +60,12 @@
                 if (data.isValidEmail === true) {
                     createAttendeeDiv(data.id, attendeeInput.value);
                 }
-
-                attendeeInput.value = "";
             });
     });
 
     function createAttendeeDiv(userId, email) {
         var div = document.createElement('div');
-        div.class = 'attendanceListItem';
+        div.className = 'attendanceListItem';
 
         var checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
@@ -90,12 +73,12 @@
         checkbox.name = userId;
         checkbox.checked = true;
         checkbox.value = true;
-        checkbox.class = 'attendanceOtherCheckbox';
+        checkbox.className = 'attendanceOtherCheckbox';
 
         var emailText = document.createElement('label');
         emailText.innerHTML = email;
         emailText.for = userId;
-        emailText.class = 'attendeeData'
+        emailText.className = 'attendeeData'
         div.appendChild(checkbox);
         div.appendChild(emailText);
         attendeeListDiv.appendChild(div);
