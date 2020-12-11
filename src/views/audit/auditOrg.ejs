@@ -42,7 +42,8 @@
         title.style = ''
 
         var date = document.createElement('p');
-        date.textContent = event.date;
+        var dateObj = new Date(event.date);
+        date.textContent = dateObj.toLocaleDateString('en-US');
 
         var time = document.createElement('p');
         time.textContent = event.time;
