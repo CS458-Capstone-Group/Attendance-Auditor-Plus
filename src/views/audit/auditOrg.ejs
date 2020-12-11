@@ -1,0 +1,23 @@
+<%- include("../headerOrg.ejs"); %>
+
+<input type='text' name='searchInput' id='searchInput' />
+<button id='searchButton'>Search</button>
+
+<script>
+    var searchInput = document.querySelector("#searchInput");
+    var searchButton = document.querySelector("#searchButton");
+
+    searchButton.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        console.log("beep");
+
+        fetch('/audit/' + searchInput.value)
+            .then(response => response.json())
+            .then(data => {
+
+            });
+    });
+</script>
+
+<%- include("../footer.ejs"); %>

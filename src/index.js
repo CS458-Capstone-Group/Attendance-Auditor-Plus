@@ -895,7 +895,59 @@ db.once("open", () => {
     });
   });
 
+  app.get("/audit/:email", (req, res) => {
+    User.findById(auth.sessions[req.cookies.session], (err, user) => {
+      if (err) {
+        console.log(err.message);
+      }
+      else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
+        res.json({ message: "not authorized" });
+      }
+      else {
+        User.find({ email: req.params.email }, (err, user) => {
+          if (err) console.error(err);
+          if (!user) res.json({ message: "invalid email" });
 
+          console.log(req.params.email);
+
+          Event.find({}, (err, events) => {
+            if (err) console.error(err);
+
+            let results = [];
+
+            for (let i = 0; i < events.length; i++) {
+              console.log(events[i].title);
+
+              for (let j = 0; j < events[i].attendees.length; j++) {
+                if (events[i].attendees[j].userId === user._id) {
+                  results.push(events[i]);
+                }
+
+                console.log(events[i].attendees[j].userId);
+                console.log(user._id);
+              }
+            }
+
+            res.json({ results });
+          });
+        });
+      }
+    });
+  });
+
+  app.get("/audit", (req, res) => {
+    User.findById(auth.sessions[req.cookies.session], (err, user) => {
+      if (err) {
+        console.log(err.message);
+      }
+      else if (!user || (user.category !== "organizer" && user.category !== "admin")) {
+        res.redirect("/events");
+      }
+      else {
+        res.render("audit/auditOrg.ejs");
+      }
+    });
+  });
 
 
   app.listen(port, () => {
