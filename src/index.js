@@ -308,33 +308,45 @@ db.once("open", () => {
         if (err) console.error(err);
         if (err) FLASHMESSAGE = 'MongoDb failed to fetch Users';
 
+        let alreadyThere = false;
+
         for (let i = 0; i < event.attendees.length; i++) {
-          if (event.attendees[i].userId === userId) {
+          if (event.attendees[i].userId == userId) {
+            alreadyThere = true;
+
             if (event.attendees[i].didRSVP === false) {
               event.attendees[i].didRSVP = true;
             }
-            else {
-              res.redirect("/events");
-            }
+            else { break; }
           }
         }
 
-        Event.findByIdAndUpdate(req.params.eventId,
-          {
-            $push:
-            {
-              attendees:
-              {
-                userId: userId,
-                didRSVP: true,
-                didAttend: false
-              }
-            }
-          }, (err) => {
+        if (alreadyThere) {
+          Event.findByIdAndUpdate(req.params.eventId, { attendees: event.attendees }, (err) => {
             if (err) console.error(err);
             if (err) FLASHMESSAGE = 'Failed to RSVP!';
-            res.redirect("/events");
           });
+        }
+        else {
+          Event.findByIdAndUpdate(req.params.eventId,
+            {
+              $push:
+              {
+                attendees:
+                {
+                  userId: userId,
+                  didRSVP: true,
+                  didAttend: false
+                }
+              }
+            }, (err) => {
+              if (err) console.error(err);
+              if (err) FLASHMESSAGE = 'Failed to RSVP!';
+            });
+        }
+
+
+        res.redirect("/events");
       });
     }
   });
@@ -893,7 +905,7 @@ db.once("open", () => {
     });
   });
 
-  app.get("/audit/:email", (req, res) => {
+  app.get("/audit/:userEmail", (req, res) => {
     User.findById(auth.sessions[req.cookies.session], (err, user) => {
       if (err) {
         console.log(err.message);
@@ -902,32 +914,31 @@ db.once("open", () => {
         res.json({ message: "not authorized" });
       }
       else {
-        User.find({ email: req.params.email }, (err, user) => {
-          if (err) console.error(err);
-          if (!user) res.json({ message: "invalid email" });
+        User.findOne({ email: req.params.userEmail }, (err, user) => {
+          if (err) {
+            console.error(err);
+            res.json({ message: "error" });
+          }
+          else if (!user) res.json({ message: "invalid email" });
+          else {
 
-          console.log(req.params.email);
+            Event.find({}, (err, events) => {
+              if (err) console.error(err);
 
-          Event.find({}, (err, events) => {
-            if (err) console.error(err);
+              let results = [];
 
-            let results = [];
-
-            for (let i = 0; i < events.length; i++) {
-              console.log(events[i].title);
-
-              for (let j = 0; j < events[i].attendees.length; j++) {
-                if (events[i].attendees[j].userId === user._id) {
-                  results.push(events[i]);
+              for (let i = 0; i < events.length; i++) {
+                for (let j = 0; j < events[i].attendees.length; j++) {
+                  if (events[i].attendees[j].userId == user._id && events[i].attendees[j].didAttend) {
+                    results.push(events[i]);
+                  }
                 }
-
-                console.log(events[i].attendees[j].userId);
-                console.log(user._id);
               }
-            }
 
-            res.json({ results });
-          });
+              res.json({ results });
+
+            });
+          }
         });
       }
     });
