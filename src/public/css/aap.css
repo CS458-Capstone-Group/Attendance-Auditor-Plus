@@ -1198,7 +1198,7 @@ legend
 .attendanceSaveButton
 {
    width: 12vw;
-   height: 3vw;
+   height: 4vw;
    font-size: 2vw;
    margin-bottom: 2vw;
 }
@@ -1223,12 +1223,13 @@ legend
    grid-column: 1;
    width: 2vw;
    height: 2vw;
-
+   margin-right: 1vw;
+   transform: scale(2);
 }
 
 .attendeeData
 {
-   font-size: 2.5vw;
+   font-size: 2vw;
    text-align: left;
    vertical-align: center;
 }
@@ -1238,7 +1239,8 @@ legend
    grid-column: 1;
    width: 2vw;
    height: 2vw;
-
+   margin-right: 1vw;
+   transform: scale(2);
 }
 
 .attendanceListItem

@@ -11,8 +11,7 @@
     <div class="attendanceListItem">
         <input class="attendanceRSVPCheckbox" name="<%= attendee.attendInfo.userId %>"
             id="<%= attendee.attendInfo.userId %>" value="true" type="checkbox"
-            <% if (attendee.attendInfo.didAttend) { %>checked="checked" <% } %>
-            style='transform: scale(2); text-align: left; margin-right: 4vw;' />
+            <% if (attendee.attendInfo.didAttend) { %>checked="checked" <% } %> />
         <label for="<%=attendee.attendInfo.userId %>" class="attendeeData"><%= attendee.email %></label>
     </div>
 
@@ -31,10 +30,8 @@
 
     <div class="attendanceListItem">
         <input name="<%= attendee.attendInfo.userId %>" id="<%= attendee.attendInfo.userId %>" value="true"
-            type="checkbox" <% if (attendee.attendInfo.didAttend) { %>checked="checked" <% } %>
-            style='transform: scale(2); text-align: left; margin-right: 4vw;' />
-        <label for="<%=attendee.attendInfo.userId %>" class="name"
-            style='font-size:1.5vw;'><%= attendee.email %></label></div>
+            type="checkbox" <% if (attendee.attendInfo.didAttend) { %>checked="checked" <% } %> class="attendanceOtherCheckbox"/>
+        <label for="<%=attendee.attendInfo.userId %>" class="attendeeData"><%= attendee.email %></label></div>
 
     <% } %>
     <% }); %>
@@ -68,8 +65,7 @@
 
     function createAttendeeDiv(userId, email) {
         var div = document.createElement('div');
-        div.style = 'text-align: left; grid-auto-flow: column;';
-
+        div.class = 'attendanceListItem';
 
         var checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
@@ -77,12 +73,12 @@
         checkbox.name = userId;
         checkbox.checked = true;
         checkbox.value = true;
-        checkbox.class = "attendanceListItem";
+        checkbox.class = 'attendanceOtherCheckbox';
 
         var emailText = document.createElement('label');
         emailText.innerHTML = email;
         emailText.for = userId;
-        emailText.style = "font-size: 1.5vw;"
+        emailText.class = 'attendeeData'
         div.appendChild(checkbox);
         div.appendChild(emailText);
         attendeeListDiv.appendChild(div);
