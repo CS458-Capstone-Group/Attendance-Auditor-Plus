@@ -1,4 +1,4 @@
-<%- include("../header.ejs"); %>
+<%- include("../headerOrg.ejs"); %>
 
 <form class="attendanceContainer" action="/events/<%= eventId %>/attendance" method="POST">
     <h2 class="attendanceRSVPHeader">RSVP List</h2>
@@ -6,10 +6,13 @@
 
     <% attendance.forEach(function(attendee) { %>
     <% if (attendee.attendInfo.didRSVP) { %>
-    <input class="attendanceRSVPCheckbox" name="<%= attendee.attendInfo.userId %>"
-        id="<%= attendee.attendInfo.userId %>" value="true" type="checkbox"
-        <% if (attendee.attendInfo.didAttend) { %>checked="checked" <% } %> />
-    <label for="<%=attendee.attendInfo.userId %>" class="attendeeRSVPData"><%= attendee.email %></label><br />
+    <div style='text-align: left; grid-auto-flow: column;'>
+        <input class="attendanceRSVPCheckbox" name="<%= attendee.attendInfo.userId %>"
+            id="<%= attendee.attendInfo.userId %>" value="true" type="checkbox"
+            <% if (attendee.attendInfo.didAttend) { %>checked="checked" <% } %>
+            style='transform: scale(2); text-align: left; margin-right: 4vw;' />
+        <label for="<%=attendee.attendInfo.userId %>" class="attendeeRSVPData"
+            style='font-size: 1.5vw;'><%= attendee.email %></label></div>
 
     <% } %>
     <% }); %>
@@ -22,9 +25,12 @@
     <% attendance.forEach(function(attendee) { %>
     <% if (attendee.attendInfo.didRSVP === false && attendee.attendInfo.didAttend === true) { %>
 
-    <input name="<%= attendee.attendInfo.userId %>" id="<%= attendee.attendInfo.userId %>" value="true" type="checkbox"
-        <% if (attendee.attendInfo.didAttend) { %>checked="checked" <% } %> />
-    <label for="<%=attendee.attendInfo.userId %>" class="name"><%= attendee.email %></label><br />
+    <div style='text-align: left; grid-auto-flow: column;'>
+        <input name="<%= attendee.attendInfo.userId %>" id="<%= attendee.attendInfo.userId %>" value="true"
+            type="checkbox" <% if (attendee.attendInfo.didAttend) { %>checked="checked" <% } %>
+            style='transform: scale(2); text-align: left; margin-right: 4vw;' />
+        <label for="<%=attendee.attendInfo.userId %>" class="name"
+            style='font-size:1.5vw;'><%= attendee.email %></label></div>
 
     <% } %>
     <% }); %>

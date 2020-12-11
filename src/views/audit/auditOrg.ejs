@@ -12,7 +12,7 @@
 
         console.log("beep");
 
-        fetch('/audit/' + searchInput.value)
+        fetch('/audit/' + searchInput.value.toString())
             .then(response => response.json())
             .then(data => {
 
