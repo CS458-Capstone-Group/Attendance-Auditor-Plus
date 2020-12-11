@@ -38,8 +38,8 @@
             }); }
         %>
 
-    <form method="POST" action="/events/<%= event._id %>/rsvp">
+    <form method="POST" class="eventRSVPButton" action="/events/<%= event._id %>/rsvp">
         <input type="submit" class="eventRSVPButton" value="RSVP">
-        <form>
+    <form>
 </div>
 <%- include('../footer.ejs'); %>
