@@ -518,6 +518,7 @@ legend
     grid-auto-rows: minmax(2em, auto);
 }
 
+
 #eventMenuItem
 {
     text-align: center;
@@ -536,8 +537,6 @@ legend
 #eventMenuItem:hover, #inventoryMenuItem:hover, #auditMenuItem:hover, #profileMenuItem:hover, #eventListItem:hover
 {
    background-color:yellow;
-
-
 }
 
 #inventoryMenuItem
@@ -741,7 +740,7 @@ legend
    margin-right: auto;
    font-size: 2.5vw;
    height: 3vw;
-   width: 50%;
+   width: 8vw;
    border-style: double;
    padding: 1.5vw;
    background-color: lightskyblue;
