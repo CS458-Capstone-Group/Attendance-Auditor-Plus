@@ -1,7 +1,7 @@
 <%- include("../headerOrg.ejs"); %>
 <h1 class="listHeader"><%= eventTitle %></h1>
 <form class="attendanceContainer" action="/events/<%= eventId %>/attendance" method="POST">
-    <<<<<<< HEAD=======<div class="attendeeDiv">
+    <div class="attendeeDiv">
         <h2 class="attendanceHeader">RSVP List</h2>
         <input class="attendanceSaveButton" type='submit' value='Save All' />
 
@@ -13,46 +13,31 @@
                 <% if (attendee.attendInfo.didAttend) { %>checked="checked" <% } %> />
             <label for="<%=attendee.attendInfo.userId %>" class="attendeeData"><%= attendee.email %></label>
         </div>
-        >>>>>>> 801b55603c1f42ad8058e0bf6cf7196421844039
 
-        <div class="attendeeDiv">
-            <h2 class="attendanceHeader">RSVP List</h2>
-            <input class="attendanceSaveButton" type='submit' value='Save All' />
+        <% } %>
+        <% }); %>
+    </div>
 
-            <% attendance.forEach(function(attendee) { %>
-            <% if (attendee.attendInfo.didRSVP) { %>
-            <div class="attendanceListItem">
-                <input class="attendanceRSVPCheckbox" name="<%= attendee.attendInfo.userId %>"
-                    id="<%= attendee.attendInfo.userId %>" value="true" type="checkbox"
-                    <% if (attendee.attendInfo.didAttend) { %>checked="checked" <% } %>
-                    style='transform: scale(2); text-align: left; margin-right: 4vw;' />
-                <label for="<%=attendee.attendInfo.userId %>" class="attendeeData"><%= attendee.email %></label>
-            </div>
-
-            <% } %>
-            <% }); %>
-        </div>
-
-        <div class="attendeeDiv">
-            <h2 class="attendanceHeader">Other List</h2>
-            <input class="search attendanceAddField" type='text' id='addAttendeeText' name='addAttendeeText' />
-            <button class="attendanceAddButton" id='addAttendeeButton' name='addAttendeeButton'>Add</button>
+    <div class="attendeeDiv">
+        <h2 class="attendanceHeader">Other List</h2>
+        <input class="search attendanceAddField" type='text' id='addAttendeeText' name='addAttendeeText' />
+        <button class="attendanceAddButton" id='addAttendeeButton' name='addAttendeeButton'>Add</button>
 
 
-            <% attendance.forEach(function(attendee) { %>
-            <% if (attendee.attendInfo.didRSVP === false && attendee.attendInfo.didAttend === true) { %>
+        <% attendance.forEach(function(attendee) { %>
+        <% if (attendee.attendInfo.didRSVP === false && attendee.attendInfo.didAttend === true) { %>
 
-            <div class="attendanceListItem">
-                <input name="<%= attendee.attendInfo.userId %>" id="<%= attendee.attendInfo.userId %>" value="true"
-                    type="checkbox" <% if (attendee.attendInfo.didAttend) { %>checked="checked" <% } %>
-                    class="attendanceOtherCheckbox" />
-                <label for="<%=attendee.attendInfo.userId %>" class="attendeeData"><%= attendee.email %></label></div>
+        <div class="attendanceListItem">
+            <input name="<%= attendee.attendInfo.userId %>" id="<%= attendee.attendInfo.userId %>" value="true"
+                type="checkbox" <% if (attendee.attendInfo.didAttend) { %>checked="checked" <% } %>
+                class="attendanceOtherCheckbox" />
+            <label for="<%=attendee.attendInfo.userId %>" class="attendeeData"><%= attendee.email %></label></div>
 
-            <% } %>
-            <% }); %>
+        <% } %>
+        <% }); %>
 
-            <div id='attendeeListDiv'></div>
-        </div>
+        <div id='attendeeListDiv'></div>
+    </div>
 </form>
 
 <script>
