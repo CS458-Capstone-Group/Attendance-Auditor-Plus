@@ -6,9 +6,6 @@
     <p class="eventDetailsDescLabel">Description: </p>
     <p class="eventDetailsDescData"><%= event.description %></p>
 
-    <p class="eventDetailsFacLabel">Facilitator(s): </p>
-    <p class="eventDetailsFacData"><%= event.facilitators%></p>
-
     <% var months = ["Jan", "Feb", "Mar", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"]; %>
     <% var cDate = new Date(event.date);  %>
     <% var month = cDate.getUTCMonth(); %>
