@@ -41,12 +41,14 @@ body{
 
 a.nostyle:link {
    text-decoration: inherit;
-   color: inherit;
+   color: black;
+   background-color: lightgray;
 }
 
 a.nostyle:visited {
    text-decoration: inherit;
-   color: inherit;
+   color: black;
+    background-color: lightgray;
 }
 
 #rlog
@@ -770,7 +772,9 @@ legend
 .formSubmitButton
 {
    width: 10vw;
-   font-size: 1.75vw;
+   font-size: 2vw;
+   width: 8vw;
+   height: 4vw;
 }
 
 .pageText
@@ -1030,6 +1034,8 @@ legend
    grid-row: 1;
    grid-column: 1;
    font-size: 1.75vw;
+   width: 12vw;
+   height: 5vw;
 }
 
 .eventEditButton
@@ -1037,6 +1043,8 @@ legend
    grid-row: 1;
    grid-column: 5;
    font-size: 1.75vw;
+   width: 12vw;
+   height: 5vw;
 }
 
 .eventDetailsContainer
@@ -1263,6 +1271,8 @@ legend
    grid-row: 1;
    grid-column: 5;
    font-size: 1.75vw;
+   width: 12vw;
+   height: 5vw;
 }
 
 
@@ -1366,6 +1376,8 @@ legend
    grid-column: 3;
    font-size: 1.75vw;
    height: 3vw;
+   width: 12vw;
+   height: 5vw;
 }
 
 .inventoryItemViewName
