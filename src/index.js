@@ -456,8 +456,8 @@ db.once("open", () => {
           name: req.body.name,
           description: req.body.description,
           sn: req.body.sn,
-          checkedOut: req.body.checkedOut,
-          checkedOutBy: req.body.checkedOutBy
+          checkedOut: "false",
+          checkedOutBy: ""
         });
 
 

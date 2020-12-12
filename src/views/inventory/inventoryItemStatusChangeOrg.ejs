@@ -16,7 +16,7 @@
     <input type="radio" onclick="hideStuff();"name="checkedOut" id="available" class="formElement5-2" value="false" <% if(item.checkedOut === "false") { %> <%= checked="checked" %> <% } %>>
     
     <label id="checkedOutByLabel" for="checkedOutBy" class="formElement6-1" <% if(item.checkedOut === "false"){ %> style= "display: none;" <% } %>>Checked out by: </label> <br/>
-    <input id="checkedOutByData" type="text" name="checkedOutBy" class="formElement6-2" value="<%= item.checkedOutBy %>" <% if(item.checkedOut === "false"){ %> style= "display: none;" <% } %>>
+    <input id="checkedOutByData" required="required" type="text" name="checkedOutBy" class="formElement6-2" value="<%= item.checkedOutBy %>" <% if(item.checkedOut === "false"){ %> style= "display: none;" <% } %>>
 
     <input class="formElement7-2 formSubmitButton" type="submit" name="submitButton" id="submitButton" value="Save">
     </div>
