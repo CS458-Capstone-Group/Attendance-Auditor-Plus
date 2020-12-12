@@ -299,7 +299,7 @@ db.once("open", () => {
     }
     else {
       //flash message
-      FLASHMESSAGE = 'Success! RSVP Email sent!';
+      FLASHMESSAGE = 'RSVP Sent!';
       FLASHRESETFLAG = 0;
       //flash message
       var userId = auth.sessions[req.cookies.session];
