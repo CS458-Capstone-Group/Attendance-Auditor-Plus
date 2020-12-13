@@ -1,0 +1,5 @@
+express: light-weight HTTP routing library
+bcrypt: password hashing
+mongoose: MongoDB interface library
+path: tool for creating and appending filepaths
+cookieParser: parses cookies of HTTP requests and puts them in the req.cookies object for easy access
